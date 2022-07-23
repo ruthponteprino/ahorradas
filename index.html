@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Ahorradas</title>  
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg bg-primary text-white">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Ahorradas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav col justify-content-end">
+                <a class="nav-link" aria-current="page" href="#">Balances</a>
+                <a class="nav-link" href="#">Categorias</a>
+                <a class="nav-link" href="#">Reportes</a>
+                <!-- <a class="nav-link disabled">Disabled</a> -->
+            </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <div class="row shadow p-3 mb-5 bg-body rounded">
+                    <h1>Balance</h1>
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>Ganancias</td>
+                                    <td>+$0</td>
+                                </tr>
+                                <tr>
+                                    <td>Gastos</td>
+                                    <td>+$0</td>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <th> $0</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+                <div class="row shadow p-3 mb-5 bg-body rounded">
+                    <h2>Filtros</h2>
+                    <form action="">
+                        <div class="">
+                            <label for="tipo" class="form-label">Tipo</label>
+                            <select id="tipo" class="form-select" aria-label="Default select example">
+                            <option value="todos" selected>Todos</option>
+                            <option value="gasto">Gasto</option>
+                            <option value="Ganancia">Ganancia</option>
+                            </select>
+                        </div>
+                        <div class="my-1">
+                            <label for="categoria" class="form-label">Categoria</label>
+                            <select id="categoria" class="form-select" aria-label="Default select example">
+                            <option selected>Comida</option>
+                            <option value="servicio">Servicios</option>
+                            <option value="Salidas">Salidas</option>
+                            <option value="Educacion">Educacion</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Trabajo">Trabajo</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="desde" class="form-label">Desde</label>
+                            <input type="date" class="form-control" id="fecha" aria-describedby="desde">
+                        </div>
+                        <div class="my-1">
+                            <label for="ordenar-por" class="form-label">Ordenar por</label>
+                            <select id="ordenar-por" class="form-select" aria-label="ordenar-por">
+                            <option value="mas-reciente" selected>Más reciente</option>
+                            <option value="menos-reciente">Menos reciente</option>
+                            <option value="mayor-montp">Mayor monto</option>
+                            <option value="menor-monto">Menor monto</option>
+                            <option value="a-z">A/Z</option>
+                            <option value="z-a">Z/A</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-9 shadow p-3 mb-5 bg-body rounded">
+                <div class="d-flex justify-content-between">
+                    <h3>Operaciones</h3>
+                    <button type="button" class="btn btn-primary">+ Nueva operación</button>
+                </div>
+                <div class="figure justify-content-center">  
+                    <img src="./images/wallet.svg" class="figure-img img-fluid rounded" alt="graficos" style="width:20em;">
+                    <h4>Sin resultados</h4>
+                    <p>Cambia los filtros o agrega operaciones</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row justify-content-center shadow p-3 mb-5 bg-body rounded">
+            <div class="col-md-8">
+                <h1>Nueva operación</h1>
+                <form>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" aria-describedby="descripcion">
+                    </div>
+                    <div class="mb-3">
+                        <label for="monto" class="form-label">Monto</label>
+                        <input type="number" class="form-control" id="monto">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select id="tipo" class="form-select" aria-label="Default select example">
+                            <option value="gasto" selected>Gasto</option>
+                            <option value="Ganancia">Ganancia</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoria</label>
+                        <select id="categoria" class="form-select" aria-label="Default select example">
+                            <option selected>Comida</option>
+                            <option value="servicio">Servicios</option>
+                            <option value="Salidas">Salidas</option>
+                            <option value="Educacion">Educacion</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Trabajo">Trabajo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" aria-describedby="fecha">
+                    </div>
+                    <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="submit" class="btn btn-light">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="./app.js"></script>
+</body>
+</html>
