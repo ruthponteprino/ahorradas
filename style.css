@@ -16,5 +16,6 @@
 
 /*******CLASE OCULTO*********/
 .oculto {
-    display: none;
+    display: block;
+    /* display: none; */
 }
