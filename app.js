@@ -32,11 +32,11 @@ btnReportes.addEventListener('click', () => {
     reportes.classList.remove('oculto')
 })
 
-btnNuevaOperacion.addEventListener('click', () => {
-    seccionOperacion.classList.remove('oculto')
-    balance.classList.add('oculto')
-    categorias.classList.add('oculto')
-    reportes.classList.add('oculto')
+// btnNuevaOperacion.addEventListener('click', () => {
+//     seccionOperacion.classList.remove('oculto')
+//     balance.classList.add('oculto')
+//     categorias.classList.add('oculto')
+//     reportes.classList.add('oculto')
 
-}
-)
+// }
+// )
