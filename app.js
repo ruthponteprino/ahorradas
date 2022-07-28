@@ -16,6 +16,7 @@ btnBalance.addEventListener('click', () => {
     balance.classList.remove('oculto')
     categorias.classList.add('oculto')
     reportes.classList.add('oculto')
+    seccionOperacion.classList.add('oculto')
     console.log(btnBalance)
 })
 
@@ -32,11 +33,45 @@ btnReportes.addEventListener('click', () => {
     reportes.classList.remove('oculto')
 })
 
-// btnNuevaOperacion.addEventListener('click', () => {
-//     seccionOperacion.classList.remove('oculto')
-//     balance.classList.add('oculto')
-//     categorias.classList.add('oculto')
-//     reportes.classList.add('oculto')
+ btnNuevaOperacion.addEventListener('click', () => {
+    seccionOperacion.classList.remove('oculto')
+    balance.classList.add('oculto')
+    categorias.classList.add('oculto')
+     reportes.classList.add('oculto')
+ })
 
-// }
-// )
+
+
+// CATEGORIAS //
+
+const arrayCategorias = ['Comida', 'Servicios', 'Salidas', 'Educacion', 'Transporte', 'Trabajo']
+
+const generarCategorias = () => {
+    const selects = document.getElementsByClassName('select-categorias')
+    for(let i = 0; i < selects.length; i++){
+        const select = selects[i]
+        if(select.classList.contains('filtro-categorias')){
+            select.innerHTML = '<option value="todas" selected>Todas</option>'
+        }
+        arrayCategorias.forEach(categoria => {
+             select.innerHTML += `<option value=${categoria}>${categoria}</option>`
+        })
+    }
+}
+
+generarCategorias()
+
+// NUEVA OPERACION //
+
+const operaciones = []
+
+const mostrarOperaciones = (arr) => {
+    if(!arr.length){
+        document.getElementById('con-operaciones').classList.add('oculto')
+    } else {
+        document.getElementById('con-operaciones').classList.remuve('oculto')
+        document.getElementById('sin-operaciones').classList.add('oculto') //NO ME LO OCULTA T_T
+    }
+}
+
+mostrarOperaciones(operaciones)
