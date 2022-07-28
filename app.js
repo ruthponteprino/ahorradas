@@ -69,9 +69,58 @@ const mostrarOperaciones = (arr) => {
     if(!arr.length){
         document.getElementById('con-operaciones').classList.add('oculto')
     } else {
-        document.getElementById('con-operaciones').classList.remuve('oculto')
+        document.getElementById('con-operaciones').classList.remove('oculto')
         document.getElementById('sin-operaciones').classList.add('oculto') //NO ME LO OCULTA T_T
     }
 }
 
 mostrarOperaciones(operaciones)
+
+
+//FILTROS//
+//OCULTAR Y MOSTRAR FILTROS
+
+const filtros = document.getElementById('filtros')
+const btnOcultarFiltros = document.getElementById('btn-ocultar-filtros') 
+const btnMostrarFiltros = document.getElementById('btn-mostrar-filtros') 
+
+btnOcultarFiltros.addEventListener('click', () => {
+    filtros.classList.add('oculto')
+    btnMostrarFiltros.classList.remove('oculto')
+    btnOcultarFiltros.classList.add('oculto')
+} )
+
+btnMostrarFiltros.addEventListener('click', () => {
+    filtros.classList.remove('oculto')
+    btnMostrarFiltros.classList.add('oculto')
+    btnOcultarFiltros.classList.remove('oculto')
+} )
+
+//TIPO, SELECT todos, gastos y ganacias
+
+const filtroTipo = document.getElementById('tipo')
+// const filtroTodos = document.getElementById('filtro-todos')
+// const filtroGasto = document.getElementById('filtro-gasto')
+// const filtroGanancia = document.getElementById('filtro-ganancia')
+
+// filtroTodos.addEventListener('click', () => {
+//     //mostrar todas las operaciones en seccion operaciones 
+// } )
+
+// filtroGasto.addEventListener('click', () => {
+//     //mostrar gastos en seccion operaciones 
+// } )
+
+// filtroGanancia.addEventListener('click', () => {
+//     //mostrar ganancias en seccion operaciones 
+//     console.log(filtroGanancia)
+// } )
+
+filtroTipo.addEventListener('change', (e) => {
+    console.log(filtroTipo)
+    //selecciona todas => mostrar todas la operaciones en seccion operaciones 
+    //selecciona gastos => mostrar gastos en seccion operaciones
+    //selecciona ganacias => mostrar ganancias en seccion operaciones 
+    //averiguar como hacer para que me valla mostrando las operaciones que va poniendo el usuario
+    
+} )

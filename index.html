@@ -104,13 +104,21 @@
                 </div>
                 <div class="row shadow p-3 mb-5 bg-body rounded">
                     <h2>Filtros</h2>
+                    <div id="btn-ocultar-filtros">
+                        <a href="#">Ocultar Filtros</a>
+                    </div>
+                    <div id="btn-mostrar-filtros" class="oculto">
+                        <a href="#">
+                        Mostrar Filtros</a>
+                    </div>
+                    <div id="filtros"> <!--AGREGO DIV ID-->
                     <form action="">
                         <div class="">
                             <label for="tipo" class="form-label">Tipo</label>
                             <select id="tipo" class="form-select" aria-label="Default select example">
-                            <option value="todos" selected>Todos</option>
-                            <option value="gasto">Gasto</option>
-                            <option value="Ganancia">Ganancia</option>
+                            <option value="todos" selected id="filtro-todos">Todos</option>
+                            <option value="gasto" id="filtro-gasto">Gasto</option>
+                            <option value="Ganancia" id="filtro-ganacia">Ganancia</option>
                             </select>
                         </div>
                         <div class="my-1">
@@ -135,6 +143,7 @@
                             </select>
                         </div>
                     </form>
+                    </div>
                 </div>
             </div>
 

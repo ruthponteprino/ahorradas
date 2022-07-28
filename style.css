@@ -19,3 +19,11 @@
     /* display: block; */
     display: none;
 }
+/* 
+.mostrar {
+    display: block;
+} */
+
+a {
+    text-decoration: none;
+}
