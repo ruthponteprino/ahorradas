@@ -159,7 +159,7 @@
 
     <!-- NUEVA OPERACION -->
 
-    <div class="container my-5 oculto" id="seccion-operacion">
+    <div class="container my-5 oculto" id="seccion-operacion"> <!--AGREGUE CLASE OCULTO-->
         <div class="row justify-content-center shadow p-3 mb-5 bg-body rounded">
             <div class="col-md-8">
                 <h1>Nueva operación</h1>
@@ -195,13 +195,61 @@
                         <input type="date" class="form-control" id="fecha" aria-describedby="fecha">
                     </div>
                     <div class="mb-3">
-                        <button type="submit" class="btn btn-primary">Enviar</button>
+                        <button type="submit" class="btn btn-primary">Agregar</button>
                         <button type="submit" class="btn btn-light">Cancelar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <!--FORMULARIO EDITAR OPERACION-->
+
+    <div class="container my-5 oculto" id="seccion-editar-operacion"> <!--AGREGUE CLASE OCULTO-->
+        <div class="row justify-content-center shadow p-3 mb-5 bg-body rounded">
+            <div class="col-md-8">
+                <h1>Editar operación</h1>
+                <form>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion-editar" aria-describedby="descripcion">
+                    </div>
+                    <div class="mb-3">
+                        <label for="monto" class="form-label">Monto</label>
+                        <input type="number" class="form-control" id="monto-editar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select id="tipo-editar" class="form-select" aria-label="Default select example">
+                            <option value="gasto" selected>Gasto</option>
+                            <option value="Ganancia">Ganancia</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoria</label>
+                        <select id="selectCategoriaOperacion-editar" class="form-select" aria-label="Default select example"> <!--cambio nombre id selectCategoriaOperacion-editar-->
+                            <option selected>Comida</option>
+                            <option value="servicio">Servicios</option>
+                            <option value="Salidas">Salidas</option>
+                            <option value="Educacion">Educacion</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Trabajo">Trabajo</option>
+                            <!--aca se tienen que aparecer las categorias nuevas agregadas por el usuario-->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" aria-describedby="fecha">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Editar</button>
+                        <button type="submit" class="btn btn-light">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <!-- CATEGORIAS -->
 
@@ -221,7 +269,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- REPORTES -->
 
