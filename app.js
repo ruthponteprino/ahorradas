@@ -95,3 +95,32 @@ btnMostrarFiltros.addEventListener('click', () => {
     btnMostrarFiltros.classList.add('oculto')
     btnOcultarFiltros.classList.remove('oculto')
 } )
+
+//TIPO, SELECT todos, gastos y ganacias
+
+const filtroTipo = document.getElementById('tipo')
+// const filtroTodos = document.getElementById('filtro-todos')
+// const filtroGasto = document.getElementById('filtro-gasto')
+// const filtroGanancia = document.getElementById('filtro-ganancia')
+
+// filtroTodos.addEventListener('click', () => {
+//     //mostrar todas las operaciones en seccion operaciones 
+// } )
+
+// filtroGasto.addEventListener('click', () => {
+//     //mostrar gastos en seccion operaciones 
+// } )
+
+// filtroGanancia.addEventListener('click', () => {
+//     //mostrar ganancias en seccion operaciones 
+//     console.log(filtroGanancia)
+// } )
+
+filtroTipo.addEventListener('change', (e) => {
+    console.log(filtroTipo)
+    //selecciona todas => mostrar todas la operaciones en seccion operaciones 
+    //selecciona gastos => mostrar gastos en seccion operaciones
+    //selecciona ganacias => mostrar ganancias en seccion operaciones 
+    //averiguar como hacer para que me valla mostrando las operaciones que va poniendo el usuario
+    
+} )
