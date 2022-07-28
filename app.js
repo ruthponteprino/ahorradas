@@ -69,9 +69,29 @@ const mostrarOperaciones = (arr) => {
     if(!arr.length){
         document.getElementById('con-operaciones').classList.add('oculto')
     } else {
-        document.getElementById('con-operaciones').classList.remuve('oculto')
+        document.getElementById('con-operaciones').classList.remove('oculto')
         document.getElementById('sin-operaciones').classList.add('oculto') //NO ME LO OCULTA T_T
     }
 }
 
 mostrarOperaciones(operaciones)
+
+
+//FILTROS//
+//OCULTAR Y MOSTRAR FILTROS
+
+const filtros = document.getElementById('filtros')
+const btnOcultarFiltros = document.getElementById('btn-ocultar-filtros') 
+const btnMostrarFiltros = document.getElementById('btn-mostrar-filtros') 
+
+btnOcultarFiltros.addEventListener('click', () => {
+    filtros.classList.add('oculto')
+    btnMostrarFiltros.classList.remove('oculto')
+    btnOcultarFiltros.classList.add('oculto')
+} )
+
+btnMostrarFiltros.addEventListener('click', () => {
+    filtros.classList.remove('oculto')
+    btnMostrarFiltros.classList.add('oculto')
+    btnOcultarFiltros.classList.remove('oculto')
+} )
