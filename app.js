@@ -4,12 +4,16 @@ const btnBalance = document.getElementById('btnBalance')
 const btnCategorias = document.getElementById('btnCategorias')
 const btnReportes = document.getElementById('btnReportes')
 const btnNuevaOperacion = document.getElementById('btn-nueva-operacion')
+const btnOcultarFiltros = document.getElementById('btn-ocultar-filtros') 
+const btnMostrarFiltros = document.getElementById('btn-mostrar-filtros') 
+
 
 //SECCIONES//
 const balance = document.getElementById('seccion-balance') //TRAIGO SECCION BALANCE
 const categorias = document.getElementById('seccion-categorias') //TRAIGO SECCION CATEGORIAS
 const reportes = document.getElementById ('seccion-reportes') //TRAIGO SECCION REPORTES
 const seccionOperacion = document.getElementById('seccion-operacion') //TRAIGO FORMULARIO OPERACIONES
+const filtros = document.getElementById('filtros')
 
 
 btnBalance.addEventListener('click', () => {
@@ -39,6 +43,22 @@ btnReportes.addEventListener('click', () => {
     categorias.classList.add('oculto')
      reportes.classList.add('oculto')
  })
+
+ //FILTROS//
+//OCULTAR Y MOSTRAR FILTROS
+
+btnOcultarFiltros.addEventListener('click', () => {
+    filtros.classList.add('oculto')
+    btnMostrarFiltros.classList.remove('oculto')
+    btnOcultarFiltros.classList.add('oculto')
+} )
+
+btnMostrarFiltros.addEventListener('click', () => {
+    filtros.classList.remove('oculto')
+    btnMostrarFiltros.classList.add('oculto')
+    btnOcultarFiltros.classList.remove('oculto')
+} )
+
 
 
 
@@ -76,51 +96,38 @@ const mostrarOperaciones = (arr) => {
 
 mostrarOperaciones(operaciones)
 
+const copiaOperaciones = [...operaciones] //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
 
-//FILTROS//
-//OCULTAR Y MOSTRAR FILTROS
-
-const filtros = document.getElementById('filtros')
-const btnOcultarFiltros = document.getElementById('btn-ocultar-filtros') 
-const btnMostrarFiltros = document.getElementById('btn-mostrar-filtros') 
-
-btnOcultarFiltros.addEventListener('click', () => {
-    filtros.classList.add('oculto')
-    btnMostrarFiltros.classList.remove('oculto')
-    btnOcultarFiltros.classList.add('oculto')
-} )
-
-btnMostrarFiltros.addEventListener('click', () => {
-    filtros.classList.remove('oculto')
-    btnMostrarFiltros.classList.add('oculto')
-    btnOcultarFiltros.classList.remove('oculto')
-} )
 
 //TIPO, SELECT todos, gastos y ganacias
 
-const filtroTipo = document.getElementById('tipo')
+const selectTipo = document.getElementById('tipo')
 // const filtroTodos = document.getElementById('filtro-todos')
 // const filtroGasto = document.getElementById('filtro-gasto')
 // const filtroGanancia = document.getElementById('filtro-ganancia')
 
-// filtroTodos.addEventListener('click', () => {
-//     //mostrar todas las operaciones en seccion operaciones 
-// } )
-
-// filtroGasto.addEventListener('click', () => {
-//     //mostrar gastos en seccion operaciones 
-// } )
-
-// filtroGanancia.addEventListener('click', () => {
-//     //mostrar ganancias en seccion operaciones 
-//     console.log(filtroGanancia)
-// } )
-
-filtroTipo.addEventListener('change', (e) => {
-    console.log(filtroTipo)
+selectTipo.addEventListener('change', (e) => {
+    console.log(selectTipo)
     //selecciona todas => mostrar todas la operaciones en seccion operaciones 
     //selecciona gastos => mostrar gastos en seccion operaciones
     //selecciona ganacias => mostrar ganancias en seccion operaciones 
     //averiguar como hacer para que me valla mostrando las operaciones que va poniendo el usuario
+
+    const tipoTodas = [...operaciones]
+    const tipoGastos = []
+    const tipoGanacias = []
+
+    for(let i = 0; i < copiaOperaciones.length; i++) { //nos traemos todo lo que esta en la copia de operaciones
+        console.log(copiaOperaciones[i]) //esto nos da cada uno de los objetos
+        //vamos a filtrar por categor'ia con un if
+        if(copiaOperaciones[i].tipo === selectTipo.value) {
+        console.log(copiaOperaciones[i]) //buscamos en operaciones las que coincidan con lo que el usuario elija en el select(variable.value) y las tengo que guardar en un arreglo nuevo, una COPIA
+        tipoTodas.push(copiaOperaciones[i])
+        tipoGastos.push(copiaOperaciones[i])
+        tipoGanacias.push(copiaOperaciones[i])
+    }
+    }
+     console.log(tipoTodas)
     
-} )
+    })
+    
