@@ -15,7 +15,6 @@ const reportes = document.getElementById ('seccion-reportes') //TRAIGO SECCION R
 const seccionOperacion = document.getElementById('seccion-operacion') //TRAIGO FORMULARIO OPERACIONES
 const filtros = document.getElementById('filtros')
 
-
 btnBalance.addEventListener('click', () => {
     balance.classList.remove('oculto')
     categorias.classList.add('oculto')
@@ -59,10 +58,6 @@ btnMostrarFiltros.addEventListener('click', () => {
     btnOcultarFiltros.classList.remove('oculto')
 } )
 
-
-
-
-
 // CATEGORIAS //
 
 const arrayCategorias = ['Comida', 'Servicios', 'Salidas', 'Educacion', 'Transporte', 'Trabajo']
@@ -79,7 +74,6 @@ const generarCategorias = () => {
         })
     }
 }
-
 generarCategorias()
 
 // NUEVA OPERACION //
@@ -121,7 +115,6 @@ const operaciones = [    //objetos para prueba de filtros luego borrar
         categoria: 'Trabajo',
         tipo: 'ganancia'
     }
-
 ]
 
 console.log(operaciones)
@@ -137,9 +130,7 @@ const mostrarOperaciones = (arr) => {
 
 mostrarOperaciones(operaciones)
 
-
 const copiaOperaciones = [...operaciones] //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
-
 
 //TIPO, SELECT todos, gastos y ganacias
 
@@ -161,7 +152,6 @@ selectTipo.addEventListener('change', (e) => {
     const tipoGanacias = []
     })
     
-
     //tipo
 
     const selectTipoFiltros = document.getElementById('selectTipoFiltros')
@@ -174,7 +164,6 @@ selectTipo.addEventListener('change', (e) => {
         } else {
             console.log(operaciones)
         }
-    
     })
 
     //categorias
