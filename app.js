@@ -62,6 +62,7 @@ btnMostrarFiltros.addEventListener('click', () => {
 
 
 
+
 // CATEGORIAS //
 
 const arrayCategorias = ['Comida', 'Servicios', 'Salidas', 'Educacion', 'Transporte', 'Trabajo']
@@ -83,18 +84,59 @@ generarCategorias()
 
 // NUEVA OPERACION //
 
-const operaciones = []
+const operaciones = [    //objetos para prueba de filtros luego borrar
+    {
+        descripcion: 'Desayuno',
+        monto: 10,
+        categoria: 'Comida',
+        tipo: 'gasto'
+    },
+    {
+        descripcion: 'Almuerzo',
+        monto: 100,
+        categoria: 'Comida',
+        tipo: 'gasto'
+    },
+    {
+        descripcion: 'gasolina',
+        monto: 20,
+        categoria: 'Transporte',
+        tipo: 'gasto'
+    },
+    {
+        descripcion: 'cliente nuevo',
+        monto: 200,
+        categoria: 'Trabajo',
+        tipo: 'ganancia'
+    },
+    {
+        descripcion: 'cliente3',
+        monto: 200,
+        categoria: 'Trabajo',
+        tipo: 'ganancia'
+    },
+    {
+        descripcion: 'cliente2',
+        monto: 100,
+        categoria: 'Trabajo',
+        tipo: 'ganancia'
+    }
+
+]
+
+console.log(operaciones)
 
 const mostrarOperaciones = (arr) => {
     if(!arr.length){
         document.getElementById('con-operaciones').classList.add('oculto')
     } else {
         document.getElementById('con-operaciones').classList.remove('oculto')
-        document.getElementById('sin-operaciones').classList.add('oculto') //NO ME LO OCULTA T_T
+        document.getElementById('sin-operaciones').classList.add('oculto')
     }
 }
 
 mostrarOperaciones(operaciones)
+
 
 const copiaOperaciones = [...operaciones] //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
 
@@ -107,7 +149,8 @@ const selectTipo = document.getElementById('tipo')
 // const filtroGanancia = document.getElementById('filtro-ganancia')
 
 selectTipo.addEventListener('change', (e) => {
-    console.log(selectTipo)
+    
+    console.log(e.target.value)
     //selecciona todas => mostrar todas la operaciones en seccion operaciones 
     //selecciona gastos => mostrar gastos en seccion operaciones
     //selecciona ganacias => mostrar ganancias en seccion operaciones 
@@ -116,18 +159,36 @@ selectTipo.addEventListener('change', (e) => {
     const tipoTodas = [...operaciones]
     const tipoGastos = []
     const tipoGanacias = []
-
-    for(let i = 0; i < copiaOperaciones.length; i++) { //nos traemos todo lo que esta en la copia de operaciones
-        console.log(copiaOperaciones[i]) //esto nos da cada uno de los objetos
-        //vamos a filtrar por categor'ia con un if
-        if(copiaOperaciones[i].tipo === selectTipo.value) {
-        console.log(copiaOperaciones[i]) //buscamos en operaciones las que coincidan con lo que el usuario elija en el select(variable.value) y las tengo que guardar en un arreglo nuevo, una COPIA
-        tipoTodas.push(copiaOperaciones[i])
-        tipoGastos.push(copiaOperaciones[i])
-        tipoGanacias.push(copiaOperaciones[i])
-    }
-    }
-     console.log(tipoTodas)
+    })
     
+
+    //tipo
+
+    const selectTipoFiltros = document.getElementById('selectTipoFiltros')
+
+    selectTipoFiltros.addEventListener('change', (e) => {
+        console.log(e.target.value)
+        if(e.target.value !== 'todos') {
+            const porTipo = operaciones.filter(operaciones => operaciones.tipo === e.target.value)
+            console.log(porTipo)
+        } else {
+            console.log(operaciones)
+        }
+    
+    })
+
+    //categorias
+
+    const selectCategoriaFiltros = document.getElementById('selectCategoriaFiltros')
+
+    selectCategoriaFiltros.addEventListener('change', (e) => {
+        console.log(e.target.value)
+        if(e.target.value !== 'todas') {
+            const porCategoria = operaciones.filter(operaciones => operaciones.categoria === e.target.value)
+            console.log(porCategoria)
+        } else {
+            console.log(operaciones)
+        }
+    //los values tiene que estar escritos igual
     })
     
