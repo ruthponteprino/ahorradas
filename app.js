@@ -1,12 +1,19 @@
 //BOTONES//
-
 const btnBalance = document.getElementById('btnBalance')
 const btnCategorias = document.getElementById('btnCategorias')
 const btnReportes = document.getElementById('btnReportes')
 const btnNuevaOperacion = document.getElementById('btn-nueva-operacion')
 const btnOcultarFiltros = document.getElementById('btn-ocultar-filtros') 
 const btnMostrarFiltros = document.getElementById('btn-mostrar-filtros') 
+const btnAgregar = document.getElementById('agregar-btn')
 
+
+// INPUTS //
+const inputDescripcion = document.getElementById('descripcion')
+const inputMonto = document.getElementById('monto')
+const inputTipo = document.getElementById('tipo')
+const selectCategoriaOperacion = document.getElementById('selectCategoriaOperacion')
+const inputFecha = document.getElementById('fecha-input')
 
 //SECCIONES//
 const balance = document.getElementById('seccion-balance') //TRAIGO SECCION BALANCE
@@ -79,56 +86,61 @@ generarCategorias()
 // NUEVA OPERACION //
 
 const operaciones = [    //objetos para prueba de filtros luego borrar
-    {
-        descripcion: 'Desayuno',
-        monto: 10,
-        categoria: 'Comida',
-        tipo: 'gasto'
-    },
-    {
-        descripcion: 'Almuerzo',
-        monto: 100,
-        categoria: 'Comida',
-        tipo: 'gasto'
-    },
-    {
-        descripcion: 'gasolina',
-        monto: 20,
-        categoria: 'Transporte',
-        tipo: 'gasto'
-    },
-    {
-        descripcion: 'cliente nuevo',
-        monto: 200,
-        categoria: 'Trabajo',
-        tipo: 'ganancia'
-    },
-    {
-        descripcion: 'cliente3',
-        monto: 200,
-        categoria: 'Trabajo',
-        tipo: 'ganancia'
-    },
-    {
-        descripcion: 'cliente2',
-        monto: 100,
-        categoria: 'Trabajo',
-        tipo: 'ganancia'
-    }
+
 ]
 
 console.log(operaciones)
 
 const mostrarOperaciones = (arr) => {
     if(!arr.length){
-        document.getElementById('con-operaciones').classList.add('oculto')
+        document.getElementById('con-operaciones').classList.add('d-none')
     } else {
-        document.getElementById('con-operaciones').classList.remove('oculto')
-        document.getElementById('sin-operaciones').classList.add('oculto')
+        document.getElementById('con-operaciones').classList.remove('d-none')
+        document.getElementById('sin-operaciones').classList.add('d-none')
     }
 }
 
 mostrarOperaciones(operaciones)
+
+btnAgregar.addEventListener('click', ()=> {
+    const operacion = {
+        //id : uuidv4(), NO FUNCIONA!
+        descripcion : inputDescripcion.value,
+        monto : inputMonto.value,
+        tipo : inputTipo.value,
+        categorias : selectCategoriaOperacion.value,
+        fecha : inputFecha.value,
+    }
+
+    seccionOperacion.classList.add('oculto')
+    balance.classList.remove('oculto')
+    operaciones.push(operacion)
+    
+    inputDescripcion.value = ""
+    inputMonto.value = 0
+    inputTipo.value = "gasto"
+    selectCategoriaOperacion.value = "Comida"
+    inputFecha.value = ''
+
+    mostrarOperaciones(operaciones)
+    pintarOperaciones(operaciones)
+})        
+
+const pintarOperaciones = arr => {
+    let str = ''
+    arr.forEach((operacion) => {
+        str = str + `
+        <table class="table table-borderless""><tr>
+                  <td>${operacion.descripcion}</td>
+                   <td>${operacion.categoria}</td>
+                   <td>${operacion.fecha}</td>
+                   <td>${operacion.monto}</td>
+                   <td>${operacion.monto}</td>
+                </tr></table>`
+    })
+    document.getElementById('operaciones').innerHTML = str
+}
+
 
 const copiaOperaciones = [...operaciones] //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
 
