@@ -10,20 +10,16 @@
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
     />
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"> -->  
     <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"/>
     <title>Ahorradas</title>
   </head>
   <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mi-nav">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          <i class="fa-solid fa-wallet icono"></i>
-          AhorrADAs</a
-        >
+          <i class="fa-solid fa-wallet icono"></i>AhorrADAs</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -67,23 +63,6 @@
         </div>
       </div>
     </nav>
-
-    <!--     
-    <nav class="navbar navbar-expand-lg bg-primary text-white">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"><i class="fa-solid fa-wallet"></i> Ahorradas</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav col justify-content-end">
-                <a class="nav-link" aria-current="page" href="#" id="link-balance"><i class="fa-solid fa-chart-line-up"></i>Balances</a>
-                <a class="nav-link" href="#" id="link-categorias"><i class="fa-solid fa-tag"></i>Categorias</a>
-                <a class="nav-link" href="#" id="link-reportes"><i class="fa-solid fa-chart-pie"></i>Reportes</a>
-            </div>
-            </div>
-        </div>
-    </nav> -->
 
     <!-- BALANCE -->
 
@@ -201,10 +180,11 @@
                   <th>Monto</th>
                   <th>Acciones</th>
                 </tr>
+              
               </tbody>
             </table>
           </div>
-
+          <div id="operaciones"></div>
           <div
             class="figure d-flex flex-column align-items-center"
             id="sin-operaciones"
@@ -269,12 +249,12 @@
               <input
                 type="date"
                 class="form-control"
-                id="fecha"
+                id="fecha-input"
                 aria-describedby="fecha"
               />
             </div>
             <div class="mb-3">
-              <button type="submit" class="btn btn-primary">Agregar</button>
+              <button type="button" class="btn btn-primary" id="agregar-btn">Agregar</button>
               <button type="submit" class="btn btn-light">Cancelar</button>
             </div>
           </form>
