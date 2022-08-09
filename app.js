@@ -6,6 +6,8 @@ const btnNuevaOperacion = document.getElementById('btn-nueva-operacion')
 const btnOcultarFiltros = document.getElementById('btn-ocultar-filtros') 
 const btnMostrarFiltros = document.getElementById('btn-mostrar-filtros') 
 const btnAgregar = document.getElementById('agregar-btn')
+const editarOperacion = document.getElementById('editarOperacion')
+const eliminarOperacion = document.getElementById('eliminarOperacion')
 
 
 // INPUTS //
@@ -14,6 +16,7 @@ const inputMonto = document.getElementById('monto')
 const inputTipo = document.getElementById('tipo')
 const selectCategoriaOperacion = document.getElementById('selectCategoriaOperacion')
 const inputFecha = document.getElementById('fecha-input')
+const acciones = document.getElementById('acciones')
 
 //SECCIONES//
 const balance = document.getElementById('seccion-balance') //TRAIGO SECCION BALANCE
@@ -85,11 +88,8 @@ generarCategorias()
 
 // NUEVA OPERACION //
 
-const operaciones = [    //objetos para prueba de filtros luego borrar
-
+const operaciones = [ //objetos para prueba de filtros luego borrar
 ]
-
-console.log(operaciones)
 
 const mostrarOperaciones = (arr) => {
     if(!arr.length){
@@ -110,6 +110,7 @@ btnAgregar.addEventListener('click', ()=> {
         tipo : inputTipo.value,
         categorias : selectCategoriaOperacion.value,
         fecha : inputFecha.value,
+        acciones : acciones.value
     }
 
     seccionOperacion.classList.add('oculto')
@@ -130,16 +131,25 @@ const pintarOperaciones = arr => {
     let str = ''
     arr.forEach((operacion) => {
         str = str + `
-        <table class="table table-borderless""><tr>
+        <table class="table table-borderless"><tr>
                   <td>${operacion.descripcion}</td>
                    <td>${operacion.categoria}</td>
                    <td>${operacion.fecha}</td>
-                   <td>${operacion.monto}</td>
                    <td>${operacion.monto}</td>
                 </tr></table>`
     })
     document.getElementById('operaciones').innerHTML = str
 }
+
+//BTN EDITAR OPERACIONES
+
+
+//BTN ELIMINAR OPERACIONES
+
+eliminarOperacion.addEventListener('click', () => {
+
+})
+
 
 
 const copiaOperaciones = [...operaciones] //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
@@ -147,12 +157,8 @@ const copiaOperaciones = [...operaciones] //creo copia de operaciones para poder
 //TIPO, SELECT todos, gastos y ganacias
 
 const selectTipo = document.getElementById('tipo')
-// const filtroTodos = document.getElementById('filtro-todos')
-// const filtroGasto = document.getElementById('filtro-gasto')
-// const filtroGanancia = document.getElementById('filtro-ganancia')
 
 selectTipo.addEventListener('change', (e) => {
-    
     console.log(e.target.value)
     //selecciona todas => mostrar todas la operaciones en seccion operaciones 
     //selecciona gastos => mostrar gastos en seccion operaciones
@@ -192,4 +198,8 @@ selectTipo.addEventListener('change', (e) => {
         }
     //los values tiene que estar escritos igual
     })
+
+    //cómo hago para que los resultados de los filtros se muestren/imriman en operaciones, con un filter?
+
+    //terminar de hacer filtros para fecha y ordenar por
     

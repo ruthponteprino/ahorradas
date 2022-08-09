@@ -10,16 +10,20 @@
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
     />
-   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"> -->  
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"> -->
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    />
     <title>Ahorradas</title>
   </head>
   <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mi-nav">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          <i class="fa-solid fa-wallet icono"></i>AhorrADAs</a>
+          <i class="fa-solid fa-wallet icono"></i>AhorrADAs</a
+        >
         <button
           class="navbar-toggler"
           type="button"
@@ -147,7 +151,7 @@
                   >
                     <option value="mas-reciente" selected>Más reciente</option>
                     <option value="menos-reciente">Menos reciente</option>
-                    <option value="mayor-montp">Mayor monto</option>
+                    <option value="mayor-monto">Mayor monto</option>
                     <option value="menor-monto">Menor monto</option>
                     <option value="a-z">A/Z</option>
                     <option value="z-a">Z/A</option>
@@ -178,9 +182,17 @@
                   <th>Categoria</th>
                   <th>Fecha</th>
                   <th>Monto</th>
-                  <th>Acciones</th>
+                  <th id="acciones">Acciones
+                    <div id="editarOperacion" class="mt-2">
+                      <a href="#">Editar</a>
+                    </div>
+                    <div id="eliminarOperacion" class="mt-2">
+                      <a href="#">Eliminar</a>
+                    </div>      
+                  </th>
+                        
                 </tr>
-              
+                
               </tbody>
             </table>
           </div>
@@ -228,7 +240,7 @@
               <select
                 id="tipo"
                 class="form-select"
-                aria-label="Default select example"
+                aria-label="Tipo"
               >
                 <option value="gasto" selected>Gasto</option>
                 <option value="Ganancia">Ganancia</option>
@@ -254,7 +266,9 @@
               />
             </div>
             <div class="mb-3">
-              <button type="button" class="btn btn-primary" id="agregar-btn">Agregar</button>
+              <button type="button" class="btn btn-primary" id="agregar-btn">
+                Agregar
+              </button>
               <button type="submit" class="btn btn-light">Cancelar</button>
             </div>
           </form>
@@ -323,7 +337,7 @@
             <div class="mb-3">
               <button type="submit" class="btn btn-primary">Editar</button>
               <button type="submit" class="btn btn-light">Cancelar</button>
-            </div>
+            </div>          
           </form>
         </div>
       </div>
