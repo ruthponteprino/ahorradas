@@ -1,5 +1,6 @@
 //BOTONES//
 const btnBalance = document.getElementById('btnBalance')
+const btnAhorradas = document.getElementById('btn-ahorradas')
 const btnCategorias = document.getElementById('btnCategorias')
 const btnReportes = document.getElementById('btnReportes')
 const btnNuevaOperacion = document.getElementById('btn-nueva-operacion')
@@ -31,6 +32,14 @@ btnBalance.addEventListener('click', () => {
     reportes.classList.add('oculto')
     seccionOperacion.classList.add('oculto')
     console.log(btnBalance)
+})
+
+btnAhorradas.addEventListener('click', () => {
+    balance.classList.remove('oculto')
+    categorias.classList.add('oculto')
+    reportes.classList.add('oculto')
+    seccionOperacion.classList.add('oculto')
+    // console.log(btnBalance)
 })
 
 btnCategorias.addEventListener('click', () => {
@@ -199,7 +208,22 @@ selectTipo.addEventListener('change', (e) => {
     //los values tiene que estar escritos igual
     })
 
-    //cómo hago para que los resultados de los filtros se muestren/imriman en operaciones, con un filter?
+    //cómo hago para que los resultados de los filtros se muestren/impriman en operaciones, con un filter?
 
     //terminar de hacer filtros para fecha y ordenar por
+
+    //REPORTES
+
+    //mostrar contenedor-reportes ocultar por defecto, mostrar solo cuando hay operaciones
+
+    const contenedorReportes = document.getElementById('contenedor-reportes')
+
+    // contenedorReportes.addEventListener(
+    //     //si recibe operaciones muestra contenedor-reportes, si no muestra div de operaciones insuficientes.
+    //     //VER COMO SE HACE
+    // 1-recorrer operaciones y si hay al menos 1 operacion cargada
+    //2-si esto se cumple, entonces sacarle la clase oculto y mostrar contenedor-resumen
+
+    //     contenedorReportes.classList.remove('oculto')
+    // )
     
