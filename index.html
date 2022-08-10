@@ -21,7 +21,7 @@
   <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mi-nav">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="#" id="btn-ahorradas">
           <i class="fa-solid fa-wallet icono"></i>AhorrADAs</a
         >
         <button
@@ -126,7 +126,7 @@
                   <select
                     id="selectCategoriaFiltros"
                     class="filtro-categorias select-categorias form-select"
-                    aria-label="Default select example"
+                    aria-label="selector de categoria"
                   >
                     <!--CAMBIE NOMBRE DE ID XQ SE REPITE selectCategoriaFiltros-->
                   </select>
@@ -182,17 +182,14 @@
                   <th>Categoria</th>
                   <th>Fecha</th>
                   <th>Monto</th>
-                  <th id="acciones">Acciones
-                    <div id="editarOperacion" class="mt-2">
-                      <a href="#">Editar</a>
-                    </div>
-                    <div id="eliminarOperacion" class="mt-2">
-                      <a href="#">Eliminar</a>
-                    </div>      
+                  <th id="acciones">
+                    Acciones
+                    <p class="mt-2">
+                      <a id="editarOperacion" href="#">Editar</a>
+                      <a id="eliminarOperacion" href="#">Eliminar</a>
+                    </p>
                   </th>
-                        
                 </tr>
-                
               </tbody>
             </table>
           </div>
@@ -237,11 +234,7 @@
             </div>
             <div class="mb-3">
               <label for="tipo" class="form-label">Tipo</label>
-              <select
-                id="tipo"
-                class="form-select"
-                aria-label="Tipo"
-              >
+              <select id="tipo" class="form-select" aria-label="Tipo">
                 <option value="gasto" selected>Gasto</option>
                 <option value="Ganancia">Ganancia</option>
               </select>
@@ -311,17 +304,19 @@
             <div class="mb-3">
               <label for="categoria" class="form-label">Categoria</label>
               <select
-                id="selectCategoriaOperacion-editar"
-                class="form-select"
+                id=""
+                class="form-select select-categorias"
                 aria-label="Default select example"
               >
                 <!--cambio nombre id selectCategoriaOperacion-editar-->
-                <option selected>Comida</option>
+                <!--EXISTEN EN JS-->
+                <!-- <option selected>Comida</option>
                 <option value="servicio">Servicios</option>
                 <option value="Salidas">Salidas</option>
                 <option value="Educacion">Educacion</option>
                 <option value="Transporte">Transporte</option>
-                <option value="Trabajo">Trabajo</option>
+                <option value="Trabajo">Trabajo</option> -->
+
                 <!--aca se tienen que aparecer las categorias nuevas agregadas por el usuario-->
               </select>
             </div>
@@ -337,7 +332,7 @@
             <div class="mb-3">
               <button type="submit" class="btn btn-primary">Editar</button>
               <button type="submit" class="btn btn-light">Cancelar</button>
-            </div>          
+            </div>
           </form>
         </div>
       </div>
@@ -357,12 +352,12 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="nombre-input"
-                  aria-describedby="nombre"
+                  id="nueva-categoria-input"
+                  aria-describedby="Ingresa nombre de nueva categoria"
                 />
               </div>
               <div class="mx-3 d-flex align-items-center">
-                <button type="submit" class="btn btn-primary" id="agregar-btn">
+                <button type="submit" class="btn btn-primary" id="btn-agregar-categoria">
                   Agregar
                 </button>
               </div>
@@ -386,29 +381,31 @@
               alt="graficos"
               style="width: 20em"
             />
-            <h4>Operaciones insuficientes</h4>
-            <p>Prueba agregando más operaciones</p>
-            <!-- mostara reportes de operaciones-->
+            <div id="operaciones-insuficientes">
+              <h4>Operaciones insuficientes</h4>
+              <p>Prueba agregando más operaciones</p>
+              <!-- mostara reportes de operaciones-->
+            </div>
             <div id="contenedor-reportes">
               <h3>Resumen</h3>
-                <div>Categoría con mayor ganancia</div>
-                <!--TRAER NOMBRE DE CATEGORIA Y MONTO-->
+              <div>Categoría con mayor ganancia</div>
+              <!--TRAER NOMBRE DE CATEGORIA Y MONTO-->
 
-                <div>Categoría con mayor gasto</div>
-                <div>Categoría con mayor balance</div>
-                <div>Mes con mayor ganancia</div>
-                <div>Mes con mayor Gasto</div>
+              <div>Categoría con mayor gasto</div>
+              <div>Categoría con mayor balance</div>
+              <div>Mes con mayor ganancia</div>
+              <div>Mes con mayor Gasto</div>
 
               <h3>Totales por categorías</h3>
-                <div>
-                  <div>Categoria</div>
-                  <div>Ganacias</div>
-                  <div>Gastos</div>
-                  <div>Balance</div>
-                </div>
-                <div>
-                  <!--nombres de catergorias-->
-                </div>
+              <div>
+                <div>Categoria</div>
+                <div>Ganacias</div>
+                <div>Gastos</div>
+                <div>Balance</div>
+              </div>
+              <div>
+                <!--nombres de catergorias-->
+              </div>
 
               <h3>Totales por mes</h3>
               <div>
@@ -420,8 +417,6 @@
               <div>
                 <!--mes y resultados de ganacias, gastos y balance-->
               </div>
-
-
             </div>
           </div>
         </div>
