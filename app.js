@@ -104,13 +104,32 @@ const generarCategorias = () => {
 };
 generarCategorias();
 
-
+/////////////////////////
 // SECCION CATEGORIAS
+////////////////////////
 
 const cargarCategoria = () => {
   let inputCategoria = document.getElementById("nueva-categoria-input").value;
   arrayCategorias.push(inputCategoria) 
-  pintarCategorias()
+  
+  
+let ultimoElemento = (arr) => {
+  document.getElementById("nueva-categoria-input").value = ''
+  let ultimoItem = arr[arr.length-1]
+  document.getElementById('categorias').innerHTML += `
+    <div class="container text-start">
+      <div class="row align-items-start">
+        <div class="col">
+        <span class="badge text-bg-primary">${ultimoItem}</span>
+      </div>
+      <div class="col text-end">
+        <a id="editarOperacion" href="#">Editar</a>
+        <a id="eliminarOperacion" href="#">Eliminar</a>
+      </div>
+   </div>`
+   
+}
+  ultimoElemento(arrayCategorias)
   generarCategorias()
 }
 
@@ -124,21 +143,15 @@ const pintarCategorias = () => {
         <div class="col">
         <span class="badge text-bg-primary">${categoria}</span>
       </div>
-    <div class="col text-end">
-      <a id="editarOperacion" href="#">Editar</a>
-      <a id="eliminarOperacion" href="#">Eliminar</a>
-    </div>
-  </div>`
+      <div class="col text-end">
+        <a id="editarOperacion" href="#">Editar</a>
+        <a id="eliminarOperacion" href="#">Eliminar</a>
+      </div>
+   </div>`
   })
 }
 
 pintarCategorias()
-
-
-
-const limpiarInputAgregarCategorias = () => {
-  inputCategoria.value = "";
-};
 
 
 // NUEVA OPERACION //
