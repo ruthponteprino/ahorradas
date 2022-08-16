@@ -114,17 +114,17 @@ const cargarCategoria = () => {
   
   
 let ultimoElemento = (arr) => {
-  document.getElementById("nueva-categoria-input").value = ''
-  let ultimoItem = arr[arr.length-1]
+  document.getElementById("nueva-categoria-input").value = '' 
+  let ultimoItem = arr[arr.length-1] 
   document.getElementById('categorias').innerHTML += `
-    <div class="container text-start">
+    <div class="container text-start lista-categorias">
       <div class="row align-items-start">
         <div class="col">
         <span class="badge text-bg-primary">${ultimoItem}</span>
       </div>
       <div class="col text-end">
         <a id="editarOperacion" href="#">Editar</a>
-        <a id="eliminarOperacion" href="#">Eliminar</a>
+        <a class="eliminar" href="#">Eliminar</a>
       </div>
    </div>`
    
@@ -138,20 +138,24 @@ btnAgregarCategoria.addEventListener('click', cargarCategoria)
 const pintarCategorias = () => {
   arrayCategorias.forEach((categoria) => {
     document.getElementById('categorias').innerHTML += `
-    <div class="container text-start">
+    <div class="container text-start lista-categorias">
       <div class="row align-items-start">
-        <div class="col">
+        <div class="col my-1">
         <span class="badge text-bg-primary">${categoria}</span>
       </div>
       <div class="col text-end">
         <a id="editarOperacion" href="#">Editar</a>
-        <a id="eliminarOperacion" href="#">Eliminar</a>
+        <a id="eliminar" href="#">Eliminar</a>
       </div>
    </div>`
   })
 }
 
 pintarCategorias()
+
+//ELIMINAR CATEGORIA
+
+
 
 
 // NUEVA OPERACION //
@@ -197,7 +201,30 @@ const pintarOperaciones = (arr) => {
   arr.forEach((operacion) => {
     str =
       str +
-      `<div>
+    ` <div class="container text-center">
+        <div class="row align-items-start">
+          <div class="col">
+            ${operacion.descripcion}
+          </div>
+          <div class="col">
+            ${operacion.categoria}
+          </div>
+          <div class="col">
+            ${operacion.fecha}
+          </div>
+          <div class="col">
+            ${operacion.monto}
+          </div>
+          <div class="col">
+            <a id="editarOperacion" href="#">Editar</a>
+            <a class="eliminar-btn" id=${operacion.id} href="#">Eliminar</a>
+          </div>
+      </div>
+      `
+  })
+
+/*
+<div>
         <span>${operacion.descripcion}</span>
         <span>${operacion.categoria}</span>
         <span>${operacion.fecha}</span>
@@ -205,11 +232,15 @@ const pintarOperaciones = (arr) => {
         <span>
             <a id="editarOperacion" href="#">Editar</a>
             <br>
-            <a id="eliminarOperacion" href="#">Eliminar</a>
+            <a class="eliminar-btn" id=${operacion.id} href="#">Eliminar</a>
         </span>
         </div>
-      `
-  })
+
+*/
+
+
+
+
 
   document.getElementById("operaciones").innerHTML = str;
 };
