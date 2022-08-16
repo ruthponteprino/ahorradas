@@ -179,6 +179,7 @@ btnAgregar.addEventListener("click", () => {
     monto: inputMonto.value,
     tipo: inputTipo.value,
     categorias: selectCategoriaOperacion.value,
+    // categorias: selectCategoriaOperacion.value,
     fecha: inputFecha.value,
     // acciones: acciones.value
   };
@@ -189,7 +190,7 @@ btnAgregar.addEventListener("click", () => {
   inputDescripcion.value = "";
   inputMonto.value = 0;
   inputTipo.value = "ganancia";
-  selectCategoriaOperacion.value = "Servicios";
+//   selectCategoriaOperacion.value = "Servicios";
   inputFecha.value = new Date();
   mostrarOperaciones(operaciones);
   pintarOperaciones(operaciones);
@@ -199,6 +200,7 @@ const pintarOperaciones = (arr) => {
   console.log(arr);
   let str = "";
   arr.forEach((operacion) => {
+    const {id, descripcion, categorias, fecha, monto} = operacion
     str =
       str +
     ` <div class="container text-center">
@@ -222,24 +224,6 @@ const pintarOperaciones = (arr) => {
       </div>
       `
   })
-
-/*
-<div>
-        <span>${operacion.descripcion}</span>
-        <span>${operacion.categoria}</span>
-        <span>${operacion.fecha}</span>
-        <span>${operacion.monto}</span>
-        <span>
-            <a id="editarOperacion" href="#">Editar</a>
-            <br>
-            <a class="eliminar-btn" id=${operacion.id} href="#">Eliminar</a>
-        </span>
-        </div>
-
-*/
-
-
-
 
 
   document.getElementById("operaciones").innerHTML = str;
