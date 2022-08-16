@@ -201,8 +201,7 @@ const pintarOperaciones = (arr) => {
   arr.forEach((operacion) => {
     str =
       str +
-    ` <div class="container text-center">
-        <div class="row align-items-start">
+    ` <div class="row align-items-start" >
           <div class="col">
             ${operacion.descripcion}
           </div>
@@ -212,7 +211,7 @@ const pintarOperaciones = (arr) => {
           <div class="col">
             ${operacion.fecha}
           </div>
-          <div class="col">
+          <div class="col ${tipo === "ganancia" ? "success" : "danger"}" >
             ${operacion.monto}
           </div>
           <div class="col">
@@ -222,26 +221,6 @@ const pintarOperaciones = (arr) => {
       </div>
       `
   })
-
-/*
-<div>
-        <span>${operacion.descripcion}</span>
-        <span>${operacion.categoria}</span>
-        <span>${operacion.fecha}</span>
-        <span>${operacion.monto}</span>
-        <span>
-            <a id="editarOperacion" href="#">Editar</a>
-            <br>
-            <a class="eliminar-btn" id=${operacion.id} href="#">Eliminar</a>
-        </span>
-        </div>
-
-*/
-
-
-
-
-
   document.getElementById("operaciones").innerHTML = str;
 };
 
