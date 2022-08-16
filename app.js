@@ -188,7 +188,7 @@ btnAgregar.addEventListener("click", () => {
   balance.classList.remove("oculto");
   inputDescripcion.value = "";
   inputMonto.value = 0;
-  inputTipo.value = "ganancia";
+  inputTipo.value = "";
   selectCategoriaOperacion.value = "Servicios";
   inputFecha.value = new Date();
   mostrarOperaciones(operaciones);
@@ -211,8 +211,8 @@ const pintarOperaciones = (arr) => {
           <div class="col">
             ${operacion.fecha}
           </div>
-          <div class="col ${tipo === "ganancia" ? "success" : "danger"}" >
-            ${operacion.monto}
+          <div class="col ${operacion.tipo === "ganancia" ? "success" : "danger"}" >
+            $${operacion.monto}
           </div>
           <div class="col">
             <a id="editarOperacion" href="#">Editar</a>
