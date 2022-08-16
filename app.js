@@ -179,6 +179,7 @@ btnAgregar.addEventListener("click", () => {
     monto: inputMonto.value,
     tipo: inputTipo.value,
     categorias: selectCategoriaOperacion.value,
+    // categorias: selectCategoriaOperacion.value,
     fecha: inputFecha.value,
     // acciones: acciones.value
   };
@@ -190,6 +191,8 @@ btnAgregar.addEventListener("click", () => {
   inputMonto.value = 0;
   inputTipo.value = "";
   selectCategoriaOperacion.value = "Servicios";
+  inputTipo.value = "ganancia";
+//   selectCategoriaOperacion.value = "Servicios";
   inputFecha.value = new Date();
   mostrarOperaciones(operaciones);
   pintarOperaciones(operaciones);
@@ -199,6 +202,7 @@ const pintarOperaciones = (arr) => {
   console.log(arr);
   let str = "";
   arr.forEach((operacion) => {
+    const {id, descripcion, categorias, fecha, monto} = operacion
     str =
       str +
     ` <div class="row align-items-start" >
