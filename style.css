@@ -27,3 +27,19 @@
 a {
     text-decoration: none;
 }
+
+.success {
+    color: green;
+}
+
+.success::before {
+    content: '+';
+}
+
+.danger {
+    color: red;
+}
+
+.danger::before {
+    content: '-';
+}

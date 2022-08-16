@@ -189,6 +189,8 @@ btnAgregar.addEventListener("click", () => {
   balance.classList.remove("oculto");
   inputDescripcion.value = "";
   inputMonto.value = 0;
+  inputTipo.value = "";
+  selectCategoriaOperacion.value = "Servicios";
   inputTipo.value = "ganancia";
 //   selectCategoriaOperacion.value = "Servicios";
   inputFecha.value = new Date();
@@ -203,8 +205,7 @@ const pintarOperaciones = (arr) => {
     const {id, descripcion, categorias, fecha, monto} = operacion
     str =
       str +
-    ` <div class="container text-center">
-        <div class="row align-items-start">
+    ` <div class="row align-items-start" >
           <div class="col">
             ${operacion.descripcion}
           </div>
@@ -214,8 +215,8 @@ const pintarOperaciones = (arr) => {
           <div class="col">
             ${operacion.fecha}
           </div>
-          <div class="col">
-            ${operacion.monto}
+          <div class="col ${operacion.tipo === "ganancia" ? "success" : "danger"}" >
+            $${operacion.monto}
           </div>
           <div class="col">
             <a id="editarOperacion" href="#">Editar</a>
@@ -224,8 +225,6 @@ const pintarOperaciones = (arr) => {
       </div>
       `
   })
-
-
   document.getElementById("operaciones").innerHTML = str;
 };
 
