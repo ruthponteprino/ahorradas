@@ -114,17 +114,17 @@ const cargarCategoria = () => {
   
   
 let ultimoElemento = (arr) => {
-  document.getElementById("nueva-categoria-input").value = ''
-  let ultimoItem = arr[arr.length-1]
+  document.getElementById("nueva-categoria-input").value = '' 
+  let ultimoItem = arr[arr.length-1] 
   document.getElementById('categorias').innerHTML += `
-    <div class="container text-start">
+    <div class="container text-start lista-categorias">
       <div class="row align-items-start">
         <div class="col">
         <span class="badge text-bg-primary">${ultimoItem}</span>
       </div>
       <div class="col text-end">
         <a id="editarOperacion" href="#">Editar</a>
-        <a id="eliminarOperacion" href="#">Eliminar</a>
+        <a class="eliminar" href="#">Eliminar</a>
       </div>
    </div>`
    
@@ -138,20 +138,24 @@ btnAgregarCategoria.addEventListener('click', cargarCategoria)
 const pintarCategorias = () => {
   arrayCategorias.forEach((categoria) => {
     document.getElementById('categorias').innerHTML += `
-    <div class="container text-start">
+    <div class="container text-start lista-categorias">
       <div class="row align-items-start">
-        <div class="col">
+        <div class="col my-1">
         <span class="badge text-bg-primary">${categoria}</span>
       </div>
       <div class="col text-end">
         <a id="editarOperacion" href="#">Editar</a>
-        <a id="eliminarOperacion" href="#">Eliminar</a>
+        <a id="eliminar" href="#">Eliminar</a>
       </div>
    </div>`
   })
 }
 
 pintarCategorias()
+
+//ELIMINAR CATEGORIA
+
+
 
 
 pintarNuevaCategoria()
@@ -173,6 +177,14 @@ const mostrarOperaciones = (arr) => {
 mostrarOperaciones(operaciones);
 
 btnAgregar.addEventListener("click", () => {
+
+  // VALIDACION
+// no funciona el monto.value
+  if(inputDescripcion.value.trim().length === 0 || monto.value === 0){
+    alert('Todos los campos deben estar completos')
+    return
+  }
+
   const operacion = {
     id: uuidv4(),
     descripcion: inputDescripcion.value,
@@ -189,10 +201,15 @@ btnAgregar.addEventListener("click", () => {
   balance.classList.remove("oculto");
   inputDescripcion.value = "";
   inputMonto.value = 0;
+  inputTipo.value = "";
+  selectCategoriaOperacion.value = "Servicios";
   inputTipo.value = "ganancia";
 //   selectCategoriaOperacion.value = "Servicios";
   inputFecha.value = new Date();
   mostrarOperaciones(operaciones);
+
+    localStorage.setItem('operaciones', JSON.stringify(operaciones))
+
   pintarOperaciones(operaciones);
 });
 
@@ -203,19 +220,27 @@ const pintarOperaciones = (arr) => {
     const {id, descripcion, categoria, fecha, monto} = operacion
     str =
       str +
-      `<div id=${id} class:"">
-        <span>${descripcion}</span>
-        <span>${categoria}</span>
-        <span>${fecha}</span>
-        <span>${monto}</span>
-        <span>
+    ` <div class="row align-items-start my-2" >
+          <div class="col">
+            ${operacion.descripcion}
+          </div>
+          <div class="col">
+            <span class="badge text-bg-primary">${operacion.categorias}</span>
+          </div>
+          <div class="col">
+            ${operacion.fecha}
+          </div>
+          <div class="col ${operacion.tipo === "ganancia" ? "success" : "danger"}" >
+            $${operacion.monto}
+          </div>
+          <div class="col">
             <a id="editarOperacion" href="#">Editar</a>
-            <a id="eliminarOperacion" href="#">Eliminar</a>
-        </span>
-        </div>
+            </br>
+            <a class="eliminar-btn" id=${operacion.id} href="#">Eliminar</a>
+          </div>
+      </div>
       `
   })
-
   document.getElementById("operaciones").innerHTML = str;
 };
 

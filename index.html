@@ -78,11 +78,11 @@
               <tbody>
                 <tr>
                   <td>Ganancias</td>
-                  <td>+$0</td>
+                  <td class="text-success">+$0</td>
                 </tr>
                 <tr>
                   <td>Gastos</td>
-                  <td>+$0</td>
+                  <td class="text-danger">+$0</td>
                 </tr>
                 <tr>
                   <th>Total</th>
@@ -173,25 +173,29 @@
             </button>
           </div>
 
-          <div id="con-operaciones" class="">
-            <table class="table table-borderless">
-              <tbody>
-                <tr>
-                  <th>Descripción</th>
-                  <th>Categoria</th>
-                  <th>Fecha</th>
-                  <th>Monto</th>
-                  <th id="acciones">
-                    Acciones
-                    <!-- <p class="mt-2">
-                    </p> -->
-                    
-                  </th>
-                </tr>
-              </tbody>
-            </table>
+          <div id="con-operaciones"  class="container text-center my-3">
+            
+              <div class="row align-items-start">
+                  <div class="col">
+                    <strong>Descripción</strong>
+                  </div>
+                  <div class="col">
+                    <strong>Categorias</strong>
+                  </div>
+                  <div class="col">
+                    <strong>Fecha</strong>
+                  </div>
+                  <div class="col">
+                    <strong>Monto</strong>
+                  </div>
+                  <div class="col">
+                    <strong>Acciones</strong>
+                  </div>
+              </div>
+            
           </div>
-          <div id="operaciones"></div>
+          <div class="container text-center" id="operaciones">
+          </div>
           <div
             class="figure d-flex flex-column align-items-center"
             id="sin-operaciones"
@@ -234,7 +238,7 @@
               <label for="tipo" class="form-label">Tipo</label>
               <select id="tipo" class="form-select" aria-label="Tipo">
                 <option value="gasto" selected>Gasto</option>
-                <option value="Ganancia">Ganancia</option>
+                <option value="ganancia">Ganancia</option>
               </select>
             </div>
             <div class="mb-3">
@@ -296,7 +300,7 @@
                 aria-label="Default select example"
               >
                 <option value="gasto" selected>Gasto</option>
-                <option value="Ganancia">Ganancia</option>
+                <option value="ganancia">Ganancia</option>
               </select>
             </div>
             <div class="mb-3">
@@ -363,7 +367,7 @@
             </div>
             <div id="categoriasContenedor"></div>
           </form>
-          <div class="" id="categorias">
+          <div class="my-2" id="categorias">
 
           </div>
         </div>
