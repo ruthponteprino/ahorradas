@@ -158,6 +158,10 @@ pintarCategorias()
 
 
 
+pintarNuevaCategoria()
+
+ //tengo que imprimir la categorias exitentes y las nuevas a medida que las valla agregando el usuario
+
 // NUEVA OPERACION //
 
 const operaciones = [];
@@ -186,7 +190,7 @@ btnAgregar.addEventListener("click", () => {
     descripcion: inputDescripcion.value,
     monto: inputMonto.value,
     tipo: inputTipo.value,
-    categorias: selectCategoriaOperacion.value,
+    categoria: selectCategoriaOperacion.value,
     // categorias: selectCategoriaOperacion.value,
     fecha: inputFecha.value,
     // acciones: acciones.value
@@ -213,7 +217,7 @@ const pintarOperaciones = (arr) => {
   console.log(arr);
   let str = "";
   arr.forEach((operacion) => {
-    const {id, descripcion, categorias, fecha, monto} = operacion
+    const {id, descripcion, categoria, fecha, monto} = operacion
     str =
       str +
     ` <div class="row align-items-start my-2" >
