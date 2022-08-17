@@ -15,9 +15,7 @@ const btnAgregarCategoria = document.getElementById("btn-agregar-categoria");
 const inputDescripcion = document.getElementById("descripcion");
 const inputMonto = document.getElementById("monto");
 const inputTipo = document.getElementById("tipo");
-const selectCategoriaOperacion = document.getElementById(
-  "selectCategoriaOperacion"
-);
+const selectCategoriaOperacion = document.getElementById("selectCategoriaOperacion");
 const inputFecha = document.getElementById("fecha-input");
 const acciones = document.getElementById("acciones");
 
@@ -33,7 +31,7 @@ btnBalance.addEventListener("click", () => {
   categorias.classList.add("oculto");
   reportes.classList.add("oculto");
   seccionOperacion.classList.add("oculto");
-  console.log(btnBalance);
+  //console.log(btnBalance);
 });
 
 btnAhorradas.addEventListener("click", () => {
@@ -48,7 +46,7 @@ btnCategorias.addEventListener("click", () => {
   balance.classList.add("oculto");
   categorias.classList.remove("oculto");
   reportes.classList.add("oculto");
-  console.log(btnCategorias);
+  //console.log(btnCategorias);
 });
 
 btnReportes.addEventListener("click", () => {
@@ -101,43 +99,60 @@ const generarCategorias = () => {
     arrayCategorias.forEach((categoria) => {
       select.innerHTML += `<option value=${categoria}>${categoria}</option>`;
     });
+
   }
 };
 generarCategorias();
 
-//
-//MOSTRAR CATEGORIAS EXISTENTES EN SECCION CATEGORIAS
-//
+/////////////////////////
+// SECCION CATEGORIAS
+////////////////////////
 
-//
-//RECORRER CATEGORIAS Y AGREGAR lo que el usuario escriba en el input
-//
-//1-traer el input
-//2-agregar/pintar en la tabla de categorias lo que usuario escriba en la tabla
+const cargarCategoria = () => {
+  let inputCategoria = document.getElementById("nueva-categoria-input").value;
+  arrayCategorias.push(inputCategoria) 
+  
+  
+let ultimoElemento = (arr) => {
+  document.getElementById("nueva-categoria-input").value = ''
+  let ultimoItem = arr[arr.length-1]
+  document.getElementById('categorias').innerHTML += `
+    <div class="container text-start">
+      <div class="row align-items-start">
+        <div class="col">
+        <span class="badge text-bg-primary">${ultimoItem}</span>
+      </div>
+      <div class="col text-end">
+        <a id="editarOperacion" href="#">Editar</a>
+        <a id="eliminarOperacion" href="#">Eliminar</a>
+      </div>
+   </div>`
+   
+}
+  ultimoElemento(arrayCategorias)
+  generarCategorias()
+}
 
-// const inputCategoria = document.getElementById("nueva-categoria-input");
-// const agregarCategoria = () => {
-//   arrayCategorias.push(inputCategoria.value);
-//   // inputCategoria.innerHTML = `<p>${categorias}</p>`
-//   console.log(arrayCategorias);
-// };
+btnAgregarCategoria.addEventListener('click', cargarCategoria)
 
-// const limpiarInputAgregarCategorias = () => {
-//   inputCategoria.value = "";
-// };
+const pintarCategorias = () => {
+  arrayCategorias.forEach((categoria) => {
+    document.getElementById('categorias').innerHTML += `
+    <div class="container text-start">
+      <div class="row align-items-start">
+        <div class="col">
+        <span class="badge text-bg-primary">${categoria}</span>
+      </div>
+      <div class="col text-end">
+        <a id="editarOperacion" href="#">Editar</a>
+        <a id="eliminarOperacion" href="#">Eliminar</a>
+      </div>
+   </div>`
+  })
+}
 
-// btnAgregarCategoria.addEventListener("click", () => {
-//   agregarCategoria();
-//   limpiarInputAgregarCategorias();
-// });
+pintarCategorias()
 
-//imprimir la nueva categoria en el div de abajo con las otras categorias y el los select que aparezcan las nuevas
-
-const categoriasContenedor = document.getElementById('categoriasContenedor')
-
-const pintarNuevaCategoria = () => {
-    categoriasContenedor.innerHTML += `<option value=${arrayCategorias}>${arrayCategorias}</option>`; //no me estaria saliendo
-};
 
 pintarNuevaCategoria()
 
@@ -200,15 +215,7 @@ const pintarOperaciones = (arr) => {
         </div>
       `
   })
-  // <table class="table table-borderless">
-  //         <tr>
-  //             <td>${operacion.descripcion}</td>
-  //             <td>${operacion.categoria}</td>
-  //             <td>${operacion.fecha}</td>
-  //             <td>${operacion.monto}</td>
-  //             <td>${operacion.acciones}</td>
-  //         </tr>
-  //     </table>
+
   document.getElementById("operaciones").innerHTML = str;
 };
 
