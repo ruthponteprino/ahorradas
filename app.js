@@ -173,6 +173,14 @@ const mostrarOperaciones = (arr) => {
 mostrarOperaciones(operaciones);
 
 btnAgregar.addEventListener("click", () => {
+
+  // VALIDACION
+// no funciona el monto.value
+  if(inputDescripcion.value.trim().length === 0 || monto.value === 0){
+    alert('Todos los campos deben estar completos')
+    return
+  }
+
   const operacion = {
     id: uuidv4(),
     descripcion: inputDescripcion.value,
@@ -195,6 +203,9 @@ btnAgregar.addEventListener("click", () => {
 //   selectCategoriaOperacion.value = "Servicios";
   inputFecha.value = new Date();
   mostrarOperaciones(operaciones);
+
+    localStorage.setItem('operaciones', JSON.stringify(operaciones))
+
   pintarOperaciones(operaciones);
 });
 
@@ -205,12 +216,12 @@ const pintarOperaciones = (arr) => {
     const {id, descripcion, categorias, fecha, monto} = operacion
     str =
       str +
-    ` <div class="row align-items-start" >
+    ` <div class="row align-items-start my-2" >
           <div class="col">
             ${operacion.descripcion}
           </div>
           <div class="col">
-            ${operacion.categoria}
+            <span class="badge text-bg-primary">${operacion.categorias}</span>
           </div>
           <div class="col">
             ${operacion.fecha}
@@ -220,6 +231,7 @@ const pintarOperaciones = (arr) => {
           </div>
           <div class="col">
             <a id="editarOperacion" href="#">Editar</a>
+            </br>
             <a class="eliminar-btn" id=${operacion.id} href="#">Eliminar</a>
           </div>
       </div>
