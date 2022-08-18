@@ -181,6 +181,7 @@ btnAgregar.addEventListener("click", () => {
     return
   }
 
+  
   const operacion = {
     id: uuidv4(),
     descripcion: inputDescripcion.value,
