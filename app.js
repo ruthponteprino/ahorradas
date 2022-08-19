@@ -158,10 +158,6 @@ pintarCategorias()
 
 
 
-pintarNuevaCategoria()
-
- //tengo que imprimir la categorias exitentes y las nuevas a medida que las valla agregando el usuario
-
 // NUEVA OPERACION //
 
 const operaciones = [];
@@ -179,19 +175,23 @@ mostrarOperaciones(operaciones);
 btnAgregar.addEventListener("click", () => {
 
   // VALIDACION
-// no funciona el monto.value
-  if(inputDescripcion.value.trim().length === 0 || monto.value === 0){
-    alert('Todos los campos deben estar completos')
-    return
+  const toastLiveExample = document.getElementById('liveToast')
+
+
+  if(inputDescripcion.value.trim().length === 0 || monto.value < 0){
+  const toast = new bootstrap.Toast(toastLiveExample)
+
+    toast.show()
+    return  
   }
 
-  
+
   const operacion = {
     id: uuidv4(),
     descripcion: inputDescripcion.value,
     monto: inputMonto.value,
     tipo: inputTipo.value,
-    categoria: selectCategoriaOperacion.value,
+    categorias: selectCategoriaOperacion.value,
     // categorias: selectCategoriaOperacion.value,
     fecha: inputFecha.value,
     // acciones: acciones.value
@@ -218,7 +218,7 @@ const pintarOperaciones = (arr) => {
   console.log(arr);
   let str = "";
   arr.forEach((operacion) => {
-    const {id, descripcion, categoria, fecha, monto} = operacion
+    const {id, descripcion, categorias, fecha, monto} = operacion
     str =
       str +
     ` <div class="row align-items-start my-2" >
