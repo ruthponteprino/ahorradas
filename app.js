@@ -179,11 +179,16 @@ mostrarOperaciones(operaciones);
 btnAgregar.addEventListener("click", () => {
 
   // VALIDACION
-// no funciona el monto.value
-  if(inputDescripcion.value.trim().length === 0 || monto.value === 0){
-    alert('Todos los campos deben estar completos')
-    return
+  const toastLiveExample = document.getElementById('liveToast')
+
+
+  if(inputDescripcion.value.trim().length === 0 || monto.value < 0){
+  const toast = new bootstrap.Toast(toastLiveExample)
+
+    toast.show()
+    return  
   }
+
 
   const operacion = {
     id: uuidv4(),
