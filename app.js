@@ -15,7 +15,9 @@ const btnAgregarCategoria = document.getElementById("btn-agregar-categoria");
 const inputDescripcion = document.getElementById("descripcion");
 const inputMonto = document.getElementById("monto");
 const inputTipo = document.getElementById("tipo");
-const selectCategoriaOperacion = document.getElementById("selectCategoriaOperacion");
+const selectCategoriaOperacion = document.getElementById(
+  "selectCategoriaOperacion"
+);
 const inputFecha = document.getElementById("fecha-input");
 const acciones = document.getElementById("acciones");
 
@@ -99,7 +101,6 @@ const generarCategorias = () => {
     arrayCategorias.forEach((categoria) => {
       select.innerHTML += `<option value=${categoria}>${categoria}</option>`;
     });
-
   }
 };
 generarCategorias();
@@ -110,13 +111,12 @@ generarCategorias();
 
 const cargarCategoria = () => {
   let inputCategoria = document.getElementById("nueva-categoria-input").value;
-  arrayCategorias.push(inputCategoria) 
-  
-  
-let ultimoElemento = (arr) => {
-  document.getElementById("nueva-categoria-input").value = '' 
-  let ultimoItem = arr[arr.length-1] 
-  document.getElementById('categorias').innerHTML += `
+  arrayCategorias.push(inputCategoria);
+
+  let ultimoElemento = (arr) => {
+    document.getElementById("nueva-categoria-input").value = "";
+    let ultimoItem = arr[arr.length - 1];
+    document.getElementById("categorias").innerHTML += `
     <div class="container text-start lista-categorias">
       <div class="row align-items-start">
         <div class="col">
@@ -126,18 +126,17 @@ let ultimoElemento = (arr) => {
         <a id="editarOperacion" href="#">Editar</a>
         <a class="eliminar" href="#">Eliminar</a>
       </div>
-   </div>`
-   
-}
-  ultimoElemento(arrayCategorias)
-  generarCategorias()
-}
+   </div>`;
+  };
+  ultimoElemento(arrayCategorias);
+  generarCategorias();
+};
 
-btnAgregarCategoria.addEventListener('click', cargarCategoria)
+btnAgregarCategoria.addEventListener("click", cargarCategoria);
 
 const pintarCategorias = () => {
   arrayCategorias.forEach((categoria) => {
-    document.getElementById('categorias').innerHTML += `
+    document.getElementById("categorias").innerHTML += `
     <div class="container text-start lista-categorias">
       <div class="row align-items-start">
         <div class="col my-1">
@@ -147,20 +146,21 @@ const pintarCategorias = () => {
         <a id="editarOperacion" href="#">Editar</a>
         <a id="eliminar" href="#">Eliminar</a>
       </div>
-   </div>`
-  })
-}
+   </div>`;
+  });
+};
 
-pintarCategorias()
+pintarCategorias();
 
 //ELIMINAR CATEGORIA
 
-
-
+//EDITAR CATEGORIA
 
 // NUEVA OPERACION //
 
-const operaciones = [];
+let operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
+
+// const operaciones = [];
 
 const mostrarOperaciones = (arr) => {
   if (!arr.length) {
@@ -173,18 +173,15 @@ const mostrarOperaciones = (arr) => {
 mostrarOperaciones(operaciones);
 
 btnAgregar.addEventListener("click", () => {
-
   // VALIDACION
-  const toastLiveExample = document.getElementById('liveToast')
+  const toastLiveExample = document.getElementById("liveToast");
 
+  if (inputDescripcion.value.trim().length === 0 || monto.value < 0) {
+    const toast = new bootstrap.Toast(toastLiveExample);
 
-  if(inputDescripcion.value.trim().length === 0 || monto.value < 0){
-  const toast = new bootstrap.Toast(toastLiveExample)
-
-    toast.show()
-    return  
+    toast.show();
+    return;
   }
-
 
   const operacion = {
     id: uuidv4(),
@@ -205,51 +202,65 @@ btnAgregar.addEventListener("click", () => {
   inputTipo.value = "";
   selectCategoriaOperacion.value = "Servicios";
   inputTipo.value = "ganancia";
-//   selectCategoriaOperacion.value = "Servicios";
   inputFecha.value = new Date();
   mostrarOperaciones(operaciones);
 
-    localStorage.setItem('operaciones', JSON.stringify(operaciones))
+  localStorage.setItem("operaciones", JSON.stringify(operaciones));
 
   pintarOperaciones(operaciones);
 });
 
 const pintarOperaciones = (arr) => {
-  console.log(arr);
+  document.getElementById('operaciones').innerHTML = '' //limpiamos operaciones y muestra img del inicio
   let str = "";
   arr.forEach((operacion) => {
-    const {id, descripcion, categorias, fecha, monto} = operacion
+    const { id, descripcion, categorias, fecha, monto } = operacion;
     str =
       str +
-    ` <div class="row align-items-start my-2" >
+      ` <div class="row align-items-start my-2" >
           <div class="col">
-            ${operacion.descripcion}
+            ${descripcion}
           </div>
           <div class="col">
-            <span class="badge text-bg-primary">${operacion.categorias}</span>
+            <span class="badge text-bg-primary">${categorias}</span>
           </div>
           <div class="col">
-            ${operacion.fecha}
+            ${fecha}
           </div>
-          <div class="col ${operacion.tipo === "ganancia" ? "success" : "danger"}" >
-            $${operacion.monto}
+          <div class="col ${
+            tipo === "ganancia" ? "success" : "danger"
+          }" >
+            $${monto}
           </div>
           <div class="col">
-            <a id="editarOperacion" href="#">Editar</a>
+            <a class='editar-btn' data-id=${id}>Editar</a>
             </br>
-            <a class="eliminar-btn" id=${operacion.id} href="#">Eliminar</a>
+            <a class="eliminar-btn" data-id=${id}>Eliminar</a>
           </div>
       </div>
-      `
-  })
-  document.getElementById("operaciones").innerHTML = str;
+      `;
+    document.getElementById("operaciones").innerHTML = str;
+  });
+
+  //BTN ELIMINAR OPERACIONES
+
+  const eliminarBtn = document.querySelectorAll(".eliminar-btn");
+  eliminarBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const eliminar = operaciones.filter(
+        operacion => operacion.id !== e.target.dataset.id
+      ); //omitimos traer el que estamos eliminando
+      localStorage.setItem("operaciones", JSON.stringify(eliminar));
+      operaciones = JSON.parse(localStorage.getItem('operaciones'))
+      pintarOperaciones(operaciones);  
+      mostrarOperaciones(operaciones)
+    });
+  });
 };
 
+pintarOperaciones(operaciones);
+
 //BTN EDITAR OPERACIONES
-
-//BTN ELIMINAR OPERACIONES
-
-// eliminarOperacion.addEventListener("click", () => {});
 
 const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
 
