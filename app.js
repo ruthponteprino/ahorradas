@@ -202,7 +202,7 @@ btnAgregar.addEventListener("click", () => {
   inputTipo.value = "";
   selectCategoriaOperacion.value = "Servicios";
   inputTipo.value = "ganancia";
-  inputFecha.value = new Date();
+  inputFecha.value = new Date(); 
   mostrarOperaciones(operaciones);
 
   localStorage.setItem("operaciones", JSON.stringify(operaciones));
@@ -211,7 +211,7 @@ btnAgregar.addEventListener("click", () => {
 });
 
 const pintarOperaciones = (arr) => {
-  document.getElementById('operaciones').innerHTML = '' //limpiamos operaciones y muestra img del inicio
+  document.getElementById("operaciones").innerHTML = ""; //limpiamos operaciones y muestra img del inicio
   let str = "";
   arr.forEach((operacion) => {
     const { id, descripcion, categorias, fecha, monto } = operacion;
@@ -227,9 +227,7 @@ const pintarOperaciones = (arr) => {
           <div class="col">
             ${fecha}
           </div>
-          <div class="col ${
-            tipo === "ganancia" ? "success" : "danger"
-          }" >
+          <div class="col ${tipo === "ganancia" ? "success" : "danger"}" >
             $${monto}
           </div>
           <div class="col">
@@ -248,17 +246,28 @@ const pintarOperaciones = (arr) => {
   eliminarBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const eliminar = operaciones.filter(
-        operacion => operacion.id !== e.target.dataset.id
+        (operacion) => operacion.id !== e.target.dataset.id
       ); //omitimos traer el que estamos eliminando
       localStorage.setItem("operaciones", JSON.stringify(eliminar));
-      operaciones = JSON.parse(localStorage.getItem('operaciones'))
-      pintarOperaciones(operaciones);  
-      mostrarOperaciones(operaciones)
+      operaciones = JSON.parse(localStorage.getItem("operaciones"));
+      pintarOperaciones(operaciones);
+      mostrarOperaciones(operaciones); //debe mostrar la imagen del inicio!!!!!!!!!
     });
   });
 };
 
+const inicializar = () => {
+  const inputsFecha = document.querySelectorAll('input[type="date"]')
+  inputsFecha.forEach(input => {
+    input.valueAsDate = new Date()
+  })
+  
+}
+
+window.onload = inicializar()
+
 pintarOperaciones(operaciones);
+// mostrarOperaciones(operaciones);
 
 //BTN EDITAR OPERACIONES
 
