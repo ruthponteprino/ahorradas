@@ -22,14 +22,13 @@ const inputFecha = document.getElementById("fecha-input");
 const acciones = document.getElementById("acciones");
 
 //editar operacion
-const descripcionEditar = document.getElementById('descripcion-editar')
-const montoEditar = document.getElementById('monto-editar')
-const tipoEditar = document.getElementById('tipo-editar')
-const categoriaEditar = document.getElementById('categoria-editar')
-const fechaEditar = document.getElementById('fecha-editar') 
-const btnEditarOperacion = document.getElementById('btn-editar-operacion')
-const btnCancelarOperacion = document.getElementById('btn-cancelar-operacion')
-
+const descripcionEditar = document.getElementById("descripcion-editar");
+const montoEditar = document.getElementById("monto-editar");
+const tipoEditar = document.getElementById("tipo-editar");
+const categoriaEditar = document.getElementById("categoria-editar");
+const fechaEditar = document.getElementById("fecha-editar");
+const btnEditarOperacion = document.getElementById("btn-editar-operacion");
+const btnCancelarOperacion = document.getElementById("btn-cancelar-operacion");
 
 //SECCIONES//
 const balance = document.getElementById("seccion-balance"); //TRAIGO SECCION BALANCE
@@ -37,7 +36,9 @@ const categorias = document.getElementById("seccion-categorias"); //TRAIGO SECCI
 const reportes = document.getElementById("seccion-reportes"); //TRAIGO SECCION REPORTES
 const seccionOperacion = document.getElementById("seccion-operacion"); //TRAIGO FORMULARIO OPERACIONES
 const filtros = document.getElementById("filtros");
-const seccionEditarOperacion = document.getElementById('seccion-editar-operacion')
+const seccionEditarOperacion = document.getElementById(
+  "seccion-editar-operacion"
+);
 
 btnBalance.addEventListener("click", () => {
   balance.classList.remove("oculto");
@@ -213,7 +214,7 @@ btnAgregar.addEventListener("click", () => {
   inputTipo.value = "";
   selectCategoriaOperacion.value = "Servicios";
   inputTipo.value = "ganancia";
-  inputFecha.value = new Date(); 
+  inputFecha.value = new Date();
   mostrarOperaciones(operaciones);
 
   localStorage.setItem("operaciones", JSON.stringify(operaciones));
@@ -255,7 +256,8 @@ const pintarOperaciones = (arr) => {
 
   const eliminarBtn = document.querySelectorAll(".eliminar-btn");
   const editarBtn = document.querySelectorAll(".editar-btn");
-  eliminarBtn.forEach(btn => {
+  
+  eliminarBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const eliminar = operaciones.filter(
         (operacion) => operacion.id !== e.target.dataset.id
@@ -267,46 +269,50 @@ const pintarOperaciones = (arr) => {
     });
   });
 
-  editarBtn.forEach(btn => {
-    btn.addEventListener('click', e => {
-      const editar = operaciones.filter((operacion) => operacion.id === e.target.dataset.id)
-      editarBtnOperacion(editar)
-      btnEditarOperacion.addEventListener('click', () => {
-        // console.log('btn editar') al apretar editar pintar la operacion con los cambios, actualizar nuevos objetos, como el eliminar que borra las operaciones
+  editarBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const editar = operaciones.filter(
+        (operacion) => operacion.id === e.target.dataset.id
+      );
+      editarBtnOperacion(editar);
+      btnEditarOperacion.addEventListener("click", () => {
+        // console.log('btn editar') // guardar cambios, y pintarlos en la operacion, actualizar nuevos objetos, como el eliminar que borra las operaciones
+
+      });
+      btnCancelarOperacion.addEventListener('click', () => {
+        seccionEditarOperacion.classList.add("oculto");      
+        balance.classList.remove("oculto");
       })
-      
-    })
-  }
-    )
+    });
+  });
 };
 
 //BTN EDITAR OPERACIONES
 
-const editarBtnOperacion = arr => {
-  const {descripcion, monto, tipo, categoria, fecha} = arr[0]
-  balance.classList.add("oculto")
-  seccionEditarOperacion.classList.remove('oculto')
-  descripcionEditar.value = descripcion
-  montoEditar.value = monto
-  tipoEditar.value = tipo
-  categoriaEditar.value = categoria
+const editarBtnOperacion = (arr) => {
+  const { descripcion, monto, tipo, categorias, fecha } = arr[0];
+  balance.classList.add("oculto");
+  seccionEditarOperacion.classList.remove("oculto");
+  descripcionEditar.value = descripcion;
+  montoEditar.value = monto;
+  tipoEditar.value = tipo;
+  categoriaEditar.value = categorias;
   // fechaEditar.valueAsDate = fecha
-  // btnEditarOperacion.value = 
-}
+};
 
 //INICIALIZAR
 const inicializar = () => {
-  const inputsFecha = document.querySelectorAll('input[type="date"]')
-  inputsFecha.forEach(input => {
-    input.valueAsDate = new Date()
-  })
+  const inputsFecha = document.querySelectorAll('input[type="date"]');
+  inputsFecha.forEach((input) => {
+    input.valueAsDate = new Date();
+  });
   //AGREGAR LAS FUNCIONES QUE ESTAN SUELTAS PARA ACOMODAR EL CODIGO
   pintarOperaciones(operaciones);
-// mostrarOperaciones(operaciones);
+  // mostrarOperaciones(operaciones);
   // alterfy.success('Operacion Eliminada') //lanza un alerta que avise si estan ok las acciones que va realizando el usuario
-}
+};
 
-window.onload = inicializar()
+window.onload = inicializar();
 const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
 
 //TIPO, SELECT todos, gastos y ganacias
