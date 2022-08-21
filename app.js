@@ -7,7 +7,7 @@ const btnNuevaOperacion = document.getElementById("btn-nueva-operacion");
 const btnOcultarFiltros = document.getElementById("btn-ocultar-filtros");
 const btnMostrarFiltros = document.getElementById("btn-mostrar-filtros");
 const btnAgregar = document.getElementById("agregar-btn");
-const editarOperacion = document.getElementById("editarOperacion");
+// const editarOperacion = document.getElementById("editarOperacion");
 const eliminarOperacion = document.getElementById("eliminarOperacion");
 const btnAgregarCategoria = document.getElementById("btn-agregar-categoria");
 
@@ -21,12 +21,23 @@ const selectCategoriaOperacion = document.getElementById(
 const inputFecha = document.getElementById("fecha-input");
 const acciones = document.getElementById("acciones");
 
+//editar operacion
+const descripcionEditar = document.getElementById('descripcion-editar')
+const montoEditar = document.getElementById('monto-editar')
+const tipoEditar = document.getElementById('tipo-editar')
+const categoriaEditar = document.getElementById('categoria-editar')
+const fechaEditar = document.getElementById('fecha-editar') 
+const btnEditarOperacion = document.getElementById('btn-editar-operacion')
+const btnCancelarOperacion = document.getElementById('btn-cancelar-operacion')
+
+
 //SECCIONES//
 const balance = document.getElementById("seccion-balance"); //TRAIGO SECCION BALANCE
 const categorias = document.getElementById("seccion-categorias"); //TRAIGO SECCION CATEGORIAS
 const reportes = document.getElementById("seccion-reportes"); //TRAIGO SECCION REPORTES
 const seccionOperacion = document.getElementById("seccion-operacion"); //TRAIGO FORMULARIO OPERACIONES
 const filtros = document.getElementById("filtros");
+const seccionEditarOperacion = document.getElementById('seccion-editar-operacion')
 
 btnBalance.addEventListener("click", () => {
   balance.classList.remove("oculto");
@@ -240,10 +251,11 @@ const pintarOperaciones = (arr) => {
     document.getElementById("operaciones").innerHTML = str;
   });
 
-  //BTN ELIMINAR OPERACIONES
+  //BTNS ELIMINAR/EDITAR OPERACIONES
 
   const eliminarBtn = document.querySelectorAll(".eliminar-btn");
-  eliminarBtn.forEach((btn) => {
+  const editarBtn = document.querySelectorAll(".editar-btn");
+  eliminarBtn.forEach(btn => {
     btn.addEventListener("click", (e) => {
       const eliminar = operaciones.filter(
         (operacion) => operacion.id !== e.target.dataset.id
@@ -254,23 +266,47 @@ const pintarOperaciones = (arr) => {
       mostrarOperaciones(operaciones); //debe mostrar la imagen del inicio!!!!!!!!!
     });
   });
+
+  editarBtn.forEach(btn => {
+    btn.addEventListener('click', e => {
+      const editar = operaciones.filter((operacion) => operacion.id === e.target.dataset.id)
+      editarBtnOperacion(editar)
+      btnEditarOperacion.addEventListener('click', () => {
+        // console.log('btn editar') al apretar editar pintar la operacion con los cambios, actualizar nuevos objetos, como el eliminar que borra las operaciones
+      })
+      
+    })
+  }
+    )
 };
 
+//BTN EDITAR OPERACIONES
+
+const editarBtnOperacion = arr => {
+  const {descripcion, monto, tipo, categoria, fecha} = arr[0]
+  balance.classList.add("oculto")
+  seccionEditarOperacion.classList.remove('oculto')
+  descripcionEditar.value = descripcion
+  montoEditar.value = monto
+  tipoEditar.value = tipo
+  categoriaEditar.value = categoria
+  // fechaEditar.valueAsDate = fecha
+  // btnEditarOperacion.value = 
+}
+
+//INICIALIZAR
 const inicializar = () => {
   const inputsFecha = document.querySelectorAll('input[type="date"]')
   inputsFecha.forEach(input => {
     input.valueAsDate = new Date()
   })
-  
+  //AGREGAR LAS FUNCIONES QUE ESTAN SUELTAS PARA ACOMODAR EL CODIGO
+  pintarOperaciones(operaciones);
+// mostrarOperaciones(operaciones);
+  // alterfy.success('Operacion Eliminada') //lanza un alerta que avise si estan ok las acciones que va realizando el usuario
 }
 
 window.onload = inicializar()
-
-pintarOperaciones(operaciones);
-// mostrarOperaciones(operaciones);
-
-//BTN EDITAR OPERACIONES
-
 const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
 
 //TIPO, SELECT todos, gastos y ganacias
