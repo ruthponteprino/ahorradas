@@ -333,7 +333,7 @@ selectTipo.addEventListener("change", (e) => {
   const tipoGanacias = [];
 });
 
-//tipo
+//FILTRO tipo
 
 const selectTipoFiltros = document.getElementById("selectTipoFiltros");
 
@@ -343,9 +343,10 @@ selectTipoFiltros.addEventListener("change", (e) => {
     const porTipo = operaciones.filter(
       (operaciones) => operaciones.tipo === e.target.value
     );
-    console.log(porTipo);
+    localStorage.setItem('operaciones', JSON.stringify(porTipo))
+    pintarOperaciones(porTipo);
   } else {
-    console.log(operaciones);
+    pintarOperaciones(operaciones);
   }
 });
 
@@ -359,11 +360,12 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
   console.log(e.target.value);
   if (e.target.value !== "todas") {
     const porCategoria = operaciones.filter(
-      (operaciones) => operaciones.categoria === e.target.value
+      (operaciones) => operaciones.categorias === e.target.value
     );
-    console.log(porCategoria);
+    localStorage.setItem('operaciones', JSON.stringify(porCategoria))
+    pintarOperaciones(porCategoria);
   } else {
-    console.log(operaciones);
+    pintarOperaciones(operaciones);
   }
   //los values tiene que estar escritos igual
 });
