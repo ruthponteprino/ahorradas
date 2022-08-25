@@ -203,8 +203,11 @@ btnAgregar.addEventListener("click", () => {
     categorias: selectCategoriaOperacion.value,
     // categorias: selectCategoriaOperacion.value,
     fecha: inputFecha.value,
+    
     // acciones: acciones.value
   };
+
+  console.log(operacion.fecha)
   // console.log(operacion)
   operaciones.push(operacion);
   seccionOperacion.classList.add("oculto");
@@ -214,7 +217,7 @@ btnAgregar.addEventListener("click", () => {
   inputTipo.value = "";
   selectCategoriaOperacion.value = "Servicios";
   inputTipo.value = "ganancia";
-  inputFecha.value = new Date();
+  inputFecha.valueAsDate = new Date();
   mostrarOperaciones(operaciones);
 
   localStorage.setItem("operaciones", JSON.stringify(operaciones));
@@ -227,6 +230,8 @@ const pintarOperaciones = (arr) => {
   let str = "";
   arr.forEach((operacion) => {
     const { id, descripcion, categorias, fecha, monto } = operacion;
+
+    console.log(fecha)
     str =
       str +
       ` <div class="row align-items-start my-2" >
@@ -284,7 +289,7 @@ const pintarOperaciones = (arr) => {
         copiaEditar.monto = montoEditar.value;
         copiaEditar.tipo = tipoEditar.value;
         copiaEditar.categorias = categoriaEditar.value;
-        copiaEditar.fecha = fechaEditar.valueAsDate
+        copiaEditar.fecha = fechaEditar.value
         const operacionEditada = operaciones.map((operacion) => operacion.id === copiaEditar.id ? copiaEditar : operacion)
         localStorage.setItem('operaciones', JSON.stringify(operacionEditada))
         operaciones = JSON.parse(localStorage.getItem('operaciones'))
