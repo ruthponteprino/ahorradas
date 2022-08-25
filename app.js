@@ -254,7 +254,7 @@ const pintarOperaciones = (arr) => {
 
   //BTNS ELIMINAR/EDITAR OPERACIONES
 
-  console.log("prueba222");
+  console.log("prueba224");
 
   const eliminarBtn = document.querySelectorAll(".eliminar-btn");
   const editarBtn = document.querySelectorAll(".editar-btn");
