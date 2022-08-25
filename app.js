@@ -254,11 +254,11 @@ const pintarOperaciones = (arr) => {
 
   //BTNS ELIMINAR/EDITAR OPERACIONES
 
-  console.log('prueba222')
+  console.log("prueba222");
 
   const eliminarBtn = document.querySelectorAll(".eliminar-btn");
   const editarBtn = document.querySelectorAll(".editar-btn");
-  
+
   eliminarBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const eliminar = operaciones.filter(
@@ -279,12 +279,22 @@ const pintarOperaciones = (arr) => {
       editarBtnOperacion(editar);
       btnEditarOperacion.addEventListener("click", () => {
         // console.log('btn editar') // guardar cambios, y pintarlos en la operacion, actualizar nuevos objetos, como el eliminar que borra las operaciones
+        const copiaEditar = { ...editar[0] };
+        copiaEditar.descripcion = descripcionEditar.value;
+        copiaEditar.monto = montoEditar.value;
+        copiaEditar.tipo = tipoEditar.value;
+        copiaEditar.categorias = categoriaEditar.value;
+        copiaEditar.fecha = fechaEditar.valueAsDate
+        const operacionEditada = operaciones.map((operacion) => operacion.id === copiaEditar.id ? copiaEditar : operacion)
+        localStorage.setItem('operaciones', JSON.stringify(operacionEditada))
+        operaciones = JSON.parse(localStorage.getItem('operaciones'))
+        pintarOperaciones(operaciones)
 
       });
-      btnCancelarOperacion.addEventListener('click', () => {
-        seccionEditarOperacion.classList.add("oculto");      
+      btnCancelarOperacion.addEventListener("click", () => {
+        seccionEditarOperacion.classList.add("oculto");
         balance.classList.remove("oculto");
-      })
+      });
     });
   });
 };
@@ -292,7 +302,7 @@ const pintarOperaciones = (arr) => {
 //BTN EDITAR OPERACIONES
 
 const editarBtnOperacion = (arr) => {
-  const { descripcion, monto, tipo, categorias, fecha } = arr[0];
+  const { descripcion, monto, tipo, categorias} = arr[0];
   balance.classList.add("oculto");
   seccionEditarOperacion.classList.remove("oculto");
   descripcionEditar.value = descripcion;
@@ -343,7 +353,7 @@ selectTipoFiltros.addEventListener("change", (e) => {
     const porTipo = operaciones.filter(
       (operaciones) => operaciones.tipo === e.target.value
     );
-    localStorage.setItem('operaciones', JSON.stringify(porTipo))
+    localStorage.setItem("operaciones", JSON.stringify(porTipo));
     pintarOperaciones(porTipo);
   } else {
     pintarOperaciones(operaciones);
@@ -362,15 +372,13 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
     const porCategoria = operaciones.filter(
       (operaciones) => operaciones.categorias === e.target.value
     );
-    localStorage.setItem('operaciones', JSON.stringify(porCategoria))
+    localStorage.setItem("operaciones", JSON.stringify(porCategoria));
     pintarOperaciones(porCategoria);
   } else {
     pintarOperaciones(operaciones);
   }
   //los values tiene que estar escritos igual
 });
-
-//cómo hago para que los resultados de los filtros se muestren/impriman en operaciones, con un filter?
 
 //terminar de hacer filtros para fecha y ordenar por
 
