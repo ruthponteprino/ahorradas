@@ -229,7 +229,7 @@ const pintarOperaciones = (arr) => {
   document.getElementById("operaciones").innerHTML = ""; //limpiamos operaciones y muestra img del inicio
   let str = "";
   arr.forEach((operacion) => {
-    const { id, descripcion, categorias, fecha, monto } = operacion;
+    const { id, descripcion, categorias, fecha, monto, tipo} = operacion;
 
     console.log(fecha)
     str =
