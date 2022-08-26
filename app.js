@@ -201,14 +201,9 @@ btnAgregar.addEventListener("click", () => {
     monto: inputMonto.value,
     tipo: inputTipo.value,
     categorias: selectCategoriaOperacion.value,
-    // categorias: selectCategoriaOperacion.value,
     fecha: inputFecha.value,
-    
-    // acciones: acciones.value
   };
 
-  console.log(operacion.fecha)
-  // console.log(operacion)
   operaciones.push(operacion);
   seccionOperacion.classList.add("oculto");
   balance.classList.remove("oculto");
@@ -229,9 +224,9 @@ const pintarOperaciones = (arr) => {
   document.getElementById("operaciones").innerHTML = ""; //limpiamos operaciones y muestra img del inicio
   let str = "";
   arr.forEach((operacion) => {
-    const { id, descripcion, categorias, fecha, monto } = operacion;
+    const { id, descripcion, categorias, fecha, monto, tipo } = operacion;
 
-    console.log(fecha)
+    console.log(fecha);
     str =
       str +
       ` <div class="row align-items-start my-2" >
@@ -289,12 +284,13 @@ const pintarOperaciones = (arr) => {
         copiaEditar.monto = montoEditar.value;
         copiaEditar.tipo = tipoEditar.value;
         copiaEditar.categorias = categoriaEditar.value;
-        copiaEditar.fecha = fechaEditar.value
-        const operacionEditada = operaciones.map((operacion) => operacion.id === copiaEditar.id ? copiaEditar : operacion)
-        localStorage.setItem('operaciones', JSON.stringify(operacionEditada))
-        operaciones = JSON.parse(localStorage.getItem('operaciones'))
-        pintarOperaciones(operaciones)
-
+        copiaEditar.fecha = fechaEditar.value;
+        const operacionEditada = operaciones.map((operacion) =>
+          operacion.id === copiaEditar.id ? copiaEditar : operacion
+        );
+        localStorage.setItem("operaciones", JSON.stringify(operacionEditada));
+        operaciones = JSON.parse(localStorage.getItem("operaciones"));
+        pintarOperaciones(operaciones);
       });
       btnCancelarOperacion.addEventListener("click", () => {
         seccionEditarOperacion.classList.add("oculto");
@@ -307,14 +303,14 @@ const pintarOperaciones = (arr) => {
 //BTN EDITAR OPERACIONES
 
 const editarBtnOperacion = (arr) => {
-  const { descripcion, monto, tipo, categorias} = arr[0];
+  const { descripcion, monto, tipo, categorias, fecha } = arr[0];
   balance.classList.add("oculto");
   seccionEditarOperacion.classList.remove("oculto");
   descripcionEditar.value = descripcion;
   montoEditar.value = monto;
   tipoEditar.value = tipo;
   categoriaEditar.value = categorias;
-  // fechaEditar.valueAsDate = fecha
+  fechaEditar.value = fecha;
 };
 
 //INICIALIZAR
@@ -332,6 +328,54 @@ const inicializar = () => {
 window.onload = inicializar();
 const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
 
+////////////SECCION BALANCE//////////
+////////////FILTRAR TOTAL DE GANANCIAS//////////
+
+const totalGananciasBalance = (arr) => {
+  let resultadoGanancias = arr
+    .filter((operacion) => operacion.tipo === "ganancia")
+    .reduce((prev, current) => prev + Number(current.monto), 0);
+  return resultadoGanancias;
+};
+
+////////////FILTRAR TOTAL DE GASTOS//////////
+
+const totalGastosBalance = (arr) => {
+  let resultadoGastos = arr
+    .filter((operacion) => operacion.tipo === "gasto")
+    .reduce((prev, current) => prev + Number(current.monto), 0);
+  return resultadoGastos;
+};
+
+///////////IMPRIMIR RESULTADOS EN SECCION BALANCE//////////////////
+const pintarEnBalance = (arr) => {
+  const totalBalance = totalGananciasBalance(arr) - totalGastosBalance(arr);
+
+  let str = `
+            <tbody>
+              <tr>
+                <td>Ganancias</td>
+                <td class="text-success">+$${totalGananciasBalance(arr)}</td>
+              </tr>
+              <tr>
+                <td>Gastos</td>
+                <td class="text-danger">+$${totalGastosBalance(arr)}</td>
+              </tr>
+              <tr>
+                <th>Total</th>
+                <th>$${Math.abs(totalBalance)}</th>
+              </tr>
+            </tbody>`;
+
+  document.getElementById('balance').innerHTML = str
+};
+
+pintarEnBalance(operaciones)
+
+//!!!!!!!!!!!!!!!!!NO FUNCIONA QUE CUANDO ELIMINO O EDITO OPERACIONES NO SE REFLEJAN EN LA SECCION BALANCE//
+//SI REFRESCO FUNCIONA, VER COMO HACE QUE SE REFLEJE EN SECCION BALANCES SIN REFRESCAR
+
+/////////////////FILTROS///////////////////
 //TIPO, SELECT todos, gastos y ganacias
 
 const selectTipo = document.getElementById("tipo");
