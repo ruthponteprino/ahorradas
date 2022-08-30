@@ -241,8 +241,8 @@ const totalGastosBalance = (arr) => {
 ///////////IMPRIMIR RESULTADOS EN SECCION BALANCE//////////////////
 const pintarEnBalance = (arr) => {
   const totalBalance = totalGananciasBalance(arr) - totalGastosBalance(arr);
-//let str = ''
-//for (let)
+  //let str = ''
+  //for (let)
   let str = `
             <tbody>
               <tr>
@@ -269,9 +269,7 @@ const pintarOperaciones = (arr) => {
     const { id, descripcion, categorias, fecha, monto, tipo } = operacion;
 
     console.log(fecha);
-    str =
-      str +=
-      ` <div class="row align-items-start my-2" >
+    str = str += ` <div class="row align-items-start my-2" >
           <div class="col">
             ${descripcion}
           </div>
@@ -292,28 +290,27 @@ const pintarOperaciones = (arr) => {
       </div>
       `;
     document.getElementById("operaciones").innerHTML = str;
-  
 
-  //BTNS ELIMINAR/EDITAR OPERACIONES
+    //BTNS ELIMINAR/EDITAR OPERACIONES
 
-  // console.log("prueba224");
+    // console.log("prueba224");
 
-  const eliminarBtn = document.querySelectorAll(".eliminar-btn");
-  
-  eliminarBtn.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const eliminar = operaciones.filter(
-        (operacion) => operacion.id !== e.target.dataset.id
-      ); //omitimos traer el que estamos eliminando
-      localStorage.setItem("operaciones", JSON.stringify(eliminar));
-      console.log(eliminar)
-      operaciones = JSON.parse(localStorage.getItem("operaciones"));
-      pintarOperaciones(operaciones);
-      mostrarOperaciones(operaciones); //debe mostrar la imagen del inicio!!!!!!!!!
+    const eliminarBtn = document.querySelectorAll(".eliminar-btn");
+
+    eliminarBtn.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const eliminar = operaciones.filter(
+          (operacion) => operacion.id !== e.target.dataset.id
+        ); //omitimos traer el que estamos eliminando
+        localStorage.setItem("operaciones", JSON.stringify(eliminar));
+        console.log(eliminar);
+        operaciones = JSON.parse(localStorage.getItem("operaciones"));
+        pintarOperaciones(operaciones);
+        mostrarOperaciones(operaciones); //debe mostrar la imagen del inicio!!!!!!!!!
+      });
     });
   });
-});
-  //PINTAR OPERACIONES Y ELIMINAR DEBEN HACER LA MISMA FUNCION QUE ACTUALIZAR/PINTAR EL BALANCE SIN 'REFRESCAR', 
+  //PINTAR OPERACIONES Y ELIMINAR DEBEN HACER LA MISMA FUNCION QUE ACTUALIZAR/PINTAR EL BALANCE SIN 'REFRESCAR',
   const editarBtn = document.querySelectorAll(".editar-btn");
 
   editarBtn.forEach((btn) => {
@@ -343,7 +340,7 @@ const pintarOperaciones = (arr) => {
       });
     });
   });
-  pintarEnBalance(operaciones)
+  pintarEnBalance(operaciones);
 };
 
 //BTN EDITAR OPERACIONES
@@ -428,40 +425,67 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
   //los values tiene que estar escritos igual
 });
 
-
-const ordenarPor = document.getElementById('ordenar-por')
-
-ordenarPor.addEventListener('change', () => {
-  if(ordenarPor.value === 'mayor-monto'){
-    const resultadoMonto = operaciones.sort((a, b) => {
-      if(Number(a.monto) > Number(b.monto)){
-        return -1
-      }
-      if(Number(a.monto) < Number(b.monto))
-      return 1
-    })   
-    console.log(resultadoMonto)
-  
-  }
-  })
-
 //FILTRO POR FECHA (DESDE TAL DIA EN ADELANTE)
 
 //ORDENAR POR
 //MAS RECIENTE
 
-
 //MENOS RECIENTE
 
-//MAYOR MONTO
+const ordenarPor = document.getElementById("ordenar-por");
 
-//MENOR MONTO
+ordenarPor.addEventListener("change", () => {
+  //MAYOR MONTO
+  if (ordenarPor.value === "mayor-monto") {
+    const resultadoMonto = operaciones.sort((a, b) => {
+      if (Number(a.monto) > Number(b.monto)) {
+        return -1;
+      }
+      if (Number(a.monto) < Number(b.monto)) return 1;
+    });
+    console.log(resultadoMonto);
+  }
+  pintarOperaciones(operaciones);
+  //MENOR MONTO
+  if (ordenarPor.value === "menor-monto") {
+    const resultadoMonto = operaciones.sort((a, b) => {
+      if (Number(a.monto) < Number(b.monto)) {
+        return -1;
+      }
+      if (Number(a.monto) > Number(b.monto)) return 1;
+    });
+    console.log(resultadoMonto);
+  }
+  pintarOperaciones(operaciones);
 
-//A/Z
+  //A/Z
+
+  if (ordenarPor.value === "a-z") {
+    const resultado = operaciones.sort((a, b) => {
+      if (a.descripcion.toLowerCase() < b.descripcion.toLowerCase()) {
+        return -1;
+      }
+      if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) return 1;
+    });
+    console.log(resultado);
+  }
+  pintarOperaciones(operaciones);
+
+  if (ordenarPor.value === "z-a") {
+    const resultado = operaciones.sort((a, b) => {
+      if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) {
+        return -1;
+      }
+      if (a.descripcion.toLowerCase() < b.descripcion.toLowerCase()) return 1;
+    });
+    console.log(resultado);
+  }
+  pintarOperaciones(operaciones);
+
+  //////////////////////////////////////
+});
 
 //Z/A
-
-
 
 //REPORTES
 
