@@ -222,6 +222,7 @@ btnAgregar.addEventListener("click", () => {
 
 ////////////SECCION BALANCE//////////
 ////////////FILTRAR TOTAL DE GANANCIAS//////////
+
 const totalGananciasBalance = (arr) => {
   let resultadoGanancias = arr
     .filter((operacion) => operacion.tipo === "ganancia")
@@ -427,7 +428,44 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
   //los values tiene que estar escritos igual
 });
 
-//terminar de hacer filtros para fecha y ordenar por
+
+const ordenarPor = document.getElementById('ordenar-por')
+
+ordenarPor.addEventListener('change', () => {
+  if(ordenarPor.value === 'mayor-monto'){
+    const resultadoMonto = operaciones.sort((a, b) => {
+      if(Number(a.monto) > Number(b.monto)){
+        return -1
+      }
+      if(Number(a.monto) < Number(b.monto))
+      return 1
+    })   
+    console.log(resultadoMonto)
+  
+  }
+  })
+
+//FILTRO POR FECHA (DESDE TAL DIA EN ADELANTE)
+
+//ORDENAR POR
+//MAS RECIENTE
+
+
+//MENOS RECIENTE
+
+//MAYOR MONTO
+
+//MENOR MONTO
+
+//A/Z
+
+//Z/A
+
+
+
+//REPORTES
+
+//mostrar contenedor-reportes ocultar por defecto, mostrar solo cuando hay operaciones
 
 //REPORTES
 
