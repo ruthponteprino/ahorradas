@@ -220,6 +220,47 @@ btnAgregar.addEventListener("click", () => {
   pintarOperaciones(operaciones);
 });
 
+////////////SECCION BALANCE//////////
+////////////FILTRAR TOTAL DE GANANCIAS//////////
+const totalGananciasBalance = (arr) => {
+  let resultadoGanancias = arr
+    .filter((operacion) => operacion.tipo === "ganancia")
+    .reduce((prev, current) => prev + Number(current.monto), 0);
+  return resultadoGanancias;
+};
+
+////////////FILTRAR TOTAL DE GASTOS//////////
+const totalGastosBalance = (arr) => {
+  let resultadoGastos = arr
+    .filter((operacion) => operacion.tipo === "gasto")
+    .reduce((prev, current) => prev + Number(current.monto), 0);
+  return resultadoGastos;
+};
+
+///////////IMPRIMIR RESULTADOS EN SECCION BALANCE//////////////////
+const pintarEnBalance = (arr) => {
+  const totalBalance = totalGananciasBalance(arr) - totalGastosBalance(arr);
+//let str = ''
+//for (let)
+  let str = `
+            <tbody>
+              <tr>
+                <td>Ganancias</td>
+                <td class="text-success">+$${totalGananciasBalance(arr)}</td>
+              </tr>
+              <tr>
+                <td>Gastos</td>
+                <td class="text-danger">+$${totalGastosBalance(arr)}</td>
+              </tr>
+              <tr>
+                <th>Total</th>
+                <th>$${Math.abs(totalBalance)}</th>
+              </tr>
+            </tbody>`;
+
+  document.getElementById("balance").innerHTML = str;
+};
+
 const pintarOperaciones = (arr) => {
   document.getElementById("operaciones").innerHTML = ""; //limpiamos operaciones y muestra img del inicio
   let str = "";
@@ -228,7 +269,7 @@ const pintarOperaciones = (arr) => {
 
     console.log(fecha);
     str =
-      str +
+      str +=
       ` <div class="row align-items-start my-2" >
           <div class="col">
             ${descripcion}
@@ -250,26 +291,29 @@ const pintarOperaciones = (arr) => {
       </div>
       `;
     document.getElementById("operaciones").innerHTML = str;
-  });
+  
 
   //BTNS ELIMINAR/EDITAR OPERACIONES
 
-  console.log("prueba224");
+  // console.log("prueba224");
 
   const eliminarBtn = document.querySelectorAll(".eliminar-btn");
-  const editarBtn = document.querySelectorAll(".editar-btn");
-
+  
   eliminarBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const eliminar = operaciones.filter(
         (operacion) => operacion.id !== e.target.dataset.id
       ); //omitimos traer el que estamos eliminando
       localStorage.setItem("operaciones", JSON.stringify(eliminar));
+      console.log(eliminar)
       operaciones = JSON.parse(localStorage.getItem("operaciones"));
       pintarOperaciones(operaciones);
       mostrarOperaciones(operaciones); //debe mostrar la imagen del inicio!!!!!!!!!
     });
   });
+});
+  //PINTAR OPERACIONES Y ELIMINAR DEBEN HACER LA MISMA FUNCION QUE ACTUALIZAR/PINTAR EL BALANCE SIN 'REFRESCAR', 
+  const editarBtn = document.querySelectorAll(".editar-btn");
 
   editarBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -298,6 +342,7 @@ const pintarOperaciones = (arr) => {
       });
     });
   });
+  pintarEnBalance(operaciones)
 };
 
 //BTN EDITAR OPERACIONES
@@ -327,53 +372,6 @@ const inicializar = () => {
 
 window.onload = inicializar();
 const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
-
-////////////SECCION BALANCE//////////
-////////////FILTRAR TOTAL DE GANANCIAS//////////
-
-const totalGananciasBalance = (arr) => {
-  let resultadoGanancias = arr
-    .filter((operacion) => operacion.tipo === "ganancia")
-    .reduce((prev, current) => prev + Number(current.monto), 0);
-  return resultadoGanancias;
-};
-
-////////////FILTRAR TOTAL DE GASTOS//////////
-
-const totalGastosBalance = (arr) => {
-  let resultadoGastos = arr
-    .filter((operacion) => operacion.tipo === "gasto")
-    .reduce((prev, current) => prev + Number(current.monto), 0);
-  return resultadoGastos;
-};
-
-///////////IMPRIMIR RESULTADOS EN SECCION BALANCE//////////////////
-const pintarEnBalance = (arr) => {
-  const totalBalance = totalGananciasBalance(arr) - totalGastosBalance(arr);
-
-  let str = `
-            <tbody>
-              <tr>
-                <td>Ganancias</td>
-                <td class="text-success">+$${totalGananciasBalance(arr)}</td>
-              </tr>
-              <tr>
-                <td>Gastos</td>
-                <td class="text-danger">+$${totalGastosBalance(arr)}</td>
-              </tr>
-              <tr>
-                <th>Total</th>
-                <th>$${Math.abs(totalBalance)}</th>
-              </tr>
-            </tbody>`;
-
-  document.getElementById('balance').innerHTML = str
-};
-
-pintarEnBalance(operaciones)
-
-//!!!!!!!!!!!!!!!!!NO FUNCIONA QUE CUANDO ELIMINO O EDITO OPERACIONES NO SE REFLEJAN EN LA SECCION BALANCE//
-//SI REFRESCO FUNCIONA, VER COMO HACE QUE SE REFLEJE EN SECCION BALANCES SIN REFRESCAR
 
 /////////////////FILTROS///////////////////
 //TIPO, SELECT todos, gastos y ganacias
