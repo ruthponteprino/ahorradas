@@ -124,6 +124,8 @@ const totalPorMes = (arr) => {
 // };
 // mostrarReportes(operaciones);
 
+console.log('prueba 31-8')
+
 btnNuevaOperacion.addEventListener("click", () => {
   seccionOperacion.classList.remove("oculto");
   balance.classList.add("oculto");
