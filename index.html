@@ -107,7 +107,7 @@
                   </select>
                 </div>
                 <div class="my-1">
-                  <label for="categoria" class="form-label">Categoria</label>
+                  <label for="selectCategoriaFiltros" class="form-label">Categoria</label>
                   <select
                     id="selectCategoriaFiltros"
                     class="filtro-categorias select-categorias form-select"
@@ -116,11 +116,11 @@
                   </select>
                 </div>
                 <div>
-                  <label for="desde" class="form-label">Desde</label>
+                  <label for="por-fecha" class="form-label">Desde</label>
                   <input
                     type="date"
                     class="form-control"
-                    id="fecha"
+                    id="por-fecha"
                     aria-describedby="desde"
                   />
                 </div>
@@ -394,12 +394,12 @@
               alt="graficos"
               style="width: 20em"
             />
-            <div id="operaciones-insuficientes">
+            <div id="operaciones-insuficientes" class="oculto">
               <h4>Operaciones insuficientes</h4>
               <p>Prueba agregando más operaciones</p>
               <!-- mostara reportes de operaciones-->
             </div>
-            <div id="contenedor-reportes">
+            <div id="contenedor-reportes" class="oculto">
               <h3>Resumen</h3>
               <div>Categoría con mayor ganancia</div>
               <!--TRAER NOMBRE DE CATEGORIA Y MONTO-->

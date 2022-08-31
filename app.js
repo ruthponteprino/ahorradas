@@ -34,6 +34,11 @@ const btnCancelarOperacion = document.getElementById("btn-cancelar-operacion");
 const balance = document.getElementById("seccion-balance"); //TRAIGO SECCION BALANCE
 const categorias = document.getElementById("seccion-categorias"); //TRAIGO SECCION CATEGORIAS
 const reportes = document.getElementById("seccion-reportes"); //TRAIGO SECCION REPORTES
+const contenedorReportes = document.getElementById("contenedor-reportes");
+const operacionesInsuficientes = document.getElementById(
+  "operaciones-insuficientes"
+);
+
 const seccionOperacion = document.getElementById("seccion-operacion"); //TRAIGO FORMULARIO OPERACIONES
 const filtros = document.getElementById("filtros");
 const seccionEditarOperacion = document.getElementById(
@@ -67,14 +72,64 @@ btnReportes.addEventListener("click", () => {
   balance.classList.add("oculto");
   categorias.classList.add("oculto");
   reportes.classList.remove("oculto");
+  if (!operaciones.length) {
+    operacionesInsuficientes.classList.remove("oculto");
+    contenedorReportes.classList.add("oculto");
+  } else {
+    operacionesInsuficientes.classList.add("oculto");
+    contenedorReportes.classList.remove("oculto");
+  }
+  totalPorMes(operaciones); //hago que se active cuando el usuario le de click al btn reportes
 });
+
+const totalPorMes = (arr) => {
+  // console.log(arr)
+  //creo un arr con meses
+  //devolver los meses donde hay operaciones y si se repiten los meses dejar solo uno, una fila por mes. con new set no se repiten los valores
+  const arrMesUnico = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
+  ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
+  console.log(arrMesUnico)
+
+  for (let i = 0; i < arrMesUnico.length; i++) {
+    const operacionesMesUnico = arr.filter(
+      (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
+    ); //entremos a todos los meses de cada una de las operaciones
+    const porGanancia = operacionesMesUnico
+      .filter((operacion) => operacion.tipo === "ganancia")
+      .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
+    const porGasto = operacionesMesUnico
+      .filter((operacion) => operacion.tipo === "gasto")
+      .reduce((count, current) => count + Number(current.monto), 0);
+    console.log(`mes ${arrMesUnico[i]} ganancia ${porGanancia}`)
+    console.log(`mes ${arrMesUnico[i]} gasto ${porGasto}`)
+
+    // const balance = porGanancia - porGasto
+    // console.log(balance)
+    
+  }
+
+};
+
+//INTENTO ANTERIOR
+// const mostrarReportes = (arr) => {
+//   if (!arr.length) {
+//     //si el arr esta vacio hace esto...
+//     contenedorReportes.classList.add("oculto"); //'mostrar'
+//   } else {
+//     //sino muestra esto
+//     contenedorReportes.classList.add("mostrar"); ////!!!funciona si le meto un dato al arr operaciones manualmente, pero no si lo agrego desde agregar operaciones, es como que no me detecta si hay o no operaciones
+//     operacionesInsuficientes.classList.add("oculto");
+//   }
+// };
+// mostrarReportes(operaciones);
 
 btnNuevaOperacion.addEventListener("click", () => {
   seccionOperacion.classList.remove("oculto");
   balance.classList.add("oculto");
   categorias.classList.add("oculto");
   reportes.classList.add("oculto");
-});
+}); //!!!!!!!!!!!!!FALTA CUANDO SE ELIMINAN TODAS LA OPERACIONES QUE MUESTRE LA IMAGEN
 
 //FILTROS//
 //OCULTAR Y MOSTRAR FILTROS
@@ -426,6 +481,11 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
 });
 
 //FILTRO POR FECHA (DESDE TAL DIA EN ADELANTE)
+// const ordenarPorFecha = document.getElementById('por-fecha')
+
+// ordenarPorFecha.addEventListener('change', () => {
+//   console.log(ordenarPorFecha)
+// })
 
 //ORDENAR POR
 //MAS RECIENTE
@@ -471,6 +531,8 @@ ordenarPor.addEventListener("change", () => {
   }
   pintarOperaciones(operaciones);
 
+  //Z/A
+
   if (ordenarPor.value === "z-a") {
     const resultado = operaciones.sort((a, b) => {
       if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) {
@@ -485,34 +547,20 @@ ordenarPor.addEventListener("change", () => {
   //////////////////////////////////////
 });
 
-//Z/A
+//REPORTES, EMPEZAR ABAJO HACIA ARRIBA
 
-//REPORTES
+//TOTALES POR MES, debe filtar por mes todas la ganacias - los gastos = balance, filter fecha mes a mes, filter gasto o ganacia . reduce para sacar el total del monto. filter a todas las operaciones, saque los meses, los guarde en un arr los mese que hay operaciones, y con este arr, for, por cada mes hacer un filter y un reduce
 
-//mostrar contenedor-reportes ocultar por defecto, mostrar solo cuando hay operaciones
+//TOTALES POR CATEGORIA, filter a cada categoria, sumar todas las ganacias de cada categoria - gastos = balance. con if, si tiene operaciones, las junta y las suma, sino muestra 0
 
-//REPORTES
+//RESUMEN
 
-//mostrar contenedor-reportes ocultar por defecto, mostrar solo cuando hay operaciones
+//CATERGORIA CON MAYOR GANANCIA
 
-const contenedorReportes = document.getElementById("contenedor-reportes");
-const operacionesInsuficientes = document.getElementById(
-  "operaciones-insuficientes"
-);
+//CATERGORIA CON MAYOR GASTO
 
-//     //si recibe operaciones muestra contenedor-reportes, si no muestra div de operaciones insuficientes.
-//     //VER COMO SE HACE
-// 1-recorrer operaciones y si hay al menos 1 operacion cargada
-//2-si esto se cumple, entonces sacarle la clase oculto y mostrar contenedor-resumen
+//CATERGORIA CON MAYOR BALANCE
 
-const mostrarReportes = (arr) => {
-  if (!arr.length) {
-    //si el arr esta vacio hace esto...
-    contenedorReportes.classList.add("oculto"); //'mostrar'
-  } else {
-    //sino muestra esto
-    contenedorReportes.classList.add("mostrar"); ////!!!funciona si le meto un dato al arr operaciones manualmente, pero no si lo agrego desde agregar operaciones, es como que no me detecta si hay o no operaciones
-    operacionesInsuficientes.classList.add("oculto");
-  }
-};
-mostrarReportes(operaciones);
+//MES CON MAYOR GANANCIA
+
+//MES CON MAYOR GASTO
