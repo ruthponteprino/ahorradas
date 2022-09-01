@@ -34,6 +34,11 @@ const btnCancelarOperacion = document.getElementById("btn-cancelar-operacion");
 const balance = document.getElementById("seccion-balance"); //TRAIGO SECCION BALANCE
 const categorias = document.getElementById("seccion-categorias"); //TRAIGO SECCION CATEGORIAS
 const reportes = document.getElementById("seccion-reportes"); //TRAIGO SECCION REPORTES
+const contenedorReportes = document.getElementById("contenedor-reportes");
+const operacionesInsuficientes = document.getElementById(
+  "operaciones-insuficientes"
+);
+
 const seccionOperacion = document.getElementById("seccion-operacion"); //TRAIGO FORMULARIO OPERACIONES
 const filtros = document.getElementById("filtros");
 const seccionEditarOperacion = document.getElementById(
@@ -63,18 +68,82 @@ btnCategorias.addEventListener("click", () => {
   //console.log(btnCategorias);
 });
 
+//REPORTES
 btnReportes.addEventListener("click", () => {
   balance.classList.add("oculto");
   categorias.classList.add("oculto");
   reportes.classList.remove("oculto");
+  if (!operaciones.length) {
+    operacionesInsuficientes.classList.remove("oculto");
+    contenedorReportes.classList.add("oculto");
+  } else {
+    operacionesInsuficientes.classList.add("oculto");
+    contenedorReportes.classList.remove("oculto");
+  }
+  totalPorMes(operaciones); //hago que se active cuando el usuario le de click al btn reportes
 });
+
+const totalPorMes = (arr) => {
+  // console.log(arr)
+  //creo un arr con meses
+  //devolver los meses donde hay operaciones y si se repiten los meses dejar solo uno, una fila por mes. con new set no se repiten los valores
+  const arrMesUnico = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
+  ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
+  console.log(arrMesUnico);
+
+  const arrAnio = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
+  ].sort();
+  document.getElementById("totales-por-mes").innerHTML = "";
+  let str = "";
+
+  for (let i = 0; i < arrMesUnico.length; i++) {
+    const operacionesMesUnico = arr.filter(
+      (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
+    ); //entremos a todos los meses de cada una de las operaciones
+    const porGanancia = operacionesMesUnico
+      .filter((operacion) => operacion.tipo === "ganancia")
+      .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
+    const porGasto = operacionesMesUnico
+      .filter((operacion) => operacion.tipo === "gasto")
+      .reduce((count, current) => count + Number(current.monto), 0);
+    console.log(`mes ${arrMesUnico[i]}/${arrAnio} ganancia ${porGanancia}`);
+    console.log(`mes ${arrMesUnico[i]}/${arrAnio} gasto ${porGasto}`);
+
+    const balance = porGanancia - porGasto;
+    console.log(balance);
+
+    str += `
+
+    <div class="row align-items-start my-2" >
+          <div class="col">
+          ${arrMesUnico[i]}/${arrAnio}
+          </div>
+          <div class="col">
+            <span class="badge text-bg-primary">${porGanancia}</span>
+          </div>
+          <div class="col">
+            <span class="badge text-bg-primary">${porGasto}</span>
+          </div>
+          <div class="col">
+            <span class="badge text-bg-primary">${balance}</span>
+          </div>
+    </div>
+ 
+    `; //!!!!!!!!!!falta estilar mas lindo
+    document.getElementById("totales-por-mes").innerHTML = str;
+  }
+};
+
+console.log("prueba 1-9");
 
 btnNuevaOperacion.addEventListener("click", () => {
   seccionOperacion.classList.remove("oculto");
   balance.classList.add("oculto");
   categorias.classList.add("oculto");
   reportes.classList.add("oculto");
-});
+}); //!!!!!!!!!!!!!FALTA CUANDO SE ELIMINAN TODAS LA OPERACIONES QUE MUESTRE LA IMAGEN
 
 //FILTROS//
 //OCULTAR Y MOSTRAR FILTROS
@@ -259,6 +328,48 @@ btnAgregar.addEventListener("click", () => {
   pintarOperaciones(operaciones);
 });
 
+////////////SECCION BALANCE//////////
+////////////FILTRAR TOTAL DE GANANCIAS//////////
+
+const totalGananciasBalance = (arr) => {
+  let resultadoGanancias = arr
+    .filter((operacion) => operacion.tipo === "ganancia")
+    .reduce((prev, current) => prev + Number(current.monto), 0);
+  return resultadoGanancias;
+};
+
+////////////FILTRAR TOTAL DE GASTOS//////////
+const totalGastosBalance = (arr) => {
+  let resultadoGastos = arr
+    .filter((operacion) => operacion.tipo === "gasto")
+    .reduce((prev, current) => prev + Number(current.monto), 0);
+  return resultadoGastos;
+};
+
+///////////IMPRIMIR RESULTADOS EN SECCION BALANCE//////////////////
+const pintarEnBalance = (arr) => {
+  const totalBalance = totalGananciasBalance(arr) - totalGastosBalance(arr);
+  //let str = ''
+  //for (let)
+  let str = `
+            <tbody>
+              <tr>
+                <td>Ganancias</td>
+                <td class="text-success">+$${totalGananciasBalance(arr)}</td>
+              </tr>
+              <tr>
+                <td>Gastos</td>
+                <td class="text-danger">+$${totalGastosBalance(arr)}</td>
+              </tr>
+              <tr>
+                <th>Total</th>
+                <th>$${Math.abs(totalBalance)}</th>
+              </tr>
+            </tbody>`;
+
+  document.getElementById("balance").innerHTML = str;
+};
+
 const pintarOperaciones = (arr) => {
   document.getElementById("operaciones").innerHTML = ""; //limpiamos operaciones y muestra img del inicio
   let str = "";
@@ -266,9 +377,7 @@ const pintarOperaciones = (arr) => {
     const { id, descripcion, categorias, fecha, monto, tipo } = operacion;
 
     console.log(fecha);
-    str =
-      str +
-      ` <div class="row align-items-start my-2" >
+    str = str += ` <div class="row align-items-start my-2" >
           <div class="col">
             ${descripcion}
           </div>
@@ -289,25 +398,27 @@ const pintarOperaciones = (arr) => {
       </div>
       `;
     document.getElementById("operaciones").innerHTML = str;
-  });
 
-  //BTNS ELIMINAR/EDITAR OPERACIONES
+    //BTNS ELIMINAR/EDITAR OPERACIONES
 
 
-  const eliminarBtn = document.querySelectorAll(".eliminar-btn");
-  const editarBtn = document.querySelectorAll(".editar-btn");
+    const eliminarBtn = document.querySelectorAll(".eliminar-btn");
 
-  eliminarBtn.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const eliminar = operaciones.filter(
-        (operacion) => operacion.id !== e.target.dataset.id
-      ); //omitimos traer el que estamos eliminando
-      localStorage.setItem("operaciones", JSON.stringify(eliminar));
-      operaciones = JSON.parse(localStorage.getItem("operaciones"));
-      pintarOperaciones(operaciones);
-      mostrarOperaciones(operaciones); //debe mostrar la imagen del inicio!!!!!!!!!
+    eliminarBtn.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const eliminar = operaciones.filter(
+          (operacion) => operacion.id !== e.target.dataset.id
+        ); //omitimos traer el que estamos eliminando
+        localStorage.setItem("operaciones", JSON.stringify(eliminar));
+        console.log(eliminar);
+        operaciones = JSON.parse(localStorage.getItem("operaciones"));
+        pintarOperaciones(operaciones);
+        mostrarOperaciones(operaciones); //debe mostrar la imagen del inicio!!!!!!!!!
+      });
     });
   });
+  //PINTAR OPERACIONES Y ELIMINAR DEBEN HACER LA MISMA FUNCION QUE ACTUALIZAR/PINTAR EL BALANCE SIN 'REFRESCAR',
+  const editarBtn = document.querySelectorAll(".editar-btn");
 
   editarBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -336,6 +447,7 @@ const pintarOperaciones = (arr) => {
       });
     });
   });
+  pintarEnBalance(operaciones);
 };
 
 //BTN EDITAR OPERACIONES
@@ -365,53 +477,6 @@ const inicializar = () => {
 
 window.onload = inicializar();
 const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
-
-////////////SECCION BALANCE//////////
-////////////FILTRAR TOTAL DE GANANCIAS//////////
-
-const totalGananciasBalance = (arr) => {
-  let resultadoGanancias = arr
-    .filter((operacion) => operacion.tipo === "ganancia")
-    .reduce((prev, current) => prev + Number(current.monto), 0);
-  return resultadoGanancias;
-};
-
-////////////FILTRAR TOTAL DE GASTOS//////////
-
-const totalGastosBalance = (arr) => {
-  let resultadoGastos = arr
-    .filter((operacion) => operacion.tipo === "gasto")
-    .reduce((prev, current) => prev + Number(current.monto), 0);
-  return resultadoGastos;
-};
-
-///////////IMPRIMIR RESULTADOS EN SECCION BALANCE//////////////////
-const pintarEnBalance = (arr) => {
-  const totalBalance = totalGananciasBalance(arr) - totalGastosBalance(arr);
-
-  let str = `
-            <tbody>
-              <tr>
-                <td>Ganancias</td>
-                <td class="text-success">+$${totalGananciasBalance(arr)}</td>
-              </tr>
-              <tr>
-                <td>Gastos</td>
-                <td class="text-danger">+$${totalGastosBalance(arr)}</td>
-              </tr>
-              <tr>
-                <th>Total</th>
-                <th>$${Math.abs(totalBalance)}</th>
-              </tr>
-            </tbody>`;
-
-  document.getElementById('balance').innerHTML = str
-};
-
-pintarEnBalance(operaciones)
-
-//!!!!!!!!!!!!!!!!!NO FUNCIONA QUE CUANDO ELIMINO O EDITO OPERACIONES NO SE REFLEJAN EN LA SECCION BALANCE//
-//SI REFRESCO FUNCIONA, VER COMO HACE QUE SE REFLEJE EN SECCION BALANCES SIN REFRESCAR
 
 /////////////////FILTROS///////////////////
 //TIPO, SELECT todos, gastos y ganacias
@@ -467,30 +532,87 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
   //los values tiene que estar escritos igual
 });
 
-//terminar de hacer filtros para fecha y ordenar por
+//FILTRO POR FECHA (DESDE TAL DIA EN ADELANTE)
+// const ordenarPorFecha = document.getElementById('por-fecha')
 
-//REPORTES
+// ordenarPorFecha.addEventListener('change', () => {
+//   console.log(ordenarPorFecha)
+// })
 
-//mostrar contenedor-reportes ocultar por defecto, mostrar solo cuando hay operaciones
+//ORDENAR POR
+//MAS RECIENTE
 
-const contenedorReportes = document.getElementById("contenedor-reportes");
-const operacionesInsuficientes = document.getElementById(
-  "operaciones-insuficientes"
-);
+//MENOS RECIENTE
 
-//     //si recibe operaciones muestra contenedor-reportes, si no muestra div de operaciones insuficientes.
-//     //VER COMO SE HACE
-// 1-recorrer operaciones y si hay al menos 1 operacion cargada
-//2-si esto se cumple, entonces sacarle la clase oculto y mostrar contenedor-resumen
+const ordenarPor = document.getElementById("ordenar-por");
 
-const mostrarReportes = (arr) => {
-  if (!arr.length) {
-    //si el arr esta vacio hace esto...
-    contenedorReportes.classList.add("oculto"); //'mostrar'
-  } else {
-    //sino muestra esto
-    contenedorReportes.classList.add("mostrar"); ////!!!funciona si le meto un dato al arr operaciones manualmente, pero no si lo agrego desde agregar operaciones, es como que no me detecta si hay o no operaciones
-    operacionesInsuficientes.classList.add("oculto");
+ordenarPor.addEventListener("change", () => {
+  //MAYOR MONTO
+  if (ordenarPor.value === "mayor-monto") {
+    const resultadoMonto = operaciones.sort((a, b) => {
+      if (Number(a.monto) > Number(b.monto)) {
+        return -1;
+      }
+      if (Number(a.monto) < Number(b.monto)) return 1;
+    });
+    console.log(resultadoMonto);
   }
-};
-mostrarReportes(operaciones);
+  pintarOperaciones(operaciones);
+  //MENOR MONTO
+  if (ordenarPor.value === "menor-monto") {
+    const resultadoMonto = operaciones.sort((a, b) => {
+      if (Number(a.monto) < Number(b.monto)) {
+        return -1;
+      }
+      if (Number(a.monto) > Number(b.monto)) return 1;
+    });
+    console.log(resultadoMonto);
+  }
+  pintarOperaciones(operaciones);
+
+  //A/Z
+
+  if (ordenarPor.value === "a-z") {
+    const resultado = operaciones.sort((a, b) => {
+      if (a.descripcion.toLowerCase() < b.descripcion.toLowerCase()) {
+        return -1;
+      }
+      if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) return 1;
+    });
+    console.log(resultado);
+  }
+  pintarOperaciones(operaciones);
+
+  //Z/A
+
+  if (ordenarPor.value === "z-a") {
+    const resultado = operaciones.sort((a, b) => {
+      if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) {
+        return -1;
+      }
+      if (a.descripcion.toLowerCase() < b.descripcion.toLowerCase()) return 1;
+    });
+    console.log(resultado);
+  }
+  pintarOperaciones(operaciones);
+
+  //////////////////////////////////////
+});
+
+//REPORTES, EMPEZAR ABAJO HACIA ARRIBA
+
+//TOTALES POR MES, debe filtar por mes todas la ganacias - los gastos = balance, filter fecha mes a mes, filter gasto o ganacia . reduce para sacar el total del monto. filter a todas las operaciones, saque los meses, los guarde en un arr los mese que hay operaciones, y con este arr, for, por cada mes hacer un filter y un reduce
+
+//TOTALES POR CATEGORIA, filter a cada categoria, sumar todas las ganacias de cada categoria - gastos = balance. con if, si tiene operaciones, las junta y las suma, sino muestra 0
+
+//RESUMEN
+
+//CATERGORIA CON MAYOR GANANCIA
+
+//CATERGORIA CON MAYOR GASTO
+
+//CATERGORIA CON MAYOR BALANCE
+
+//MES CON MAYOR GANANCIA
+
+//MES CON MAYOR GASTO

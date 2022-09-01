@@ -74,22 +74,7 @@
         <div class="col-sm-12 col-md-3">
           <div class="row shadow p-3 mb-5 bg-body rounded">
             <h1>Balance</h1>
-            <table class="table table-borderless" id="balance">
-              <!-- <tbody>
-                <tr>
-                  <td>Ganancias</td>
-                  <td class="text-success">+$0</td>
-                </tr>
-                <tr>
-                  <td>Gastos</td>
-                  <td class="text-danger">+$0</td>
-                </tr>
-                <tr>
-                  <th>Total</th>
-                  <th>$0</th>
-                </tr>
-              </tbody> -->
-            </table>
+            <table class="table table-borderless" id="balance"></table>
           </div>
           <div class="row shadow p-3 mb-5 bg-body rounded">
             <div class="d-flex justify-content-between">
@@ -121,21 +106,21 @@
                   </select>
                 </div>
                 <div class="my-1">
-                  <label for="categoria" class="form-label">Categoria</label>
+                  <label for="selectCategoriaFiltros" class="form-label"
+                    >Categoria</label
+                  >
                   <select
                     id="selectCategoriaFiltros"
                     class="filtro-categorias select-categorias form-select"
                     aria-label="selector de categoria"
-                  >
-                    <!--CAMBIE NOMBRE DE ID XQ SE REPITE selectCategoriaFiltros-->
-                  </select>
+                  ></select>
                 </div>
                 <div>
-                  <label for="desde" class="form-label">Desde</label>
+                  <label for="por-fecha" class="form-label">Desde</label>
                   <input
                     type="date"
                     class="form-control"
-                    id="fecha"
+                    id="por-fecha"
                     aria-describedby="desde"
                   />
                 </div>
@@ -352,8 +337,20 @@
               />
             </div>
             <div class="mb-3">
-              <button type="submit" class="btn btn-primary" id="btn-editar-operacion">Editar</button>
-              <button type="submit" class="btn btn-light" id="btn-cancelar-operacion">Cancelar</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                id="btn-editar-operacion"
+              >
+                Editar
+              </button>
+              <button
+                type="submit"
+                class="btn btn-light"
+                id="btn-cancelar-operacion"
+              >
+                Cancelar
+              </button>
             </div>
           </form>
         </div>
@@ -403,18 +400,18 @@
         <div class="col-md-8">
           <h2>Reportes</h2>
           <div class="figure d-flex flex-column align-items-center">
-            <img
-              src="./images/chart.svg"
-              class="figure-img img-fluid rounded"
-              alt="graficos"
-              style="width: 20em"
-            />
-            <div id="operaciones-insuficientes">
+            <div id="operaciones-insuficientes" class="oculto">
+              <img
+                src="./images/chart.svg"
+                class="figure-img img-fluid rounded"
+                alt="graficos"
+                style="width: 20em"
+              />
               <h4>Operaciones insuficientes</h4>
               <p>Prueba agregando más operaciones</p>
               <!-- mostara reportes de operaciones-->
             </div>
-            <div id="contenedor-reportes">
+            <div id="contenedor-reportes" class="oculto">
               <h3>Resumen</h3>
               <div>Categoría con mayor ganancia</div>
               <!--TRAER NOMBRE DE CATEGORIA Y MONTO-->
@@ -436,15 +433,23 @@
               </div>
 
               <h3>Totales por mes</h3>
-              <div>
-                <div>Mes</div>
-                <div>Ganacias</div>
-                <div>Gastos</div>
-                <div>Balance</div>
+              <div class="container text-center my-3">
+                <div class="row align-items-start">
+                  <div class="col">
+                    <strong>Mes</strong>
+                  </div>
+                  <div class="col">
+                    <strong>Ganancia</strong>
+                  </div>
+                  <div class="col">
+                    <strong>Gasto</strong>
+                  </div>
+                  <div class="col">
+                    <strong>Balance</strong>
+                  </div>
+                </div>
               </div>
-              <div>
-                <!--mes y resultados de ganacias, gastos y balance-->
-              </div>
+              <div id="totales-por-mes"></div>
             </div>
           </div>
         </div>
