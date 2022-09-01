@@ -162,14 +162,55 @@ btnMostrarFiltros.addEventListener("click", () => {
 
 // CATEGORIAS //
 
-const arrayCategorias = [
-  "Comida",
-  "Servicios",
-  "Salidas",
-  "Educacion",
-  "Transporte",
-  "Trabajo",
+let arrayCategorias = [
+  {
+    nombre: "Comida",
+    id : uuidv4()
+  },
+  {
+    nombre: "Servicios",
+    id : uuidv4()
+  },
+  {
+    nombre: "Salidas",
+    id : uuidv4()
+  },
+  {
+    nombre: "Educacion",
+    id : uuidv4()
+  },
+  {
+    nombre: "Transporte",
+    id : uuidv4()
+  },
+  {
+    nombre: "Trabajo",
+    id : uuidv4()
+  }
 ];
+
+
+
+/*
+let ultimoElemento = (arr) => {
+   
+    let ultimoItem = arr[arr.length - 1];
+    document.getElementById("categorias").innerHTML += `
+    <div class="container text-start lista-categorias">
+      <div class="row align-items-start">
+        <div class="col">
+        <span class="badge text-bg-primary">${ultimoItem.nombre}</span>
+      </div>
+      <div class="col text-end">
+        <a class="editar" data-id=${arr.id} href="#">Editar</a>
+        <a class="eliminar" data-id=${arr.id} href="#">Eliminar</a>
+      </div>
+   </div>`;
+  }
+  ultimoElemento(arrayCategorias)
+
+*/
+
 
 const generarCategorias = () => {
   const selects = document.getElementsByClassName("select-categorias");
@@ -180,40 +221,16 @@ const generarCategorias = () => {
       select.innerHTML = '<option value="todas" selected>Todas</option>';
     }
     arrayCategorias.forEach((categoria) => {
-      select.innerHTML += `<option value=${categoria}>${categoria}</option>`;
+      select.innerHTML += `<option value=${categoria.nombre}>${categoria.nombre}</option>`;
     });
   }
+
 };
-generarCategorias();
+
 
 /////////////////////////
 // SECCION CATEGORIAS
 ////////////////////////
-
-const cargarCategoria = () => {
-  let inputCategoria = document.getElementById("nueva-categoria-input").value;
-  arrayCategorias.push(inputCategoria);
-
-  let ultimoElemento = (arr) => {
-    document.getElementById("nueva-categoria-input").value = "";
-    let ultimoItem = arr[arr.length - 1];
-    document.getElementById("categorias").innerHTML += `
-    <div class="container text-start lista-categorias">
-      <div class="row align-items-start">
-        <div class="col">
-        <span class="badge text-bg-primary">${ultimoItem}</span>
-      </div>
-      <div class="col text-end">
-        <a id="editarOperacion" href="#">Editar</a>
-        <a class="eliminar" href="#">Eliminar</a>
-      </div>
-   </div>`;
-  };
-  ultimoElemento(arrayCategorias);
-  generarCategorias();
-};
-
-btnAgregarCategoria.addEventListener("click", cargarCategoria);
 
 const pintarCategorias = () => {
   arrayCategorias.forEach((categoria) => {
@@ -221,21 +238,43 @@ const pintarCategorias = () => {
     <div class="container text-start lista-categorias">
       <div class="row align-items-start">
         <div class="col my-1">
-        <span class="badge text-bg-primary">${categoria}</span>
+        <span class="badge text-bg-primary">${categoria.nombre}</span>
       </div>
       <div class="col text-end">
-        <a id="editarOperacion" href="#">Editar</a>
-        <a id="eliminar" href="#">Eliminar</a>
+        <a class="editar" data-id=${categoria.id} href="#">Editar</a>
+        <a class="eliminar" data-id=${categoria.id} href="#">Eliminar</a>
       </div>
    </div>`;
   });
+
+    localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 };
 
 pintarCategorias();
 
+btnAgregarCategoria.addEventListener('click', ()=> {
+    let inputCategoria = document.getElementById("nueva-categoria-input");
+    arrayCategorias.push({
+      nombre: inputCategoria.value,
+      id : uuidv4()
+  })
+  inputCategoria.value = "";   
+});
+
 //ELIMINAR CATEGORIA
+const btnEliminar = document.querySelectorAll(".eliminar")
+
+  btnEliminar.forEach((btn) =>{
+    btn.addEventListener('click', e =>{
+      const borrar = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
+      localStorage.setItem("categorias", JSON.stringify(borrar))
+      arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
+      pintarCategorias(arrayCategorias)
+    })
+  })
 
 //EDITAR CATEGORIA
+
 
 // NUEVA OPERACION //
 
@@ -362,7 +401,6 @@ const pintarOperaciones = (arr) => {
 
     //BTNS ELIMINAR/EDITAR OPERACIONES
 
-    // console.log("prueba224");
 
     const eliminarBtn = document.querySelectorAll(".eliminar-btn");
 
