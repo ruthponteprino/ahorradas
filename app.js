@@ -68,6 +68,7 @@ btnCategorias.addEventListener("click", () => {
   //console.log(btnCategorias);
 });
 
+//REPORTES
 btnReportes.addEventListener("click", () => {
   balance.classList.add("oculto");
   categorias.classList.add("oculto");
@@ -89,7 +90,13 @@ const totalPorMes = (arr) => {
   const arrMesUnico = [
     ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
   ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
-  console.log(arrMesUnico)
+  console.log(arrMesUnico);
+
+  const arrAnio = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
+  ].sort();
+  document.getElementById("totales-por-mes").innerHTML = "";
+  let str = "";
 
   for (let i = 0; i < arrMesUnico.length; i++) {
     const operacionesMesUnico = arr.filter(
@@ -101,30 +108,35 @@ const totalPorMes = (arr) => {
     const porGasto = operacionesMesUnico
       .filter((operacion) => operacion.tipo === "gasto")
       .reduce((count, current) => count + Number(current.monto), 0);
-    console.log(`mes ${arrMesUnico[i]} ganancia ${porGanancia}`)
-    console.log(`mes ${arrMesUnico[i]} gasto ${porGasto}`)
+    console.log(`mes ${arrMesUnico[i]}/${arrAnio} ganancia ${porGanancia}`);
+    console.log(`mes ${arrMesUnico[i]}/${arrAnio} gasto ${porGasto}`);
 
-    // const balance = porGanancia - porGasto
-    // console.log(balance)
-    
+    const balance = porGanancia - porGasto;
+    console.log(balance);
+
+    str += `
+
+    <div class="row align-items-start my-2" >
+          <div class="col">
+          ${arrMesUnico[i]}/${arrAnio}
+          </div>
+          <div class="col">
+            <span class="badge text-bg-primary">${porGanancia}</span>
+          </div>
+          <div class="col">
+            <span class="badge text-bg-primary">${porGasto}</span>
+          </div>
+          <div class="col">
+            <span class="badge text-bg-primary">${balance}</span>
+          </div>
+    </div>
+ 
+    `; //!!!!!!!!!!falta estilar mas lindo
+    document.getElementById("totales-por-mes").innerHTML = str;
   }
-
 };
 
-//INTENTO ANTERIOR
-// const mostrarReportes = (arr) => {
-//   if (!arr.length) {
-//     //si el arr esta vacio hace esto...
-//     contenedorReportes.classList.add("oculto"); //'mostrar'
-//   } else {
-//     //sino muestra esto
-//     contenedorReportes.classList.add("mostrar"); ////!!!funciona si le meto un dato al arr operaciones manualmente, pero no si lo agrego desde agregar operaciones, es como que no me detecta si hay o no operaciones
-//     operacionesInsuficientes.classList.add("oculto");
-//   }
-// };
-// mostrarReportes(operaciones);
-
-console.log('prueba 31-8')
+console.log("prueba 1-9");
 
 btnNuevaOperacion.addEventListener("click", () => {
   seccionOperacion.classList.remove("oculto");
