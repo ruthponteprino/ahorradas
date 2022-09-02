@@ -95,7 +95,7 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
   arrayCategorias.forEach((categoria) => {
     const porCategoria = operaciones.filter(
       (operacion) => operacion.categoria === categoria
-      );
+    );
     // console.log(porCategoria) //tira un arr vacio!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     const porCategoriaGanancia = porCategoria
@@ -171,9 +171,8 @@ const totalPorMes = (arr) => {
     const balance = porGanancia - porGasto;
 
     str += `
-
-    <div class="row align-items-start my-2" >
-          <div class="col">
+      <div class="row align-items-start my-2" >
+        <div class="col">
           ${arrMesUnico[i]}/${arrAnio}
           </div>
           <div class="col text-end">
@@ -192,7 +191,7 @@ const totalPorMes = (arr) => {
   }
 };
 
-console.log("prueba 1-9");
+console.log("prueba 2-9");
 
 btnNuevaOperacion.addEventListener("click", () => {
   seccionOperacion.classList.remove("oculto");
@@ -218,6 +217,7 @@ btnMostrarFiltros.addEventListener("click", () => {
 
 // CATEGORIAS //
 
+//totas la categorias y va metiendo acá las nuevas tb//guardar como operaciones en el local storage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let arrayCategorias = [
   {
     nombre: "Comida",
@@ -256,8 +256,6 @@ const cargarCategoria = () => {
   generarCategorias();
 };
 
-// btnAgregarCategoria.addEventListener("click", cargarCategoria);
-
 
 let ultimoElemento = (arr) => {
    
@@ -278,6 +276,7 @@ let ultimoElemento = (arr) => {
 
 */
 
+//FUNCION QUE AGREGA LAS CATEGORIAS (ARREGLO DE CATEGORIAS) A LOS SELECT
 const generarCategorias = () => {
   const selects = document.getElementsByClassName("select-categorias");
   for (let i = 0; i < selects.length; i++) {
@@ -297,6 +296,8 @@ generarCategorias();
 // SECCION CATEGORIAS
 ////////////////////////
 
+
+//FUNCION QUE PINTA LAS CATEGORIAS (ARR DE CATEGORIAS) EN LA SECCION DE CATEGORIAS, ABAJO DE TODAS LAS OTRAS CATEGORIAS CON SU BOT'ON EDITAR Y ELIMINAR
 const pintarCategorias = () => {
   arrayCategorias.forEach((categoria) => {
     document.getElementById("categorias").innerHTML += `
@@ -316,6 +317,8 @@ const pintarCategorias = () => {
 };
  
 pintarCategorias();
+
+//FUNCION QUE TOMA DEL INPUT LA NUEVA CATEGORIA INGRESADA POR EL USUARIO, LE PONE UN ID, Y LA TIENE QUE SUBIR AL ARREGLO DE CATEGORIAS, !!!!!!!!!!!!!!!VER SI ESTO EST'A FUNCIONANDO
 
 btnAgregarCategoria.addEventListener("click", () => {
   let inputCategoria = document.getElementById("nueva-categoria-input");
@@ -596,12 +599,21 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
   //los values tiene que estar escritos igual
 });
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 //FILTRO POR FECHA (DESDE TAL DIA EN ADELANTE)
-// const ordenarPorFecha = document.getElementById('por-fecha')
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// ordenarPorFecha.addEventListener('change', () => {
-//   console.log(ordenarPorFecha)
-// })
+const ordenarPorFecha = document.getElementById("por-fecha");
+
+ordenarPorFecha.addEventListener("change", (e) => {
+  console.log(e.target.value);
+  console.log(operaciones[0].fecha);
+  const operacionesFiltradasPorFecha = operaciones.filter(
+    (operacion) => new Date(operacion.fecha) >= new Date(e.target.value)
+  );
+  console.log(operacionesFiltradasPorFecha);
+  pintarOperaciones(operacionesFiltradasPorFecha);
+});
 
 //ORDENAR POR
 //MAS RECIENTE
