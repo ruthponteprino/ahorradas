@@ -117,23 +117,22 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
     const balance = porCategoriaGanancia - porCategoriaGasto;
 
     str += `
+      
+      <div class="row align-items-start my-2" >
+          <div class="col w-25">
+            ${categoria.nombre}
+          </div>
+          <div class="col text-end">
+            <span class="success">${porCategoriaGanancia}</span>
+          </div>
+          <div class="col danger text-end">
+            ${porCategoriaGasto}
+          </div>
+          <div class="col text-black text-end" >
+            ${balance}
+          </div>
+      </div>
 
-    <div class="row align-items-start my-2" >
-      <div class="col w-25">
-        ${categoria.nombre}
-      </div>
-      <div class="col text-end">
-        <span class="success">
-        ${porCategoriaGanancia}</span>
-      </div>
-      <div class="col danger text-end">
-        ${porCategoriaGasto}
-      </div>
-      <div class="col text-black text-end" >
-        ${balance}
-      </div>
-    </div>
-    
     `;
     document.getElementById("totales-por-categoria").innerHTML = str;
     ///////////////////////////////////////////////////////////////////////////////
@@ -175,19 +174,19 @@ const totalPorMes = (arr) => {
       <div class="row align-items-start my-2" >
         <div class="col">
           ${arrMesUnico[i]}/${arrAnio}
-        </div>
-        <div class="col text-end">
-          <span class="badge text-success">+${porGanancia}</span>
-        </div>
-        <div class="col text-end">
-          <span class="badge text-danger">-${porGasto}</span>
-        </div>
-        <div class="col text-end">
-          <span class="badge text-black">${balance}</span>
-        </div>
-      </div>
+          </div>
+          <div class="col text-end">
+            <span class="badge text-success">+${porGanancia}</span>
+          </div>
+          <div class="col text-end">
+            <span class="badge text-danger">-${porGasto}</span>
+          </div>
+          <div class="col text-end">
+            <span class="badge text-black">${balance}</span>
+          </div>
+    </div>
  
-    `; 
+    `;
     document.getElementById("totales-por-mes").innerHTML = str;
   }
 };
@@ -216,7 +215,9 @@ btnMostrarFiltros.addEventListener("click", () => {
   btnOcultarFiltros.classList.remove("oculto");
 });
 
-// CATEGORIAS //
+/////////////////////////
+// SECCION CATEGORIAS
+////////////////////////
 
 //totas la categorias y va metiendo acá las nuevas tb//guardar como operaciones en el local storage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let arrayCategorias = [
@@ -246,55 +247,6 @@ let arrayCategorias = [
   },
 ];
 
-// /////////////FUNCION QUE TOME LA CATEGORIA QUE CARGA EL USUARIO CON EL INPUT, LA MANDE AL ARREGLO DONDE GUARDO LAS CATEGORIAS Y ESTE ARREGLO ACTUALIZADO SE IMPRIMA EN LA LISTA DE CATEGORIAS EN: SECCION CATEGORIAS Y SELEC CATEGORIAS DE FILTROS Y OPERACIONES. 
-
-
-// const cargarCategoria = () => {
-//   let inputCategoria = document.getElementById("nueva-categoria-input").value;
-//   arrayCategorias.push(inputCategoria);
-
-//   let ultimoElemento = (arr) => { 
-//     document.getElementById("nueva-categoria-input").value = "";
-//     let ultimoItem = arr[arr.length - 1];
-//     document.getElementById("categorias").innerHTML += `
-//     <div class="container text-start lista-categorias">
-//       <div class="row align-items-start">
-//         <div class="col">
-//         <span class="badge text-bg-primary">${ultimoItem}</span>
-//       </div>
-//       <div class="col text-end">
-//         <a id="editarOperacion" href="#">Editar</a>
-//         <a class="eliminar" href="#">Eliminar</a>
-//       </div>
-//    </div>`;
-//   };
-//   ultimoElemento(arrayCategorias);
-//   generarCategorias();
-// };
-//////////////////////////////
-
-// btnAgregarCategoria.addEventListener("click", cargarCategoria);
-
-/*
-let ultimoElemento = (arr) => {
-   
-    let ultimoItem = arr[arr.length - 1];
-    document.getElementById("categorias").innerHTML += `
-    <div class="container text-start lista-categorias">
-      <div class="row align-items-start">
-        <div class="col">
-        <span class="badge text-bg-primary">${ultimoItem.nombre}</span>
-      </div>
-      <div class="col text-end">
-        <a class="editar" data-id=${arr.id} href="#">Editar</a>
-        <a class="eliminar" data-id=${arr.id} href="#">Eliminar</a>
-      </div>
-   </div>`;
-  }
-  ultimoElemento(arrayCategorias)
-
-*/
-
 //FUNCION QUE AGREGA LAS CATEGORIAS (ARREGLO DE CATEGORIAS) A LOS SELECT
 const generarCategorias = () => {
   const selects = document.getElementsByClassName("select-categorias");
@@ -310,11 +262,6 @@ const generarCategorias = () => {
   }
 };
 generarCategorias();
-
-/////////////////////////
-// SECCION CATEGORIAS
-////////////////////////
-
 
 //FUNCION QUE PINTA LAS CATEGORIAS (ARR DE CATEGORIAS) EN LA SECCION DE CATEGORIAS, ABAJO DE TODAS LAS OTRAS CATEGORIAS CON SU BOT'ON EDITAR Y ELIMINAR
 const pintarCategorias = () => {
@@ -332,39 +279,55 @@ const pintarCategorias = () => {
    </div>`;
   });
 
-  localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
+ localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 };
-
+ 
 pintarCategorias();
 
 //FUNCION QUE TOMA DEL INPUT LA NUEVA CATEGORIA INGRESADA POR EL USUARIO, LE PONE UN ID, Y LA TIENE QUE SUBIR AL ARREGLO DE CATEGORIAS, !!!!!!!!!!!!!!!VER SI ESTO EST'A FUNCIONANDO
+let inputCategoria = document.getElementById("nueva-categoria-input");
+const listaCategorias = document.getElementById('categorias')
 
+console.log(listaCategorias)
+
+/////////////////////////////////////////
+///FUNCION QUE PINTA LAS NUEVAS CATEGORIAS
+/////////////////////////////////////////
 btnAgregarCategoria.addEventListener("click", () => {
-  let inputCategoria = document.getElementById("nueva-categoria-input");
-  arrayCategorias.push({
+  const nuevaCategoria = {
     nombre: inputCategoria.value,
     id: uuidv4(),
-  });
+  }
+  arrayCategorias.push(nuevaCategoria);
 
-  console.log(inputCategoria);
-  cargarCategoria(); //activo cargar categoria con el click
-  // inputCategoria.value = "";
+ inputCategoria.value = "";
+
+listaCategorias.innerHTML += `
+  <div class="container text-start lista-categorias">
+      <div class="row align-items-start">
+        <div class="col my-1">
+        <span class="badge text-bg-primary">${nuevaCategoria.nombre}</span>
+      </div>
+      <div class="col text-end">
+        <a class="editar" data-id=${nuevaCategoria.id} href="#">Editar</a>
+        <a class="eliminar" data-id=${nuevaCategoria.id} href="#">Eliminar</a>
+      </div>
+   </div>
+`
+generarCategorias()
 });
 
 //ELIMINAR CATEGORIA
-const btnEliminar = document.querySelectorAll(".eliminar");
+const btnEliminar = document.querySelectorAll(".eliminar")
 
-btnEliminar.forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const borrar = arrayCategorias.filter(
-      (arr) => arr.id !== e.target.dataset.id
-    );
-    localStorage.setItem("categorias", JSON.stringify(borrar));
-    arrayCategorias = JSON.parse(localStorage.getItem("categorias"));
-    pintarCategorias(arrayCategorias);
-  });
-});
-
+  btnEliminar.forEach((btn) =>{
+    btn.addEventListener('click', e =>{
+      const borrar = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
+      localStorage.setItem("categorias", JSON.stringify(borrar))
+      arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
+      pintarCategorias(arrayCategorias)
+    })
+  })
 //EDITAR CATEGORIA
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
