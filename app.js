@@ -215,7 +215,9 @@ btnMostrarFiltros.addEventListener("click", () => {
   btnOcultarFiltros.classList.remove("oculto");
 });
 
-// CATEGORIAS //
+/////////////////////////
+// SECCION CATEGORIAS
+////////////////////////
 
 //totas la categorias y va metiendo acá las nuevas tb//guardar como operaciones en el local storage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let arrayCategorias = [
@@ -245,37 +247,6 @@ let arrayCategorias = [
   },
 ];
 
-/*
-const cargarCategoria = () => {
-  let inputCategoria = document.getElementById("nueva-categoria-input");
-  arrayCategorias.push({
-    nombre: inputCategoria.value,
-    id: uuidv4(),
-  });
-
-  generarCategorias();
-};
-
-
-let ultimoElemento = (arr) => {
-   
-    let ultimoItem = arr[arr.length - 1];
-    document.getElementById("categorias").innerHTML += `
-    <div class="container text-start lista-categorias">
-      <div class="row align-items-start">
-        <div class="col">
-        <span class="badge text-bg-primary">${ultimoItem.nombre}</span>
-      </div>
-      <div class="col text-end">
-        <a class="editar" data-id=${arr.id} href="#">Editar</a>
-        <a class="eliminar" data-id=${arr.id} href="#">Eliminar</a>
-      </div>
-   </div>`;
-  }
-  ultimoElemento(arrayCategorias)
-
-*/
-
 //FUNCION QUE AGREGA LAS CATEGORIAS (ARREGLO DE CATEGORIAS) A LOS SELECT
 const generarCategorias = () => {
   const selects = document.getElementsByClassName("select-categorias");
@@ -291,11 +262,6 @@ const generarCategorias = () => {
   }
 };
 generarCategorias();
-
-/////////////////////////
-// SECCION CATEGORIAS
-////////////////////////
-
 
 //FUNCION QUE PINTA LAS CATEGORIAS (ARR DE CATEGORIAS) EN LA SECCION DE CATEGORIAS, ABAJO DE TODAS LAS OTRAS CATEGORIAS CON SU BOT'ON EDITAR Y ELIMINAR
 const pintarCategorias = () => {
@@ -319,15 +285,36 @@ const pintarCategorias = () => {
 pintarCategorias();
 
 //FUNCION QUE TOMA DEL INPUT LA NUEVA CATEGORIA INGRESADA POR EL USUARIO, LE PONE UN ID, Y LA TIENE QUE SUBIR AL ARREGLO DE CATEGORIAS, !!!!!!!!!!!!!!!VER SI ESTO EST'A FUNCIONANDO
+let inputCategoria = document.getElementById("nueva-categoria-input");
+const listaCategorias = document.getElementById('categorias')
 
+console.log(listaCategorias)
+
+/////////////////////////////////////////
+///FUNCION QUE PINTA LAS NUEVAS CATEGORIAS
+/////////////////////////////////////////
 btnAgregarCategoria.addEventListener("click", () => {
-  let inputCategoria = document.getElementById("nueva-categoria-input");
-  arrayCategorias.push({
+  const nuevaCategoria = {
     nombre: inputCategoria.value,
     id: uuidv4(),
-  });
+  }
+  arrayCategorias.push(nuevaCategoria);
 
  inputCategoria.value = "";
+
+listaCategorias.innerHTML += `
+  <div class="container text-start lista-categorias">
+      <div class="row align-items-start">
+        <div class="col my-1">
+        <span class="badge text-bg-primary">${nuevaCategoria.nombre}</span>
+      </div>
+      <div class="col text-end">
+        <a class="editar" data-id=${nuevaCategoria.id} href="#">Editar</a>
+        <a class="eliminar" data-id=${nuevaCategoria.id} href="#">Eliminar</a>
+      </div>
+   </div>
+`
+generarCategorias()
 });
 
 //ELIMINAR CATEGORIA
