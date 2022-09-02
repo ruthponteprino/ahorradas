@@ -117,22 +117,22 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
     const balance = porCategoriaGanancia - porCategoriaGasto;
 
     str += `
-
-    <div class="row align-items-start my-2" >
-          <div class="col">
-          ${categoria.nombre}
+      
+      <div class="row align-items-start my-2" >
+          <div class="col w-25">
+            ${categoria.nombre}
           </div>
-          <div class="col">
-            <span class="badge text-bg-primary">${porCategoriaGanancia}</span>
+          <div class="col text-end">
+            <span class="success">${porCategoriaGanancia}</span>
           </div>
-          <div class="col">
-            <span class="badge text-bg-primary">${porCategoriaGasto}</span>
+          <div class="col danger text-end">
+            ${porCategoriaGasto}
           </div>
-          <div class="col">
-            <span class="badge text-bg-primary">${balance}</span>
+          <div class="col text-black text-end" >
+            ${balance}
           </div>
       </div>
- 
+
     `;
     document.getElementById("totales-por-categoria").innerHTML = str;
     ///////////////////////////////////////////////////////////////////////////////
@@ -176,18 +176,18 @@ const totalPorMes = (arr) => {
           <div class="col">
           ${arrMesUnico[i]}/${arrAnio}
           </div>
-          <div class="col">
-            <span class="badge text-bg-primary">${porGanancia}</span>
+          <div class="col text-end">
+            <span class="badge text-success">+${porGanancia}</span>
           </div>
-          <div class="col">
-            <span class="badge text-bg-primary">${porGasto}</span>
+          <div class="col text-end">
+            <span class="badge text-danger">-${porGasto}</span>
           </div>
-          <div class="col">
-            <span class="badge text-bg-primary">${balance}</span>
+          <div class="col text-end">
+            <span class="badge text-black">${balance}</span>
           </div>
     </div>
  
-    `; //!!!!!!!!!!falta estilar mas lindo
+    `;
     document.getElementById("totales-por-mes").innerHTML = str;
   }
 };
@@ -245,32 +245,20 @@ let arrayCategorias = [
   },
 ];
 
+/*
 const cargarCategoria = () => {
-  let inputCategoria = document.getElementById("nueva-categoria-input").value;
-  arrayCategorias.push(inputCategoria);
+  let inputCategoria = document.getElementById("nueva-categoria-input");
+  arrayCategorias.push({
+    nombre: inputCategoria.value,
+    id: uuidv4(),
+  });
 
-  let ultimoElemento = (arr) => {
-    document.getElementById("nueva-categoria-input").value = "";
-    let ultimoItem = arr[arr.length - 1];
-    document.getElementById("categorias").innerHTML += `
-    <div class="container text-start lista-categorias">
-      <div class="row align-items-start">
-        <div class="col">
-        <span class="badge text-bg-primary">${ultimoItem}</span>
-      </div>
-      <div class="col text-end">
-        <a id="editarOperacion" href="#">Editar</a>
-        <a class="eliminar" href="#">Eliminar</a>
-      </div>
-   </div>`;
-  };
-  ultimoElemento(arrayCategorias);
   generarCategorias();
 };
 
 // btnAgregarCategoria.addEventListener("click", cargarCategoria);
 
-/*
+
 let ultimoElemento = (arr) => {
    
     let ultimoItem = arr[arr.length - 1];
@@ -324,9 +312,9 @@ const pintarCategorias = () => {
    </div>`;
   });
 
-  localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
+ localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 };
-
+ 
 pintarCategorias();
 
 btnAgregarCategoria.addEventListener("click", () => {
@@ -336,25 +324,20 @@ btnAgregarCategoria.addEventListener("click", () => {
     id: uuidv4(),
   });
 
-  console.log(inputCategoria);
-  cargarCategoria(); //activo cargar categoria con el click
-  // inputCategoria.value = "";
+ inputCategoria.value = "";
 });
 
 //ELIMINAR CATEGORIA
-const btnEliminar = document.querySelectorAll(".eliminar");
+const btnEliminar = document.querySelectorAll(".eliminar")
 
-btnEliminar.forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const borrar = arrayCategorias.filter(
-      (arr) => arr.id !== e.target.dataset.id
-    );
-    localStorage.setItem("categorias", JSON.stringify(borrar));
-    arrayCategorias = JSON.parse(localStorage.getItem("categorias"));
-    pintarCategorias(arrayCategorias);
-  });
-});
-
+  btnEliminar.forEach((btn) =>{
+    btn.addEventListener('click', e =>{
+      const borrar = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
+      localStorage.setItem("categorias", JSON.stringify(borrar))
+      arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
+      pintarCategorias(arrayCategorias)
+    })
+  })
 //EDITAR CATEGORIA
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
