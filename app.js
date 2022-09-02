@@ -278,8 +278,8 @@ const pintarCategorias = () => {
       </div>
    </div>`;
   });
-
- localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
+  
+localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 };
  
 pintarCategorias();
@@ -314,19 +314,24 @@ listaCategorias.innerHTML += `
 `
 localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 generarCategorias()
+
 });
 
 //ELIMINAR CATEGORIA
-const btnEliminar = document.querySelectorAll(".eliminar")
 
-  btnEliminar.forEach((btn) =>{
-    btn.addEventListener('click', e =>{
-      const borrar = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
-      localStorage.setItem("categorias", JSON.stringify(borrar))
-      arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
-      pintarCategorias(arrayCategorias)
+ const btnsEliminar = document.querySelectorAll('.eliminar')
+
+  btnsEliminar.forEach((btn) =>{
+    btn.addEventListener('click', e => {
+    const arrayLimpio = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
+    localStorage.setItem('categorias', JSON.stringify(arrayLimpio))
+    arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
+    pintarCategorias(arrayCategorias) 
     })
   })
+
+
+
 //EDITAR CATEGORIA
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
