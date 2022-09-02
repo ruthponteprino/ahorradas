@@ -613,12 +613,20 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
   //los values tiene que estar escritos igual
 });
 
-//FILTRO POR FECHA (DESDE TAL DIA EN ADELANTE)
-// const ordenarPorFecha = document.getElementById('por-fecha')
 
-// ordenarPorFecha.addEventListener('change', () => {
-//   console.log(ordenarPorFecha)
-// })
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILTRO POR FECHA (DESDE TAL DIA EN ADELANTE)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const ordenarPorFecha = document.getElementById('por-fecha')
+
+ordenarPorFecha.addEventListener('change', (e) => {
+  console.log(e.target.value)
+  console.log(operaciones[0].fecha)
+  const operacionesFiltradasPorFecha = operaciones.filter(operacion => new Date(operacion.fecha) >= new Date(e.target.value))
+  console.log(operacionesFiltradasPorFecha)
+  pintarOperaciones(operacionesFiltradasPorFecha)
+})
 
 //ORDENAR POR
 //MAS RECIENTE
