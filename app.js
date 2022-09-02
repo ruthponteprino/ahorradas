@@ -220,7 +220,7 @@ btnMostrarFiltros.addEventListener("click", () => {
 ////////////////////////
 
 //totas la categorias y va metiendo acá las nuevas tb//guardar como operaciones en el local storage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-let arrayCategorias = [
+let arrayCategorias = JSON.parse(localStorage.getItem('categorias')) || [
   {
     nombre: "Comida",
     id: uuidv4(),
@@ -288,8 +288,6 @@ pintarCategorias();
 let inputCategoria = document.getElementById("nueva-categoria-input");
 const listaCategorias = document.getElementById('categorias')
 
-console.log(listaCategorias)
-
 /////////////////////////////////////////
 ///FUNCION QUE PINTA LAS NUEVAS CATEGORIAS
 /////////////////////////////////////////
@@ -314,6 +312,7 @@ listaCategorias.innerHTML += `
       </div>
    </div>
 `
+localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 generarCategorias()
 });
 
