@@ -354,7 +354,7 @@ const pintarOperaciones = (arr) => {
         localStorage.setItem("operaciones", JSON.stringify(eliminar));
         operaciones = JSON.parse(localStorage.getItem("operaciones"));
         pintarOperaciones(operaciones);
-        mostrarOperaciones(operaciones); //debe mostrar la imagen del inicio!!!!!!!!!
+        mostrarOperaciones(operaciones); 
       });
     });
   });
@@ -603,7 +603,7 @@ const pintarEnBalance = (arr) => {
 
 //RESUMEN
 
-//CATERGORIA CON MAYOR GANANCIA
+
 
 //CATERGORIA CON MAYOR GASTO
 
@@ -631,8 +631,70 @@ btnReportes.addEventListener("click", () => {
   }
   totalPorMes(operaciones); //hago que se active cuando el usuario le de click al btn reportes
   totalPorCategoria(operaciones, arrayCategorias);
+  categoriaConMayorBalance(operaciones, arrayCategorias)
   
 });
+
+//CATEGORIA CON MAYOR BALANCE
+const categoriaConMayorBalance = (operaciones, arrayCategorias) => {
+  
+  document.getElementById("categoria-mayor-balance").innerHTML = "";
+  let str = "";
+  // const conBalance = arrayCategorias.map(categoria => {
+  
+  const conBalance = arrayCategorias.map((arrayCategorias) => {
+    const porCategoria = operaciones.filter(
+      (operacion) => operacion.categoria === arrayCategorias.categoria
+    );
+    console.log(porCategoria) //tira un arr con obj de las categorias
+
+    const porCategoriaGanancia = porCategoria
+      .filter((operacion) => operacion.tipo === "ganancia")
+      .reduce((count, current) => count + Number(current.monto), 0);
+    console.log(porCategoriaGanancia); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
+    console.log(
+      `LA CATEGORIA ${arrayCategorias.nombre} ganancia ${porCategoriaGanancia}`
+    ); //POR LO MENOS TOMA EL NOMBRE/////////////////////////////////////
+
+    const porCategoriaGasto = porCategoria
+      .filter((operacion) => operacion.tipo === "gasto")
+      .reduce((count, current) => count + Number(current.monto), 0);
+    // console.log(porCategoriaGasto); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
+    // console.log(
+    //   `LA CATEGORIA ${arrayCategorias.nombre} GASTO  ${porCategoriaGasto}`
+    // );
+
+        
+
+    return {
+      ...arrayCategorias,
+      balance: porCategoriaGanancia - porCategoriaGasto
+    }
+
+    
+    ///////////////////////////////////////////////////////////////////////////////
+  });
+  const resultadoCategoriaMayorGanancia = conBalance.sort((a,b) => b.balance - a.balance)
+  console.log(resultadoCategoriaMayorGanancia[0])
+
+  str += `
+      
+      <div class="row align-items-start my-2" >
+          <div class="col w-25">
+            Categoria con Mayor Balance
+          </div>
+          <div class="col text-end">
+            <span class="success">${arrayCategorias.nombre}</span>
+          </div>
+          <div class="col danger text-end">
+            ${resultadoCategoriaMayorGanancia[0]}
+          </div>
+      </div>
+
+    `;
+    document.getElementById("categoria-mayor-balance").innerHTML = str;
+
+}
 
 //REPORTE TOTAL POR CATEGORIA
 const totalPorCategoria = (operaciones, arrayCategorias) => {
@@ -641,7 +703,7 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
 
   document.getElementById("totales-por-categoria").innerHTML = "";
   let str = "";
-  const conBalance = arrayCategorias.map(categoria => {
+  // const conBalance = arrayCategorias.map(categoria => {
   
 
   arrayCategorias.forEach((arrayCategorias) => {
@@ -690,13 +752,8 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
     document.getElementById("totales-por-categoria").innerHTML = str;
     ///////////////////////////////////////////////////////////////////////////////
   });
-
-
-    
+ 
 }
-)
-
-};
 
 //REPORTE TOTAL POR MES
 const totalPorMes = (arr) => {
