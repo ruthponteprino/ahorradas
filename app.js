@@ -251,11 +251,11 @@ let arrayCategorias = JSON.parse(localStorage.getItem('categorias')) || [
 ];
 
 //FUNCION QUE AGREGA LAS CATEGORIAS (ARREGLO DE CATEGORIAS) A LOS SELECT
+const selects = document.getElementsByClassName("select-categorias");
 const generarCategorias = () => {
-  const selects = document.getElementsByClassName("select-categorias");
   for (let i = 0; i < selects.length; i++) {
-    selects.innerHTML = "";
     const select = selects[i];
+    select.innerHTML = "";
     if (select.classList.contains("filtro-categorias")) {
       select.innerHTML = '<option value="todas" selected>Todas</option>';
     }
@@ -294,7 +294,8 @@ localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
     const arrayLimpio = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
     localStorage.setItem('categorias', JSON.stringify(arrayLimpio))
     arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
-    pintarCategorias(arrayCategorias) 
+    pintarCategorias(arrayCategorias)
+    generarCategorias()
     })
   })
 
