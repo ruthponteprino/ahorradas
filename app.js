@@ -301,17 +301,24 @@ localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 
 //EDITAR CATEGORIA
  const btnsEditar = document.querySelectorAll('.editar')
+ const btnCancelar = document.getElementById('cancelar')
 
 btnsEditar.forEach(btn => {
   btn.addEventListener('click', e => {
   const arrayEditado = arrayCategorias.filter(categoria => categoria.id == e.target.dataset.id)
   editarCategoria(arrayEditado)
+
   btnEditarCategoria.addEventListener('click', () =>{
    arrayEditado[0].nombre = inputEditar.value
    categorias.classList.remove('oculto')
    editarCategoriaSeccion.classList.add('oculto')
    pintarCategorias(arrayCategorias)
    generarCategorias()
+  })
+
+  btnCancelar.addEventListener('click', () => {
+    categorias.classList.remove('oculto')
+    editarCategoriaSeccion.classList.add('oculto')
   })
   })
 })
