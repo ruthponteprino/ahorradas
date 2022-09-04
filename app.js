@@ -10,6 +10,7 @@ const btnAgregar = document.getElementById("agregar-btn");
 // const editarOperacion = document.getElementById("editarOperacion");
 const eliminarOperacion = document.getElementById("eliminarOperacion");
 const btnAgregarCategoria = document.getElementById("btn-agregar-categoria");
+const btnEditarCategoria = document.getElementById("btn-editar-categoria");
 
 // INPUTS //
 const inputDescripcion = document.getElementById("descripcion");
@@ -20,6 +21,7 @@ const selectCategoriaOperacion = document.getElementById(
 );
 const inputFecha = document.getElementById("fecha-input");
 const acciones = document.getElementById("acciones");
+const inputEditar = document.getElementById("editar-categoria-input");
 
 //editar operacion
 const descripcionEditar = document.getElementById("descripcion-editar");
@@ -41,13 +43,13 @@ const operacionesInsuficientes = document.getElementById(
 
 const seccionOperacion = document.getElementById("seccion-operacion"); //TRAIGO FORMULARIO OPERACIONES
 const filtros = document.getElementById("filtros");
-const seccionEditarOperacion = document.getElementById(
-  "seccion-editar-operacion"
-);
+const seccionEditarOperacion = document.getElementById("seccion-editar-operacion");
+const editarCategoriaSeccion = document.getElementById('seccion-editar-categorias')
 
 btnBalance.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
+  editarCategoriaSeccion.classList.add('oculto');
   reportes.classList.add("oculto");
   seccionOperacion.classList.add("oculto");
   //console.log(btnBalance);
@@ -57,6 +59,7 @@ btnAhorradas.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
   reportes.classList.add("oculto");
+  editarCategoriaSeccion.classList.add('oculto');
   seccionOperacion.classList.add("oculto");
   // console.log(btnBalance)
 });
@@ -264,8 +267,9 @@ const generarCategorias = () => {
 generarCategorias();
 
 //FUNCION QUE PINTA LAS CATEGORIAS (ARR DE CATEGORIAS) EN LA SECCION DE CATEGORIAS, ABAJO DE TODAS LAS OTRAS CATEGORIAS CON SU BOT'ON EDITAR Y ELIMINAR
-const pintarCategorias = () => {
-  arrayCategorias.forEach((categoria) => {
+const pintarCategorias = (arr) => {
+  document.getElementById("categorias").innerHTML ="" 
+  arr.forEach((categoria) => {
     document.getElementById("categorias").innerHTML += `
     <div class="container text-start lista-categorias">
       <div class="row align-items-start">
@@ -278,11 +282,50 @@ const pintarCategorias = () => {
       </div>
    </div>`;
   });
+  
+localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 
- localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
+
+//ELIMINAR CATEGORIA
+ const btnsEliminar = document.querySelectorAll('.eliminar')
+
+  btnsEliminar.forEach((btn) =>{
+    btn.addEventListener('click', e => {
+    const arrayLimpio = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
+    localStorage.setItem('categorias', JSON.stringify(arrayLimpio))
+    arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
+    pintarCategorias(arrayCategorias) 
+    })
+  })
+
+//EDITAR CATEGORIA
+ const btnsEditar = document.querySelectorAll('.editar')
+
+btnsEditar.forEach(btn => {
+  btn.addEventListener('click', e => {
+  const arrayEditado = arrayCategorias.filter(categoria => categoria.id == e.target.dataset.id)
+  editarCategoria(arrayEditado)
+  btnEditarCategoria.addEventListener('click', () =>{
+   arrayEditado[0].nombre = inputEditar.value
+   categorias.classList.remove('oculto')
+   editarCategoriaSeccion.classList.add('oculto')
+   pintarCategorias(arrayCategorias)
+   generarCategorias()
+  })
+  })
+})
 };
  
-pintarCategorias();
+const editarCategoria = arr => {
+  const {nombre} = arr[0]
+
+  categorias.classList.add('oculto')
+   editarCategoriaSeccion.classList.remove('oculto')
+   inputEditar.value = nombre
+}
+
+
+pintarCategorias(arrayCategorias);
 
 //FUNCION QUE TOMA DEL INPUT LA NUEVA CATEGORIA INGRESADA POR EL USUARIO, LE PONE UN ID, Y LA TIENE QUE SUBIR AL ARREGLO DE CATEGORIAS, !!!!!!!!!!!!!!!VER SI ESTO EST'A FUNCIONANDO
 let inputCategoria = document.getElementById("nueva-categoria-input");
@@ -314,20 +357,9 @@ listaCategorias.innerHTML += `
 `
 localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 generarCategorias()
+pintarCategorias(arrayCategorias)
+
 });
-
-//ELIMINAR CATEGORIA
-const btnEliminar = document.querySelectorAll(".eliminar")
-
-  btnEliminar.forEach((btn) =>{
-    btn.addEventListener('click', e =>{
-      const borrar = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
-      localStorage.setItem("categorias", JSON.stringify(borrar))
-      arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
-      pintarCategorias(arrayCategorias)
-    })
-  })
-//EDITAR CATEGORIA
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // NUEVA OPERACION //
@@ -524,6 +556,7 @@ const inicializar = () => {
   });
   //AGREGAR LAS FUNCIONES QUE ESTAN SUELTAS PARA ACOMODAR EL CODIGO
   pintarOperaciones(operaciones);
+  generarCategorias()
   // mostrarOperaciones(operaciones);
   // alterfy.success('Operacion Eliminada') //lanza un alerta que avise si estan ok las acciones que va realizando el usuario
 };
@@ -592,74 +625,85 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
 const ordenarPorFecha = document.getElementById("por-fecha");
 
 ordenarPorFecha.addEventListener("change", (e) => {
-  console.log(e.target.value);
-  console.log(operaciones[0].fecha);
+  // console.log(e.target.value);
+  // console.log(operaciones[0].fecha);
   const operacionesFiltradasPorFecha = operaciones.filter(
     (operacion) => new Date(operacion.fecha) >= new Date(e.target.value)
   );
-  console.log(operacionesFiltradasPorFecha);
+  // console.log(operacionesFiltradasPorFecha);
   pintarOperaciones(operacionesFiltradasPorFecha);
 });
 
 //ORDENAR POR
-//MAS RECIENTE
-
-//MENOS RECIENTE
 
 const ordenarPor = document.getElementById("ordenar-por");
 
 ordenarPor.addEventListener("change", () => {
+  //MAS RECIENTE
+  if (ordenarPor.value === 'mas-reciente') {
+    operaciones.sort(
+      (a ,b) => new Date(b.fecha) - new Date(a.fecha)
+    )
+  }
+  pintarOperaciones(operaciones)
+  
+  //MENOS RECIENTE
+  if (ordenarPor.value === 'menos-reciente') {
+      operaciones.sort(
+      (a ,b) => new Date(a.fecha) - new Date(b.fecha)
+    )
+  }
+  pintarOperaciones(operaciones)
+  
   //MAYOR MONTO
   if (ordenarPor.value === "mayor-monto") {
-    const resultadoMonto = operaciones.sort((a, b) => {
+    operaciones.sort((a, b) => {
       if (Number(a.monto) > Number(b.monto)) {
         return -1;
       }
       if (Number(a.monto) < Number(b.monto)) return 1;
     });
-    console.log(resultadoMonto);
   }
   pintarOperaciones(operaciones);
+  
   //MENOR MONTO
   if (ordenarPor.value === "menor-monto") {
-    const resultadoMonto = operaciones.sort((a, b) => {
+    operaciones.sort((a, b) => {
       if (Number(a.monto) < Number(b.monto)) {
         return -1;
       }
       if (Number(a.monto) > Number(b.monto)) return 1;
     });
-    console.log(resultadoMonto);
   }
   pintarOperaciones(operaciones);
 
   //A/Z
 
   if (ordenarPor.value === "a-z") {
-    const resultado = operaciones.sort((a, b) => {
+    operaciones.sort((a, b) => {
       if (a.descripcion.toLowerCase() < b.descripcion.toLowerCase()) {
         return -1;
       }
       if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) return 1;
     });
-    console.log(resultado);
   }
   pintarOperaciones(operaciones);
 
   //Z/A
 
   if (ordenarPor.value === "z-a") {
-    const resultado = operaciones.sort((a, b) => {
+    operaciones.sort((a, b) => {
       if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) {
         return -1;
       }
       if (a.descripcion.toLowerCase() < b.descripcion.toLowerCase()) return 1;
     });
-    console.log(resultado);
   }
   pintarOperaciones(operaciones);
 
   //////////////////////////////////////
 });
+////////////////////////////////////////////////////////////
 
 //REPORTES, EMPEZAR ABAJO HACIA ARRIBA
 
