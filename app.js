@@ -49,6 +49,9 @@ const editarCategoriaSeccion = document.getElementById('seccion-editar-categoria
 btnBalance.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
+  btnBalance.classList.add('active')
+  btnCategorias.classList.remove('active')
+  btnReportes.classList.remove('active')
   editarCategoriaSeccion.classList.add('oculto');
   reportes.classList.add("oculto");
   seccionOperacion.classList.add("oculto");
@@ -59,6 +62,9 @@ btnAhorradas.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
   reportes.classList.add("oculto");
+  btnBalance.classList.add('active')
+  btnReportes.classList.remove('active')
+  btnCategorias.classList.remove('active')
   editarCategoriaSeccion.classList.add('oculto');
   seccionOperacion.classList.add("oculto");
   // console.log(btnBalance)
@@ -66,6 +72,9 @@ btnAhorradas.addEventListener("click", () => {
 
 btnCategorias.addEventListener("click", () => {
   balance.classList.add("oculto");
+  btnBalance.classList.remove('active')
+  btnCategorias.classList.add('active')
+  btnReportes.classList.remove('active')
   categorias.classList.remove("oculto");
   reportes.classList.add("oculto");
   //console.log(btnCategorias);
@@ -76,6 +85,9 @@ btnReportes.addEventListener("click", () => {
   balance.classList.add("oculto");
   categorias.classList.add("oculto");
   reportes.classList.remove("oculto");
+  btnBalance.classList.remove('active')
+  btnCategorias.classList.remove('active')
+  btnReportes.classList.add('active')
   if (!operaciones.length) {
     operacionesInsuficientes.classList.remove("oculto");
     contenedorReportes.classList.add("oculto");
@@ -251,11 +263,11 @@ let arrayCategorias = JSON.parse(localStorage.getItem('categorias')) || [
 ];
 
 //FUNCION QUE AGREGA LAS CATEGORIAS (ARREGLO DE CATEGORIAS) A LOS SELECT
+const selects = document.getElementsByClassName("select-categorias");
 const generarCategorias = () => {
-  const selects = document.getElementsByClassName("select-categorias");
   for (let i = 0; i < selects.length; i++) {
-    selects.innerHTML = "";
     const select = selects[i];
+    select.innerHTML = "";
     if (select.classList.contains("filtro-categorias")) {
       select.innerHTML = '<option value="todas" selected>Todas</option>';
     }
@@ -294,23 +306,31 @@ localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
     const arrayLimpio = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
     localStorage.setItem('categorias', JSON.stringify(arrayLimpio))
     arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
-    pintarCategorias(arrayCategorias) 
+    pintarCategorias(arrayCategorias)
+    generarCategorias()
     })
   })
 
 //EDITAR CATEGORIA
  const btnsEditar = document.querySelectorAll('.editar')
+ const btnCancelar = document.getElementById('cancelar')
 
 btnsEditar.forEach(btn => {
   btn.addEventListener('click', e => {
   const arrayEditado = arrayCategorias.filter(categoria => categoria.id == e.target.dataset.id)
   editarCategoria(arrayEditado)
+
   btnEditarCategoria.addEventListener('click', () =>{
    arrayEditado[0].nombre = inputEditar.value
    categorias.classList.remove('oculto')
    editarCategoriaSeccion.classList.add('oculto')
    pintarCategorias(arrayCategorias)
    generarCategorias()
+  })
+
+  btnCancelar.addEventListener('click', () => {
+    categorias.classList.remove('oculto')
+    editarCategoriaSeccion.classList.add('oculto')
   })
   })
 })
