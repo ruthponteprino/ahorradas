@@ -264,8 +264,9 @@ const generarCategorias = () => {
 generarCategorias();
 
 //FUNCION QUE PINTA LAS CATEGORIAS (ARR DE CATEGORIAS) EN LA SECCION DE CATEGORIAS, ABAJO DE TODAS LAS OTRAS CATEGORIAS CON SU BOT'ON EDITAR Y ELIMINAR
-const pintarCategorias = () => {
-  arrayCategorias.forEach((categoria) => {
+const pintarCategorias = (arr) => {
+  document.getElementById("categorias").innerHTML ="" 
+  arr.forEach((categoria) => {
     document.getElementById("categorias").innerHTML += `
     <div class="container text-start lista-categorias">
       <div class="row align-items-start">
@@ -278,11 +279,23 @@ const pintarCategorias = () => {
       </div>
    </div>`;
   });
+  
+localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 
- localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
+ const btnsEliminar = document.querySelectorAll('.eliminar')
+
+  btnsEliminar.forEach((btn) =>{
+    btn.addEventListener('click', e => {
+    const arrayLimpio = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
+    localStorage.setItem('categorias', JSON.stringify(arrayLimpio))
+    arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
+    pintarCategorias(arrayCategorias) 
+    })
+  })
+
 };
  
-pintarCategorias();
+pintarCategorias(arrayCategorias);
 
 //FUNCION QUE TOMA DEL INPUT LA NUEVA CATEGORIA INGRESADA POR EL USUARIO, LE PONE UN ID, Y LA TIENE QUE SUBIR AL ARREGLO DE CATEGORIAS, !!!!!!!!!!!!!!!VER SI ESTO EST'A FUNCIONANDO
 let inputCategoria = document.getElementById("nueva-categoria-input");
@@ -314,20 +327,18 @@ listaCategorias.innerHTML += `
 `
 localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 generarCategorias()
+pintarCategorias(arrayCategorias)
 });
 
 //ELIMINAR CATEGORIA
-const btnEliminar = document.querySelectorAll(".eliminar")
 
-  btnEliminar.forEach((btn) =>{
-    btn.addEventListener('click', e =>{
-      const borrar = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
-      localStorage.setItem("categorias", JSON.stringify(borrar))
-      arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
-      pintarCategorias(arrayCategorias)
-    })
-  })
+
 //EDITAR CATEGORIA
+ const btnsEditar = document.querySelectorAll('.editar')
+
+btnsEditar.forEach(btn => {
+  console.log(btn)
+})
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // NUEVA OPERACION //
@@ -524,6 +535,7 @@ const inicializar = () => {
   });
   //AGREGAR LAS FUNCIONES QUE ESTAN SUELTAS PARA ACOMODAR EL CODIGO
   pintarOperaciones(operaciones);
+  generarCategorias()
   // mostrarOperaciones(operaciones);
   // alterfy.success('Operacion Eliminada') //lanza un alerta que avise si estan ok las acciones que va realizando el usuario
 };
