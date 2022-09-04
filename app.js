@@ -80,140 +80,6 @@ btnCategorias.addEventListener("click", () => {
   //console.log(btnCategorias);
 });
 
-//REPORTES
-btnReportes.addEventListener("click", () => {
-  balance.classList.add("oculto");
-  categorias.classList.add("oculto");
-  reportes.classList.remove("oculto");
-  btnBalance.classList.remove('active')
-  btnCategorias.classList.remove('active')
-  btnReportes.classList.add('active')
-  if (!operaciones.length) {
-    operacionesInsuficientes.classList.remove("oculto");
-    contenedorReportes.classList.add("oculto");
-  } else {
-    operacionesInsuficientes.classList.add("oculto");
-    contenedorReportes.classList.remove("oculto");
-  }
-  totalPorMes(operaciones); //hago que se active cuando el usuario le de click al btn reportes
-  totalPorCategoria(operaciones, arrayCategorias);
-  
-});
-
-
-
-//REPORTE TOTAL POR CATEGORIA
-const totalPorCategoria = (operaciones, arrayCategorias) => {
-  //RECORRER LA CATEGORIAS Y HACER UN NUEVO ARREGLO POR CADA CATEGORIA QUE TENGA ESA CATEGORIA
-  //for each + filter + reduce
-
-  document.getElementById("totales-por-categoria").innerHTML = "";
-  let str = "";
-
-  arrayCategorias.forEach((arrayCategorias) => {
-    const porCategoria = operaciones.filter(
-      (operacion) => operacion.categoria === arrayCategorias.categoria
-    );
-    console.log(porCategoria) //tira un arr con obj de las categorias
-
-    const porCategoriaGanancia = porCategoria
-      .filter((operacion) => operacion.tipo === "ganancia")
-      .reduce((count, current) => count + Number(current.monto), 0);
-    console.log(porCategoriaGanancia); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
-    console.log(
-      `LA CATEGORIA ${arrayCategorias.nombre} ganancia ${porCategoriaGanancia}`
-    ); //POR LO MENOS TOMA EL NOMBRE/////////////////////////////////////
-
-
-    const porCategoriaGasto = porCategoria
-      .filter((operacion) => operacion.tipo === "gasto")
-      .reduce((count, current) => count + Number(current.monto), 0);
-    console.log(porCategoriaGasto); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
-    console.log(
-      `LA CATEGORIA ${arrayCategorias.nombre} GASTO  ${porCategoriaGasto}`
-    );
-
-    const balance = porCategoriaGanancia - porCategoriaGasto;
-    console.log(balance)
-
-    str += `
-      
-      <div class="row align-items-start my-2" >
-          <div class="col w-25">
-            ${arrayCategorias.nombre}
-          </div>
-          <div class="col text-end">
-            <span class="success">${porCategoriaGanancia}</span>
-          </div>
-          <div class="col danger text-end">
-            ${porCategoriaGasto}
-          </div>
-          <div class="col text-black text-end" >
-            ${balance}
-          </div>
-      </div>
-
-    `;
-    document.getElementById("totales-por-categoria").innerHTML = str;
-    ///////////////////////////////////////////////////////////////////////////////
-  });
-};
-
-//REPORTE TOTAL POR MES
-const totalPorMes = (arr) => {
-  // console.log(arr)
-  //creo un arr con meses
-  //devolver los meses donde hay operaciones y si se repiten los meses dejar solo uno, una fila por mes. con new set no se repiten los valores
-  const arrMesUnico = [
-    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
-  ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
-  console.log(arrMesUnico);
-
-  const arrAnio = [
-    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
-  ].sort();
-  document.getElementById("totales-por-mes").innerHTML = "";
-  let str = "";
-
-  for (let i = 0; i < arrMesUnico.length; i++) {
-    const operacionesMesUnico = arr.filter(
-      (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
-    ); //entremos a todos los meses de cada una de las operaciones
-    const porGanancia = operacionesMesUnico
-      .filter((operacion) => operacion.tipo === "ganancia")
-      .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
-    const porGasto = operacionesMesUnico
-      .filter((operacion) => operacion.tipo === "gasto")
-      .reduce((count, current) => count + Number(current.monto), 0);
-    // console.log(`mes ${arrMesUnico[i]}/${arrAnio} ganancia ${porGanancia}`);
-    // console.log(`mes ${arrMesUnico[i]}/${arrAnio} gasto ${porGasto}`);
-
-    const balance = porGanancia - porGasto;
-
-    str += `
-      <div class="row align-items-start my-2" >
-        <div class="col">
-          ${arrMesUnico[i]}/${arrAnio}
-          </div>
-          <div class="col text-end">
-            <span class="badge text-success">+${porGanancia}</span>
-          </div>
-          <div class="col text-end">
-            <span class="badge text-danger">-${porGasto}</span>
-          </div>
-          <div class="col text-end">
-            <span class="badge text-black">${balance}</span>
-          </div>
-    </div>
- 
-    `;
-    document.getElementById("totales-por-mes").innerHTML = str;
-  }
-  
-};
-
-console.log("prueba 2-9");
-
 btnNuevaOperacion.addEventListener("click", () => {
   seccionOperacion.classList.remove("oculto");
   balance.classList.add("oculto");
@@ -441,47 +307,11 @@ btnAgregar.addEventListener("click", () => {
   pintarOperaciones(operaciones);
 });
 
-////////////SECCION BALANCE//////////
-////////////FILTRAR TOTAL DE GANANCIAS//////////
-
-const totalGananciasBalance = (arr) => {
-  let resultadoGanancias = arr
-    .filter((operacion) => operacion.tipo === "ganancia")
-    .reduce((prev, current) => prev + Number(current.monto), 0);
-  return resultadoGanancias;
-};
-
-////////////FILTRAR TOTAL DE GASTOS//////////
-const totalGastosBalance = (arr) => {
-  let resultadoGastos = arr
-    .filter((operacion) => operacion.tipo === "gasto")
-    .reduce((prev, current) => prev + Number(current.monto), 0);
-  return resultadoGastos;
-};
-
-///////////IMPRIMIR RESULTADOS EN SECCION BALANCE//////////////////
-const pintarEnBalance = (arr) => {
-  const totalBalance = totalGananciasBalance(arr) - totalGastosBalance(arr);
-  //let str = ''
-  //for (let)
-  let str = `
-            <tbody>
-              <tr>
-                <td>Ganancias</td>
-                <td class="text-success">+$${totalGananciasBalance(arr)}</td>
-              </tr>
-              <tr>
-                <td>Gastos</td>
-                <td class="text-danger">+$${totalGastosBalance(arr)}</td>
-              </tr>
-              <tr>
-                <th>Total</th>
-                <th>$${Math.abs(totalBalance)}</th>
-              </tr>
-            </tbody>`;
-
-  document.getElementById("balance").innerHTML = str;
-};
+const btnCancelarCargarOperacion = document.getElementById('btn-cancelar-cargar-operacion')
+btnCancelarCargarOperacion.addEventListener("click", () => {
+  seccionEditarOperacion.classList.add("oculto");
+  balance.classList.remove("oculto");
+});
 
 const pintarOperaciones = (arr) => {
   document.getElementById("operaciones").innerHTML = ""; //limpiamos operaciones y muestra img del inicio
@@ -552,10 +382,10 @@ const pintarOperaciones = (arr) => {
         operaciones = JSON.parse(localStorage.getItem("operaciones"));
         pintarOperaciones(operaciones);
       });
-      btnCancelarOperacion.addEventListener("click", () => {
-        seccionEditarOperacion.classList.add("oculto");
-        balance.classList.remove("oculto");
-      });
+    });
+    btnCancelarOperacion.addEventListener("click", () => {
+      seccionEditarOperacion.classList.add("oculto");
+      balance.classList.remove("oculto");
     });
   });
   pintarEnBalance(operaciones);
@@ -574,23 +404,11 @@ const editarBtnOperacion = (arr) => {
   fechaEditar.value = fecha;
 };
 
-//INICIALIZAR
-const inicializar = () => {
-  const inputsFecha = document.querySelectorAll('input[type="date"]');
-  inputsFecha.forEach((input) => {
-    input.valueAsDate = new Date();
-  });
-  //AGREGAR LAS FUNCIONES QUE ESTAN SUELTAS PARA ACOMODAR EL CODIGO
-  pintarOperaciones(operaciones);
-  generarCategorias()
-  // mostrarOperaciones(operaciones);
-  // alterfy.success('Operacion Eliminada') //lanza un alerta que avise si estan ok las acciones que va realizando el usuario
-};
 
-window.onload = inicializar();
-const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////FILTROS///////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //TIPO, SELECT todos, gastos y ganacias
 
 const selectTipo = document.getElementById("tipo");
@@ -729,9 +547,55 @@ ordenarPor.addEventListener("change", () => {
 
   //////////////////////////////////////
 });
+
+////////////////////////////////////////////////////////////
+////////////SECCION BALANCE//////////
 ////////////////////////////////////////////////////////////
 
-//REPORTES, EMPEZAR ABAJO HACIA ARRIBA
+////////////FILTRAR TOTAL DE GANANCIAS//////////
+
+const totalGananciasBalance = (arr) => {
+  let resultadoGanancias = arr
+    .filter((operacion) => operacion.tipo === "ganancia")
+    .reduce((prev, current) => prev + Number(current.monto), 0);
+  return resultadoGanancias;
+};
+
+////////////FILTRAR TOTAL DE GASTOS//////////
+const totalGastosBalance = (arr) => {
+  let resultadoGastos = arr
+    .filter((operacion) => operacion.tipo === "gasto")
+    .reduce((prev, current) => prev + Number(current.monto), 0);
+  return resultadoGastos;
+};
+
+///////////IMPRIMIR RESULTADOS EN SECCION BALANCE//////////////////
+const pintarEnBalance = (arr) => {
+  const totalBalance = totalGananciasBalance(arr) - totalGastosBalance(arr);
+  //let str = ''
+  //for (let)
+  let str = `
+            <tbody>
+              <tr>
+                <td>Ganancias</td>
+                <td class="text-success">+$${totalGananciasBalance(arr)}</td>
+              </tr>
+              <tr>
+                <td>Gastos</td>
+                <td class="text-danger">+$${totalGastosBalance(arr)}</td>
+              </tr>
+              <tr>
+                <th>Total</th>
+                <th>$${Math.abs(totalBalance)}</th>
+              </tr>
+            </tbody>`;
+
+  document.getElementById("balance").innerHTML = str;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//REPORTES
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //TOTALES POR MES, debe filtar por mes todas la ganacias - los gastos = balance, filter fecha mes a mes, filter gasto o ganacia . reduce para sacar el total del monto. filter a todas las operaciones, saque los meses, los guarde en un arr los mese que hay operaciones, y con este arr, for, por cada mes hacer un filter y un reduce
 
@@ -748,3 +612,161 @@ ordenarPor.addEventListener("change", () => {
 //MES CON MAYOR GANANCIA
 
 //MES CON MAYOR GASTO
+
+
+//REPORTES
+btnReportes.addEventListener("click", () => {
+  balance.classList.add("oculto");
+  categorias.classList.add("oculto");
+  reportes.classList.remove("oculto");
+  btnBalance.classList.remove('active')
+  btnCategorias.classList.remove('active')
+  btnReportes.classList.add('active')
+  if (!operaciones.length) {
+    operacionesInsuficientes.classList.remove("oculto");
+    contenedorReportes.classList.add("oculto");
+  } else {
+    operacionesInsuficientes.classList.add("oculto");
+    contenedorReportes.classList.remove("oculto");
+  }
+  totalPorMes(operaciones); //hago que se active cuando el usuario le de click al btn reportes
+  totalPorCategoria(operaciones, arrayCategorias);
+  
+});
+
+//REPORTE TOTAL POR CATEGORIA
+const totalPorCategoria = (operaciones, arrayCategorias) => {
+  //RECORRER LA CATEGORIAS Y HACER UN NUEVO ARREGLO POR CADA CATEGORIA QUE TENGA ESA CATEGORIA
+  //for each + filter + reduce
+
+  document.getElementById("totales-por-categoria").innerHTML = "";
+  let str = "";
+  const conBalance = arrayCategorias.map(categoria => {
+  
+
+  arrayCategorias.forEach((arrayCategorias) => {
+    const porCategoria = operaciones.filter(
+      (operacion) => operacion.categoria === arrayCategorias.categoria
+    );
+    console.log(porCategoria) //tira un arr con obj de las categorias
+
+    const porCategoriaGanancia = porCategoria
+      .filter((operacion) => operacion.tipo === "ganancia")
+      .reduce((count, current) => count + Number(current.monto), 0);
+    console.log(porCategoriaGanancia); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
+    console.log(
+      `LA CATEGORIA ${arrayCategorias.nombre} ganancia ${porCategoriaGanancia}`
+    ); //POR LO MENOS TOMA EL NOMBRE/////////////////////////////////////
+
+    const porCategoriaGasto = porCategoria
+      .filter((operacion) => operacion.tipo === "gasto")
+      .reduce((count, current) => count + Number(current.monto), 0);
+    console.log(porCategoriaGasto); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
+    console.log(
+      `LA CATEGORIA ${arrayCategorias.nombre} GASTO  ${porCategoriaGasto}`
+    );
+
+    const balance = porCategoriaGanancia - porCategoriaGasto;
+    console.log(balance)
+
+    str += `
+      
+      <div class="row align-items-start my-2" >
+          <div class="col w-25">
+            ${arrayCategorias.nombre}
+          </div>
+          <div class="col text-end">
+            <span class="success">${porCategoriaGanancia}</span>
+          </div>
+          <div class="col danger text-end">
+            ${porCategoriaGasto}
+          </div>
+          <div class="col text-black text-end" >
+            ${balance}
+          </div>
+      </div>
+
+    `;
+    document.getElementById("totales-por-categoria").innerHTML = str;
+    ///////////////////////////////////////////////////////////////////////////////
+  });
+
+
+    
+}
+)
+
+};
+
+//REPORTE TOTAL POR MES
+const totalPorMes = (arr) => {
+  // console.log(arr)
+  //creo un arr con meses
+  //devolver los meses donde hay operaciones y si se repiten los meses dejar solo uno, una fila por mes. con new set no se repiten los valores
+  const arrMesUnico = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
+  ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
+  console.log(arrMesUnico);
+
+  const arrAnio = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
+  ].sort();
+  document.getElementById("totales-por-mes").innerHTML = "";
+  let str = "";
+
+  for (let i = 0; i < arrMesUnico.length; i++) {
+    const operacionesMesUnico = arr.filter(
+      (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
+    ); //entremos a todos los meses de cada una de las operaciones
+    const porGanancia = operacionesMesUnico
+      .filter((operacion) => operacion.tipo === "ganancia")
+      .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
+    const porGasto = operacionesMesUnico
+      .filter((operacion) => operacion.tipo === "gasto")
+      .reduce((count, current) => count + Number(current.monto), 0);
+    // console.log(`mes ${arrMesUnico[i]}/${arrAnio} ganancia ${porGanancia}`);
+    // console.log(`mes ${arrMesUnico[i]}/${arrAnio} gasto ${porGasto}`);
+
+    const balance = porGanancia - porGasto;
+
+    str += `
+      <div class="row align-items-start my-2" >
+        <div class="col">
+          ${arrMesUnico[i]}/${arrAnio}
+          </div>
+          <div class="col text-end">
+            <span class="badge text-success">+${porGanancia}</span>
+          </div>
+          <div class="col text-end">
+            <span class="badge text-danger">-${porGasto}</span>
+          </div>
+          <div class="col text-end">
+            <span class="badge text-black">${balance}</span>
+          </div>
+    </div>
+ 
+    `;
+    document.getElementById("totales-por-mes").innerHTML = str;
+  }
+  
+};
+
+console.log("prueba 4-9");
+
+
+//INICIALIZAR
+const inicializar = () => {
+  const inputsFecha = document.querySelectorAll('input[type="date"]');
+  inputsFecha.forEach((input) => {
+    input.valueAsDate = new Date();
+  });
+  //AGREGAR LAS FUNCIONES QUE ESTAN SUELTAS PARA ACOMODAR EL CODIGO
+  pintarOperaciones(operaciones);
+  generarCategorias()
+  // mostrarOperaciones(operaciones);
+  // alterfy.success('Operacion Eliminada') //lanza un alerta que avise si estan ok las acciones que va realizando el usuario
+};
+
+window.onload = inicializar();
+const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
+
