@@ -97,7 +97,10 @@ btnReportes.addEventListener("click", () => {
   }
   totalPorMes(operaciones); //hago que se active cuando el usuario le de click al btn reportes
   totalPorCategoria(operaciones, arrayCategorias);
+  
 });
+
+
 
 //REPORTE TOTAL POR CATEGORIA
 const totalPorCategoria = (operaciones, arrayCategorias) => {
@@ -107,35 +110,37 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
   document.getElementById("totales-por-categoria").innerHTML = "";
   let str = "";
 
-  arrayCategorias.forEach((categoria) => {
+  arrayCategorias.forEach((arrayCategorias) => {
     const porCategoria = operaciones.filter(
-      (operacion) => operacion.categoria === categoria
+      (operacion) => operacion.categoria === arrayCategorias.categoria
     );
-    // console.log(porCategoria) //tira un arr vacio!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    console.log(porCategoria) //tira un arr con obj de las categorias
 
     const porCategoriaGanancia = porCategoria
       .filter((operacion) => operacion.tipo === "ganancia")
       .reduce((count, current) => count + Number(current.monto), 0);
     console.log(porCategoriaGanancia); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
     console.log(
-      `LA CATEGORIA ${categoria.nombre} tiene una ganancia de ${porCategoriaGanancia}`
+      `LA CATEGORIA ${arrayCategorias.nombre} ganancia ${porCategoriaGanancia}`
     ); //POR LO MENOS TOMA EL NOMBRE/////////////////////////////////////
+
 
     const porCategoriaGasto = porCategoria
       .filter((operacion) => operacion.tipo === "gasto")
       .reduce((count, current) => count + Number(current.monto), 0);
     console.log(porCategoriaGasto); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
     console.log(
-      `LA CATEGORIA ${categoria.nombre} tiene una ganancia de ${porCategoriaGasto}`
+      `LA CATEGORIA ${arrayCategorias.nombre} GASTO  ${porCategoriaGasto}`
     );
 
     const balance = porCategoriaGanancia - porCategoriaGasto;
+    console.log(balance)
 
     str += `
       
       <div class="row align-items-start my-2" >
           <div class="col w-25">
-            ${categoria.nombre}
+            ${arrayCategorias.nombre}
           </div>
           <div class="col text-end">
             <span class="success">${porCategoriaGanancia}</span>
@@ -204,6 +209,7 @@ const totalPorMes = (arr) => {
     `;
     document.getElementById("totales-por-mes").innerHTML = str;
   }
+  
 };
 
 console.log("prueba 2-9");
