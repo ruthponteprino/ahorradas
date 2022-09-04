@@ -49,6 +49,9 @@ const editarCategoriaSeccion = document.getElementById('seccion-editar-categoria
 btnBalance.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
+  btnBalance.classList.add('active')
+  btnCategorias.classList.remove('active')
+  btnReportes.classList.remove('active')
   editarCategoriaSeccion.classList.add('oculto');
   reportes.classList.add("oculto");
   seccionOperacion.classList.add("oculto");
@@ -59,6 +62,9 @@ btnAhorradas.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
   reportes.classList.add("oculto");
+  btnBalance.classList.add('active')
+  btnReportes.classList.remove('active')
+  btnCategorias.classList.remove('active')
   editarCategoriaSeccion.classList.add('oculto');
   seccionOperacion.classList.add("oculto");
   // console.log(btnBalance)
@@ -66,6 +72,9 @@ btnAhorradas.addEventListener("click", () => {
 
 btnCategorias.addEventListener("click", () => {
   balance.classList.add("oculto");
+  btnBalance.classList.remove('active')
+  btnCategorias.classList.add('active')
+  btnReportes.classList.remove('active')
   categorias.classList.remove("oculto");
   reportes.classList.add("oculto");
   //console.log(btnCategorias);
@@ -76,6 +85,9 @@ btnReportes.addEventListener("click", () => {
   balance.classList.add("oculto");
   categorias.classList.add("oculto");
   reportes.classList.remove("oculto");
+  btnBalance.classList.remove('active')
+  btnCategorias.classList.remove('active')
+  btnReportes.classList.add('active')
   if (!operaciones.length) {
     operacionesInsuficientes.classList.remove("oculto");
     contenedorReportes.classList.add("oculto");
