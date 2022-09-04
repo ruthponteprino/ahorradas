@@ -10,6 +10,7 @@ const btnAgregar = document.getElementById("agregar-btn");
 // const editarOperacion = document.getElementById("editarOperacion");
 const eliminarOperacion = document.getElementById("eliminarOperacion");
 const btnAgregarCategoria = document.getElementById("btn-agregar-categoria");
+const btnEditarCategoria = document.getElementById("btn-editar-categoria");
 
 // INPUTS //
 const inputDescripcion = document.getElementById("descripcion");
@@ -20,6 +21,7 @@ const selectCategoriaOperacion = document.getElementById(
 );
 const inputFecha = document.getElementById("fecha-input");
 const acciones = document.getElementById("acciones");
+const inputEditar = document.getElementById("editar-categoria-input");
 
 //editar operacion
 const descripcionEditar = document.getElementById("descripcion-editar");
@@ -41,13 +43,13 @@ const operacionesInsuficientes = document.getElementById(
 
 const seccionOperacion = document.getElementById("seccion-operacion"); //TRAIGO FORMULARIO OPERACIONES
 const filtros = document.getElementById("filtros");
-const seccionEditarOperacion = document.getElementById(
-  "seccion-editar-operacion"
-);
+const seccionEditarOperacion = document.getElementById("seccion-editar-operacion");
+const editarCategoriaSeccion = document.getElementById('seccion-editar-categorias')
 
 btnBalance.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
+  editarCategoriaSeccion.classList.add('oculto');
   reportes.classList.add("oculto");
   seccionOperacion.classList.add("oculto");
   //console.log(btnBalance);
@@ -57,6 +59,7 @@ btnAhorradas.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
   reportes.classList.add("oculto");
+  editarCategoriaSeccion.classList.add('oculto');
   seccionOperacion.classList.add("oculto");
   // console.log(btnBalance)
 });
@@ -282,6 +285,8 @@ const pintarCategorias = (arr) => {
   
 localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 
+
+//ELIMINAR CATEGORIA
  const btnsEliminar = document.querySelectorAll('.eliminar')
 
   btnsEliminar.forEach((btn) =>{
@@ -293,8 +298,32 @@ localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
     })
   })
 
+//EDITAR CATEGORIA
+ const btnsEditar = document.querySelectorAll('.editar')
+
+btnsEditar.forEach(btn => {
+  btn.addEventListener('click', e => {
+  const arrayEditado = arrayCategorias.filter(categoria => categoria.id == e.target.dataset.id)
+  editarCategoria(arrayEditado)
+  btnEditarCategoria.addEventListener('click', () =>{
+   arrayEditado[0].nombre = inputEditar.value
+   categorias.classList.remove('oculto')
+   editarCategoriaSeccion.classList.add('oculto')
+   pintarCategorias(arrayCategorias)
+  })
+  })
+})
 };
  
+const editarCategoria = arr => {
+  const {nombre} = arr[0]
+
+  categorias.classList.add('oculto')
+   editarCategoriaSeccion.classList.remove('oculto')
+   inputEditar.value = nombre
+}
+
+
 pintarCategorias(arrayCategorias);
 
 //FUNCION QUE TOMA DEL INPUT LA NUEVA CATEGORIA INGRESADA POR EL USUARIO, LE PONE UN ID, Y LA TIENE QUE SUBIR AL ARREGLO DE CATEGORIAS, !!!!!!!!!!!!!!!VER SI ESTO EST'A FUNCIONANDO
@@ -328,17 +357,8 @@ listaCategorias.innerHTML += `
 localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 generarCategorias()
 pintarCategorias(arrayCategorias)
+
 });
-
-//ELIMINAR CATEGORIA
-
-
-//EDITAR CATEGORIA
- const btnsEditar = document.querySelectorAll('.editar')
-
-btnsEditar.forEach(btn => {
-  console.log(btn)
-})
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // NUEVA OPERACION //

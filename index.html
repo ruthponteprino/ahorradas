@@ -392,6 +392,37 @@
       </div>
     </div>
 
+    <!--EDITAR CATEGORIA-->
+    <div class="container my-5 w-75 oculto" id="seccion-editar-categorias">
+      <!--AGREGO CLASS OCULTO-->
+      <div class="row justify-content-center shadow p-3 mb-6 bg-body rounded">
+        <div class="col-md-8 w-100">
+          <h1>Editar Categoria</h1>
+          <form>
+            <label for="nombre" class="form-label">Nombre</label>
+            <div class=" justify-content-between w-100">
+              <div class="w-100">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="categoria"
+                  id="editar-categoria-input"
+                  aria-describedby="categoria a editar"
+                />
+              </div>
+              <div class="mx-1 d-flex align-items-end">
+                <button type="submit" class="btn btn-light">Cancelar</button>
+                <button type="button"class="btn btn-primary"id="btn-editar-categoria">
+                  Editar
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="my-2" id="categorias"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- REPORTES -->
 
     <div class="container my-5 oculto" id="seccion-reportes">
