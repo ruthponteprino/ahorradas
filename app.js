@@ -625,74 +625,85 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
 const ordenarPorFecha = document.getElementById("por-fecha");
 
 ordenarPorFecha.addEventListener("change", (e) => {
-  console.log(e.target.value);
-  console.log(operaciones[0].fecha);
+  // console.log(e.target.value);
+  // console.log(operaciones[0].fecha);
   const operacionesFiltradasPorFecha = operaciones.filter(
     (operacion) => new Date(operacion.fecha) >= new Date(e.target.value)
   );
-  console.log(operacionesFiltradasPorFecha);
+  // console.log(operacionesFiltradasPorFecha);
   pintarOperaciones(operacionesFiltradasPorFecha);
 });
 
 //ORDENAR POR
-//MAS RECIENTE
-
-//MENOS RECIENTE
 
 const ordenarPor = document.getElementById("ordenar-por");
 
 ordenarPor.addEventListener("change", () => {
+  //MAS RECIENTE
+  if (ordenarPor.value === 'mas-reciente') {
+    operaciones.sort(
+      (a ,b) => new Date(b.fecha) - new Date(a.fecha)
+    )
+  }
+  pintarOperaciones(operaciones)
+  
+  //MENOS RECIENTE
+  if (ordenarPor.value === 'menos-reciente') {
+      operaciones.sort(
+      (a ,b) => new Date(a.fecha) - new Date(b.fecha)
+    )
+  }
+  pintarOperaciones(operaciones)
+  
   //MAYOR MONTO
   if (ordenarPor.value === "mayor-monto") {
-    const resultadoMonto = operaciones.sort((a, b) => {
+    operaciones.sort((a, b) => {
       if (Number(a.monto) > Number(b.monto)) {
         return -1;
       }
       if (Number(a.monto) < Number(b.monto)) return 1;
     });
-    console.log(resultadoMonto);
   }
   pintarOperaciones(operaciones);
+  
   //MENOR MONTO
   if (ordenarPor.value === "menor-monto") {
-    const resultadoMonto = operaciones.sort((a, b) => {
+    operaciones.sort((a, b) => {
       if (Number(a.monto) < Number(b.monto)) {
         return -1;
       }
       if (Number(a.monto) > Number(b.monto)) return 1;
     });
-    console.log(resultadoMonto);
   }
   pintarOperaciones(operaciones);
 
   //A/Z
 
   if (ordenarPor.value === "a-z") {
-    const resultado = operaciones.sort((a, b) => {
+    operaciones.sort((a, b) => {
       if (a.descripcion.toLowerCase() < b.descripcion.toLowerCase()) {
         return -1;
       }
       if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) return 1;
     });
-    console.log(resultado);
   }
   pintarOperaciones(operaciones);
 
   //Z/A
 
   if (ordenarPor.value === "z-a") {
-    const resultado = operaciones.sort((a, b) => {
+    operaciones.sort((a, b) => {
       if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) {
         return -1;
       }
       if (a.descripcion.toLowerCase() < b.descripcion.toLowerCase()) return 1;
     });
-    console.log(resultado);
   }
   pintarOperaciones(operaciones);
 
   //////////////////////////////////////
 });
+////////////////////////////////////////////////////////////
 
 //REPORTES, EMPEZAR ABAJO HACIA ARRIBA
 
