@@ -310,6 +310,7 @@ btnsEditar.forEach(btn => {
    categorias.classList.remove('oculto')
    editarCategoriaSeccion.classList.add('oculto')
    pintarCategorias(arrayCategorias)
+   generarCategorias()
   })
   })
 })
