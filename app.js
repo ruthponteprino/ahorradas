@@ -431,7 +431,7 @@ selectTipo.addEventListener("change", (e) => {
   const tipoGanacias = [];
 });
 
-//FILTRO tipo
+//FILTRO por tipo
 
 const selectTipoFiltros = document.getElementById("selectTipoFiltros");
 
@@ -448,7 +448,7 @@ selectTipoFiltros.addEventListener("change", (e) => {
   }
 });
 
-//categorias
+//Filtro por categoria
 
 const selectCategoriaFiltros = document.getElementById(
   "selectCategoriaFiltros"
@@ -621,17 +621,60 @@ btnReportes.addEventListener("click", () => {
   totalPorMes(operaciones); //hago que se active cuando el usuario le de click al btn reportes
   totalPorCategoria(operaciones, arrayCategorias);
   categoriaConMayorBalance(operaciones, arrayCategorias);
-  mesConMayorGanancia(operaciones)
+  categoriaConMayorGanacia(operaciones);
+  categoriaConMayorGasto(operaciones);
+  mesConMayorGanancia(operaciones);
 });
 
 //RESUMEN
 //CATEGORIA CON MAYOR GANANCIA
+const categoriaConMayorGanacia = (operaciones) => {
+  const mayorGanancia = operaciones
+    .filter((operaciones) => operaciones.tipo === "ganancia")
+    .sort((a, b) => a.monto - b.monto);
+  if (mayorGanancia.length > 0) {
+    document.getElementById("categoria-mayor-ganancia").innerHTML = 
+    `
+    <div class="row align-items-start my-2" >
+      <div class="col w-25">
+        Categoria con Mayor Ganancia
+      </div>
+      <div class="col text-end">
+        <span class="success">${mayorGanancia[0].categorias}</span>
+      </div>
+      <div class="col text-end">
+        ${mayorGanancia[0].monto}
+      </div>
+    </div>
+    `;
+  }
+};
 
 //CATEGORIA CON MAYOR GASTO
+const categoriaConMayorGasto = (operaciones) => {
+  const mayorGasto = operaciones
+    .filter((operaciones) => operaciones.tipo === "ganancia")
+    .sort((a, b) => b.monto - a.monto);
+  if (mayorGasto.length > 0) {
+    document.getElementById("categoria-mayor-gasto").innerHTML = `
+    
+    <div class="row align-items-start my-2" >
+    <div class="col w-25">
+      Categoria con Mayor Gasto
+    </div>
+    <div class="col text-end">
+      <span class="success">${mayorGasto[0].categorias}</span>
+    </div>
+    <div class="col text-end">
+    ${mayorGasto[0].monto}
+    </div>
+</div>
+    `;
+  }
+};
 
 //CATEGORIA CON MAYOR BALANCE
 const categoriaConMayorBalance = (operaciones, arrayCategorias) => {
-
   document.getElementById("categoria-mayor-balance").innerHTML = "";
   let str = "";
   // const conBalance = arrayCategorias.map(categoria => {
@@ -640,26 +683,27 @@ const categoriaConMayorBalance = (operaciones, arrayCategorias) => {
     const porCategoria = operaciones.filter(
       (operacion) => operacion.categorias === arrayCategorias.nombre
     );
-    console.log(porCategoria) //tira un arr con obj de las categorias
+    console.log(porCategoria); //tira un arr con obj de las categorias
 
     const porCategoriaGanancia = porCategoria
       .filter((operacion) => operacion.tipo === "ganancia")
       .reduce((count, current) => count + Number(current.monto), 0);
-     
+
     const porCategoriaGasto = porCategoria
       .filter((operacion) => operacion.tipo === "gasto")
       .reduce((count, current) => count + Number(current.monto), 0);
 
-
     return {
       ...arrayCategorias,
-      balance: porCategoriaGanancia - porCategoriaGasto
-    }
+      balance: porCategoriaGanancia - porCategoriaGasto,
+    };
   });
 
-  const resultadoCategoriaMayorGanancia = conBalance.sort((a,b) => b.balance - a.balance)
-  console.log(resultadoCategoriaMayorGanancia[0])
-  const resultado = resultadoCategoriaMayorGanancia[0]
+  const resultadoCategoriaMayorGanancia = conBalance.sort(
+    (a, b) => b.balance - a.balance
+  );
+  console.log(resultadoCategoriaMayorGanancia[0]);
+  const resultado = resultadoCategoriaMayorGanancia[0];
 
   str += `
       
@@ -675,9 +719,8 @@ const categoriaConMayorBalance = (operaciones, arrayCategorias) => {
           </div>
       </div>
     `;
-    document.getElementById("categoria-mayor-balance").innerHTML = str;
-
-}
+  document.getElementById("categoria-mayor-balance").innerHTML = str;
+};
 
 //MES CON MAYOR GANANCIA
 const mesConMayorGanancia = (arr) => {
@@ -685,43 +728,44 @@ const mesConMayorGanancia = (arr) => {
   let str = "";
   // const conBalance = arrayCategorias.map(categoria => {
 
-    const arrMesUnico = [
-      ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
-    ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
-    console.log(arrMesUnico);
-  
-    const arrAnio = [
-      ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
-    ].sort();
+  const arrMesUnico = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
+  ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
+  console.log(arrMesUnico);
 
-    for (let i = 0; i < arrMesUnico.length; i++) {
-      const operacionesMesUnico = arr.filter(
-        (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
-      ); //entremos a todos los meses de cada una de las operaciones
-      const porGanancia = operacionesMesUnico
-        .filter((operacion) => operacion.tipo === "ganancia")
-        .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
-        console.log(porGanancia)
-        // const resultado = porGanancia.sort((a,b) => b - a)
-        // console.log(resultado[0])
-      }
-          
-      // str += `
-      //   <div class="row align-items-start my-2" >
-      //     <div class="col">
-      //       ${arrMesUnico[i]}/${arrAnio}
-      //       </div>
-      //       <div class="col text-end">
-      //         <span class="badge text-success">+${porGanancia}</span>
-      //       </div>
-      //   </div>
-   
-      // `;
-      // document.getElementById("mes-mayor-ganancia").innerHTML = str;
-      
-      
+  const arrAnio = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
+  ].sort();
 
+  for (let i = 0; i < arrMesUnico.length; i++) {
+    const operacionesMesUnico = arr.filter(
+      (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
+    ); //entremos a todos los meses de cada una de las operaciones
+    const porGanancia = operacionesMesUnico
+      .filter((operacion) => operacion.tipo === "ganancia")
+      .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
+    console.log(porGanancia);
+    // const resultado = {...porGanancia[0]}
+    // const result = resultado.sort((a,b) => b - a)
+    // console.log(result[0])
     
+    // console.log(resultado)
+
+
+  }
+
+  // str += `
+  //   <div class="row align-items-start my-2" >
+  //     <div class="col">
+  //       ${arrMesUnico[i]}/${arrAnio}
+  //       </div>
+  //       <div class="col text-end">
+  //         <span class="badge text-success">+${porGanancia}</span>
+  //       </div>
+  //   </div>
+
+  // `;
+  // document.getElementById("mes-mayor-ganancia").innerHTML = str;
 };
 
 // //MES CON MAYOR GANANCIA
@@ -747,13 +791,12 @@ const mesConMayorGanancia = (arr) => {
 //       .filter((operacion) => operacion.tipo === "ganancia")
 //       .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
 //       console.log(porGanancia)
-    
 
 //   return {
 //     ...operaciones,
 //     mayorGanancia: porGanancia
 //   }
-// }  
+// }
 // })
 
 // const resultadoMesConMayorGanancia = conMesMayorGanacia.sort(
@@ -764,7 +807,7 @@ const mesConMayorGanancia = (arr) => {
 
 //   const fecha = `${arrMesUnico[i]}/${arrAnio}`
 //   str += `
-      
+
 //   <div class="row align-items-start my-2" >
 //       <div class="col w-25">
 //         Mes con Mayor Ganancia
@@ -782,11 +825,7 @@ const mesConMayorGanancia = (arr) => {
 
 // };
 
-
-
-
 //MES CON MAYOR GASTO
-
 
 //REPORTE TOTAL POR CATEGORIA
 const totalPorCategoria = (operaciones, arrayCategorias) => {
