@@ -43,16 +43,20 @@ const operacionesInsuficientes = document.getElementById(
 
 const seccionOperacion = document.getElementById("seccion-operacion"); //TRAIGO FORMULARIO OPERACIONES
 const filtros = document.getElementById("filtros");
-const seccionEditarOperacion = document.getElementById("seccion-editar-operacion");
-const editarCategoriaSeccion = document.getElementById('seccion-editar-categorias')
+const seccionEditarOperacion = document.getElementById(
+  "seccion-editar-operacion"
+);
+const editarCategoriaSeccion = document.getElementById(
+  "seccion-editar-categorias"
+);
 
 btnBalance.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
-  btnBalance.classList.add('active')
-  btnCategorias.classList.remove('active')
-  btnReportes.classList.remove('active')
-  editarCategoriaSeccion.classList.add('oculto');
+  btnBalance.classList.add("active");
+  btnCategorias.classList.remove("active");
+  btnReportes.classList.remove("active");
+  editarCategoriaSeccion.classList.add("oculto");
   reportes.classList.add("oculto");
   seccionOperacion.classList.add("oculto");
   //console.log(btnBalance);
@@ -62,19 +66,19 @@ btnAhorradas.addEventListener("click", () => {
   balance.classList.remove("oculto");
   categorias.classList.add("oculto");
   reportes.classList.add("oculto");
-  btnBalance.classList.add('active')
-  btnReportes.classList.remove('active')
-  btnCategorias.classList.remove('active')
-  editarCategoriaSeccion.classList.add('oculto');
+  btnBalance.classList.add("active");
+  btnReportes.classList.remove("active");
+  btnCategorias.classList.remove("active");
+  editarCategoriaSeccion.classList.add("oculto");
   seccionOperacion.classList.add("oculto");
   // console.log(btnBalance)
 });
 
 btnCategorias.addEventListener("click", () => {
   balance.classList.add("oculto");
-  btnBalance.classList.remove('active')
-  btnCategorias.classList.add('active')
-  btnReportes.classList.remove('active')
+  btnBalance.classList.remove("active");
+  btnCategorias.classList.add("active");
+  btnReportes.classList.remove("active");
   categorias.classList.remove("oculto");
   reportes.classList.add("oculto");
   //console.log(btnCategorias);
@@ -107,7 +111,7 @@ btnMostrarFiltros.addEventListener("click", () => {
 ////////////////////////
 
 //totas la categorias y va metiendo acá las nuevas tb//guardar como operaciones en el local storage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-let arrayCategorias = JSON.parse(localStorage.getItem('categorias')) || [
+let arrayCategorias = JSON.parse(localStorage.getItem("categorias")) || [
   {
     nombre: "Comida",
     id: uuidv4(),
@@ -152,7 +156,7 @@ generarCategorias();
 
 //FUNCION QUE PINTA LAS CATEGORIAS (ARR DE CATEGORIAS) EN LA SECCION DE CATEGORIAS, ABAJO DE TODAS LAS OTRAS CATEGORIAS CON SU BOT'ON EDITAR Y ELIMINAR
 const pintarCategorias = (arr) => {
-  document.getElementById("categorias").innerHTML ="" 
+  document.getElementById("categorias").innerHTML = "";
   arr.forEach((categoria) => {
     document.getElementById("categorias").innerHTML += `
     <div class="container text-start lista-categorias">
@@ -166,62 +170,64 @@ const pintarCategorias = (arr) => {
       </div>
    </div>`;
   });
-  
-localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 
+  localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
 
-//ELIMINAR CATEGORIA
- const btnsEliminar = document.querySelectorAll('.eliminar')
+  //ELIMINAR CATEGORIA
+  const btnsEliminar = document.querySelectorAll(".eliminar");
 
-  btnsEliminar.forEach((btn) =>{
-    btn.addEventListener('click', e => {
-    const arrayLimpio = arrayCategorias.filter(arr => arr.id !== e.target.dataset.id)
-    localStorage.setItem('categorias', JSON.stringify(arrayLimpio))
-    arrayCategorias = JSON.parse(localStorage.getItem('categorias'))
-    pintarCategorias(arrayCategorias)
-    generarCategorias()
-    })
-  })
+  btnsEliminar.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const arrayLimpio = arrayCategorias.filter(
+        (arr) => arr.id !== e.target.dataset.id
+      );
+      localStorage.setItem("categorias", JSON.stringify(arrayLimpio));
+      arrayCategorias = JSON.parse(localStorage.getItem("categorias"));
+      pintarCategorias(arrayCategorias);
+      generarCategorias();
+    });
+  });
 
-//EDITAR CATEGORIA
- const btnsEditar = document.querySelectorAll('.editar')
- const btnCancelar = document.getElementById('cancelar')
+  //EDITAR CATEGORIA
+  const btnsEditar = document.querySelectorAll(".editar");
+  const btnCancelar = document.getElementById("cancelar");
 
-btnsEditar.forEach(btn => {
-  btn.addEventListener('click', e => {
-  const arrayEditado = arrayCategorias.filter(categoria => categoria.id == e.target.dataset.id)
-  editarCategoria(arrayEditado)
+  btnsEditar.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const arrayEditado = arrayCategorias.filter(
+        (categoria) => categoria.id == e.target.dataset.id
+      );
+      editarCategoria(arrayEditado);
 
-  btnEditarCategoria.addEventListener('click', () =>{
-   arrayEditado[0].nombre = inputEditar.value
-   categorias.classList.remove('oculto')
-   editarCategoriaSeccion.classList.add('oculto')
-   pintarCategorias(arrayCategorias)
-   generarCategorias()
-  })
+      btnEditarCategoria.addEventListener("click", () => {
+        arrayEditado[0].nombre = inputEditar.value;
+        categorias.classList.remove("oculto");
+        editarCategoriaSeccion.classList.add("oculto");
+        pintarCategorias(arrayCategorias);
+        generarCategorias();
+      });
 
-  btnCancelar.addEventListener('click', () => {
-    categorias.classList.remove('oculto')
-    editarCategoriaSeccion.classList.add('oculto')
-  })
-  })
-})
+      btnCancelar.addEventListener("click", () => {
+        categorias.classList.remove("oculto");
+        editarCategoriaSeccion.classList.add("oculto");
+      });
+    });
+  });
 };
- 
-const editarCategoria = arr => {
-  const {nombre} = arr[0]
 
-  categorias.classList.add('oculto')
-   editarCategoriaSeccion.classList.remove('oculto')
-   inputEditar.value = nombre
-}
+const editarCategoria = (arr) => {
+  const { nombre } = arr[0];
 
+  categorias.classList.add("oculto");
+  editarCategoriaSeccion.classList.remove("oculto");
+  inputEditar.value = nombre;
+};
 
 pintarCategorias(arrayCategorias);
 
 //FUNCION QUE TOMA DEL INPUT LA NUEVA CATEGORIA INGRESADA POR EL USUARIO, LE PONE UN ID, Y LA TIENE QUE SUBIR AL ARREGLO DE CATEGORIAS, !!!!!!!!!!!!!!!VER SI ESTO EST'A FUNCIONANDO
 let inputCategoria = document.getElementById("nueva-categoria-input");
-const listaCategorias = document.getElementById('categorias')
+const listaCategorias = document.getElementById("categorias");
 
 /////////////////////////////////////////
 ///FUNCION QUE PINTA LAS NUEVAS CATEGORIAS
@@ -230,12 +236,12 @@ btnAgregarCategoria.addEventListener("click", () => {
   const nuevaCategoria = {
     nombre: inputCategoria.value,
     id: uuidv4(),
-  }
+  };
   arrayCategorias.push(nuevaCategoria);
 
- inputCategoria.value = "";
+  inputCategoria.value = "";
 
-listaCategorias.innerHTML += `
+  listaCategorias.innerHTML += `
   <div class="container text-start lista-categorias">
       <div class="row align-items-start">
         <div class="col my-1">
@@ -246,11 +252,10 @@ listaCategorias.innerHTML += `
         <a class="eliminar" data-id=${nuevaCategoria.id} href="#">Eliminar</a>
       </div>
    </div>
-`
-localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
-generarCategorias()
-pintarCategorias(arrayCategorias)
-
+`;
+  localStorage.setItem("categorias", JSON.stringify(arrayCategorias));
+  generarCategorias();
+  pintarCategorias(arrayCategorias);
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -307,7 +312,9 @@ btnAgregar.addEventListener("click", () => {
   pintarOperaciones(operaciones);
 });
 
-const btnCancelarCargarOperacion = document.getElementById('btn-cancelar-cargar-operacion')
+const btnCancelarCargarOperacion = document.getElementById(
+  "btn-cancelar-cargar-operacion"
+);
 btnCancelarCargarOperacion.addEventListener("click", () => {
   seccionEditarOperacion.classList.add("oculto");
   balance.classList.remove("oculto");
@@ -354,7 +361,7 @@ const pintarOperaciones = (arr) => {
         localStorage.setItem("operaciones", JSON.stringify(eliminar));
         operaciones = JSON.parse(localStorage.getItem("operaciones"));
         pintarOperaciones(operaciones);
-        mostrarOperaciones(operaciones); 
+        mostrarOperaciones(operaciones);
       });
     });
   });
@@ -403,7 +410,6 @@ const editarBtnOperacion = (arr) => {
   categoriaEditar.value = categorias;
   fechaEditar.value = fecha;
 };
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////FILTROS///////////////////
@@ -484,21 +490,17 @@ const ordenarPor = document.getElementById("ordenar-por");
 
 ordenarPor.addEventListener("change", () => {
   //MAS RECIENTE
-  if (ordenarPor.value === 'mas-reciente') {
-    operaciones.sort(
-      (a ,b) => new Date(b.fecha) - new Date(a.fecha)
-    )
+  if (ordenarPor.value === "mas-reciente") {
+    operaciones.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
   }
-  pintarOperaciones(operaciones)
-  
+  pintarOperaciones(operaciones);
+
   //MENOS RECIENTE
-  if (ordenarPor.value === 'menos-reciente') {
-      operaciones.sort(
-      (a ,b) => new Date(a.fecha) - new Date(b.fecha)
-    )
+  if (ordenarPor.value === "menos-reciente") {
+    operaciones.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
   }
-  pintarOperaciones(operaciones)
-  
+  pintarOperaciones(operaciones);
+
   //MAYOR MONTO
   if (ordenarPor.value === "mayor-monto") {
     operaciones.sort((a, b) => {
@@ -509,7 +511,7 @@ ordenarPor.addEventListener("change", () => {
     });
   }
   pintarOperaciones(operaciones);
-  
+
   //MENOR MONTO
   if (ordenarPor.value === "menor-monto") {
     operaciones.sort((a, b) => {
@@ -601,27 +603,14 @@ const pintarEnBalance = (arr) => {
 
 //TOTALES POR CATEGORIA, filter a cada categoria, sumar todas las ganacias de cada categoria - gastos = balance. con if, si tiene operaciones, las junta y las suma, sino muestra 0
 
-//RESUMEN
-
-
-
-//CATERGORIA CON MAYOR GASTO
-
-//CATERGORIA CON MAYOR BALANCE
-
-//MES CON MAYOR GANANCIA
-
-//MES CON MAYOR GASTO
-
-
 //REPORTES
 btnReportes.addEventListener("click", () => {
   balance.classList.add("oculto");
   categorias.classList.add("oculto");
   reportes.classList.remove("oculto");
-  btnBalance.classList.remove('active')
-  btnCategorias.classList.remove('active')
-  btnReportes.classList.add('active')
+  btnBalance.classList.remove("active");
+  btnCategorias.classList.remove("active");
+  btnReportes.classList.add("active");
   if (!operaciones.length) {
     operacionesInsuficientes.classList.remove("oculto");
     contenedorReportes.classList.add("oculto");
@@ -631,51 +620,46 @@ btnReportes.addEventListener("click", () => {
   }
   totalPorMes(operaciones); //hago que se active cuando el usuario le de click al btn reportes
   totalPorCategoria(operaciones, arrayCategorias);
-  categoriaConMayorBalance(operaciones, arrayCategorias)
-  
+  categoriaConMayorBalance(operaciones, arrayCategorias);
+  mesConMayorGanancia(operaciones)
 });
+
+//RESUMEN
+//CATEGORIA CON MAYOR GANANCIA
+
+//CATEGORIA CON MAYOR GASTO
 
 //CATEGORIA CON MAYOR BALANCE
 const categoriaConMayorBalance = (operaciones, arrayCategorias) => {
-  
+
   document.getElementById("categoria-mayor-balance").innerHTML = "";
   let str = "";
   // const conBalance = arrayCategorias.map(categoria => {
-  
+
   const conBalance = arrayCategorias.map((arrayCategorias) => {
     const porCategoria = operaciones.filter(
-      (operacion) => operacion.categoria === arrayCategorias.categoria
+      (operacion) => operacion.categorias === arrayCategorias.nombre
     );
     console.log(porCategoria) //tira un arr con obj de las categorias
 
     const porCategoriaGanancia = porCategoria
       .filter((operacion) => operacion.tipo === "ganancia")
       .reduce((count, current) => count + Number(current.monto), 0);
-    console.log(porCategoriaGanancia); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
-    console.log(
-      `LA CATEGORIA ${arrayCategorias.nombre} ganancia ${porCategoriaGanancia}`
-    ); //POR LO MENOS TOMA EL NOMBRE/////////////////////////////////////
-
+     
     const porCategoriaGasto = porCategoria
       .filter((operacion) => operacion.tipo === "gasto")
       .reduce((count, current) => count + Number(current.monto), 0);
-    // console.log(porCategoriaGasto); //ME DEVUELVE 0, NO TOMA EL VALOR DEL ARREGLO
-    // console.log(
-    //   `LA CATEGORIA ${arrayCategorias.nombre} GASTO  ${porCategoriaGasto}`
-    // );
 
-        
 
     return {
       ...arrayCategorias,
       balance: porCategoriaGanancia - porCategoriaGasto
     }
-
-    
-    ///////////////////////////////////////////////////////////////////////////////
   });
+
   const resultadoCategoriaMayorGanancia = conBalance.sort((a,b) => b.balance - a.balance)
   console.log(resultadoCategoriaMayorGanancia[0])
+  const resultado = resultadoCategoriaMayorGanancia[0]
 
   str += `
       
@@ -684,33 +668,137 @@ const categoriaConMayorBalance = (operaciones, arrayCategorias) => {
             Categoria con Mayor Balance
           </div>
           <div class="col text-end">
-            <span class="success">${arrayCategorias.nombre}</span>
+            <span class="success">${resultado.nombre}</span>
           </div>
-          <div class="col danger text-end">
-            ${resultadoCategoriaMayorGanancia[0]}
+          <div class="col text-end">
+            ${resultado.balance}
           </div>
       </div>
-
     `;
     document.getElementById("categoria-mayor-balance").innerHTML = str;
 
 }
 
+//MES CON MAYOR GANANCIA
+const mesConMayorGanancia = (arr) => {
+  document.getElementById("mes-mayor-ganancia").innerHTML = "";
+  let str = "";
+  // const conBalance = arrayCategorias.map(categoria => {
+
+    const arrMesUnico = [
+      ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
+    ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
+    console.log(arrMesUnico);
+  
+    const arrAnio = [
+      ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
+    ].sort();
+
+    for (let i = 0; i < arrMesUnico.length; i++) {
+      const operacionesMesUnico = arr.filter(
+        (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
+      ); //entremos a todos los meses de cada una de las operaciones
+      const porGanancia = operacionesMesUnico
+        .filter((operacion) => operacion.tipo === "ganancia")
+        .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
+        console.log(porGanancia)
+        // const resultado = porGanancia.sort((a,b) => b - a)
+        // console.log(resultado[0])
+      }
+          
+      // str += `
+      //   <div class="row align-items-start my-2" >
+      //     <div class="col">
+      //       ${arrMesUnico[i]}/${arrAnio}
+      //       </div>
+      //       <div class="col text-end">
+      //         <span class="badge text-success">+${porGanancia}</span>
+      //       </div>
+      //   </div>
+   
+      // `;
+      // document.getElementById("mes-mayor-ganancia").innerHTML = str;
+      
+      
+
+    
+};
+
+// //MES CON MAYOR GANANCIA
+// const mesConMayorGanancia = (operaciones) => {
+//   document.getElementById("mes-mayor-ganancia").innerHTML = "";
+//   let str = "";
+//   const conMesMayorGanacia = operaciones.map((arr) => {
+
+//   const arrMesUnico = [
+//     ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
+//   ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
+//   console.log(arrMesUnico);
+
+//   const arrAnio = [
+//     ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
+//   ].sort();
+
+//   for (let i = 0; i < arrMesUnico.length; i++) {
+//     const operacionesMesUnico = arr.filter(
+//       (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
+//     ); //entremos a todos los meses de cada una de las operaciones
+//     const porGanancia = operacionesMesUnico
+//       .filter((operacion) => operacion.tipo === "ganancia")
+//       .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
+//       console.log(porGanancia)
+    
+
+//   return {
+//     ...operaciones,
+//     mayorGanancia: porGanancia
+//   }
+// }  
+// })
+
+// const resultadoMesConMayorGanancia = conMesMayorGanacia.sort(
+//   (a,b) => b.mayorGanancia - a.mayorGanancia
+// )
+
+// const resultado = resultadoMesConMayorGanancia[0]
+
+//   const fecha = `${arrMesUnico[i]}/${arrAnio}`
+//   str += `
+      
+//   <div class="row align-items-start my-2" >
+//       <div class="col w-25">
+//         Mes con Mayor Ganancia
+//       </div>
+//       <div class="col text-end">
+//         <span class="success">${fecha}</span>
+//       </div>
+//       <div class="col text-end">
+//         ${resultado.mayorGanancia}
+//       </div>
+//   </div>
+
+// `;
+// document.getElementById("mes-mayor-ganancia").innerHTML = str;
+
+// };
+
+
+
+
+//MES CON MAYOR GASTO
+
+
 //REPORTE TOTAL POR CATEGORIA
 const totalPorCategoria = (operaciones, arrayCategorias) => {
   //RECORRER LA CATEGORIAS Y HACER UN NUEVO ARREGLO POR CADA CATEGORIA QUE TENGA ESA CATEGORIA
   //for each + filter + reduce
-
   document.getElementById("totales-por-categoria").innerHTML = "";
   let str = "";
-  // const conBalance = arrayCategorias.map(categoria => {
-  
-
-  arrayCategorias.forEach((arrayCategorias) => {
+  arrayCategorias.forEach((categoria) => {
     const porCategoria = operaciones.filter(
-      (operacion) => operacion.categoria === arrayCategorias.categoria
+      (operacion) => operacion.categorias === categoria.nombre
     );
-    console.log(porCategoria) //tira un arr con obj de las categorias
+    console.log(porCategoria); //tira un arr con obj de las categorias
 
     const porCategoriaGanancia = porCategoria
       .filter((operacion) => operacion.tipo === "ganancia")
@@ -729,13 +817,13 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
     );
 
     const balance = porCategoriaGanancia - porCategoriaGasto;
-    console.log(balance)
+    console.log(balance);
 
     str += `
       
       <div class="row align-items-start my-2" >
           <div class="col w-25">
-            ${arrayCategorias.nombre}
+            ${categoria.nombre}
           </div>
           <div class="col text-end">
             <span class="success">${porCategoriaGanancia}</span>
@@ -752,8 +840,7 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
     document.getElementById("totales-por-categoria").innerHTML = str;
     ///////////////////////////////////////////////////////////////////////////////
   });
- 
-}
+};
 
 //REPORTE TOTAL POR MES
 const totalPorMes = (arr) => {
@@ -805,11 +892,9 @@ const totalPorMes = (arr) => {
     `;
     document.getElementById("totales-por-mes").innerHTML = str;
   }
-  
 };
 
 console.log("prueba 4-9");
-
 
 //INICIALIZAR
 const inicializar = () => {
@@ -819,11 +904,10 @@ const inicializar = () => {
   });
   //AGREGAR LAS FUNCIONES QUE ESTAN SUELTAS PARA ACOMODAR EL CODIGO
   pintarOperaciones(operaciones);
-  generarCategorias()
+  generarCategorias();
   // mostrarOperaciones(operaciones);
   // alterfy.success('Operacion Eliminada') //lanza un alerta que avise si estan ok las acciones que va realizando el usuario
 };
 
 window.onload = inicializar();
 const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
-
