@@ -641,7 +641,7 @@ const categoriaConMayorGanacia = (operaciones) => {
         Categoria con Mayor Ganancia
       </div>
       <div class="col text-end">
-        <span class="success">${mayorGanancia[0].categorias}</span>
+        <span class="badge text-bg-primary">${mayorGanancia[0].categorias}</span>
       </div>
       <div class="col text-end">
         ${mayorGanancia[0].monto}
@@ -664,7 +664,7 @@ const categoriaConMayorGasto = (operaciones) => {
       Categoria con Mayor Gasto
     </div>
     <div class="col text-end">
-      <span class="success">${mayorGasto[0].categorias}</span>
+      <span class="badge text-bg-primary">${mayorGasto[0].categorias}</span>
     </div>
     <div class="col text-end">
     ${mayorGasto[0].monto}
@@ -713,7 +713,7 @@ const categoriaConMayorBalance = (operaciones, arrayCategorias) => {
             Categoria con Mayor Balance
           </div>
           <div class="col text-end">
-            <span class="success">${resultado.nombre}</span>
+            <span class="badge text-bg-primary">${resultado.nombre}</span>
           </div>
           <div class="col text-end">
             ${resultado.balance}
