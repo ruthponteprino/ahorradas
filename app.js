@@ -624,6 +624,7 @@ btnReportes.addEventListener("click", () => {
   categoriaConMayorGanacia(operaciones);
   categoriaConMayorGasto(operaciones);
   mesConMayorGanancia(operaciones);
+  mesConMayorGasto(operaciones)
 });
 
 //RESUMEN
@@ -723,14 +724,14 @@ const categoriaConMayorBalance = (operaciones, arrayCategorias) => {
 };
 
 //MES CON MAYOR GANANCIA
+
+let totalesPorMesesGanancia = []
+  
 const mesConMayorGanancia = (arr) => {
-  document.getElementById("mes-mayor-ganancia").innerHTML = "";
-  let str = "";
-  // const conBalance = arrayCategorias.map(categoria => {
 
   const arrMesUnico = [
     ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
-  ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
+  ].sort(); 
   console.log(arrMesUnico);
 
   const arrAnio = [
@@ -740,92 +741,109 @@ const mesConMayorGanancia = (arr) => {
   for (let i = 0; i < arrMesUnico.length; i++) {
     const operacionesMesUnico = arr.filter(
       (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
-    ); //entremos a todos los meses de cada una de las operaciones
+    ); 
+    console.log(operacionesMesUnico)
+
     const porGanancia = operacionesMesUnico
       .filter((operacion) => operacion.tipo === "ganancia")
-      .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
+      .reduce((count, current) => count + Number(current.monto), 0); 
     console.log(porGanancia);
-    // const resultado = {...porGanancia[0]}
-    // const result = resultado.sort((a,b) => b - a)
-    // console.log(result[0])
-    
-    // console.log(resultado)
 
+    const nuevoObjeto = {
+    mes: arrMesUnico[i],
+    anio: arrAnio,
+    ganancia: porGanancia,
+  };
+  totalesPorMesesGanancia.push(nuevoObjeto);
+  // console.log(totalesPorMeses)
 
+  const resultadoMesMayorGanancia = totalesPorMesesGanancia.sort(
+    (a, b) => b.ganancia - a.ganancia
+  );
+
+ document.getElementById("mes-mayor-ganancia").innerHTML = "";
+    let str = "";
+  
+
+      str += `
+      <div class="row align-items-start my-2" >
+      <div class="col w-25">
+        Mes con Mayor Ganancia
+      </div>  
+      <div class="col">
+          ${resultadoMesMayorGanancia[0].mes}/${resultadoMesMayorGanancia[0].anio}
+          </div>
+          <div class="col text-end">
+            <span class="badge text-success">${resultadoMesMayorGanancia[0].ganancia}</span>
+          </div>
+      </div>
+  
+    `;
+    document.getElementById("mes-mayor-ganancia").innerHTML = str;
+  
   }
-
-  // str += `
-  //   <div class="row align-items-start my-2" >
-  //     <div class="col">
-  //       ${arrMesUnico[i]}/${arrAnio}
-  //       </div>
-  //       <div class="col text-end">
-  //         <span class="badge text-success">+${porGanancia}</span>
-  //       </div>
-  //   </div>
-
-  // `;
-  // document.getElementById("mes-mayor-ganancia").innerHTML = str;
 };
 
-// //MES CON MAYOR GANANCIA
-// const mesConMayorGanancia = (operaciones) => {
-//   document.getElementById("mes-mayor-ganancia").innerHTML = "";
-//   let str = "";
-//   const conMesMayorGanacia = operaciones.map((arr) => {
-
-//   const arrMesUnico = [
-//     ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
-//   ].sort(); //.split separa la fecha, el dia del mes del anio .sort acomoda de mayor a menor
-//   console.log(arrMesUnico);
-
-//   const arrAnio = [
-//     ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
-//   ].sort();
-
-//   for (let i = 0; i < arrMesUnico.length; i++) {
-//     const operacionesMesUnico = arr.filter(
-//       (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
-//     ); //entremos a todos los meses de cada una de las operaciones
-//     const porGanancia = operacionesMesUnico
-//       .filter((operacion) => operacion.tipo === "ganancia")
-//       .reduce((count, current) => count + Number(current.monto), 0); //.filter va a filtrar de cada mes que tenga operaciones, lo que sean gancias y con .reduce voy acumulando cada una, sumando
-//       console.log(porGanancia)
-
-//   return {
-//     ...operaciones,
-//     mayorGanancia: porGanancia
-//   }
-// }
-// })
-
-// const resultadoMesConMayorGanancia = conMesMayorGanacia.sort(
-//   (a,b) => b.mayorGanancia - a.mayorGanancia
-// )
-
-// const resultado = resultadoMesConMayorGanancia[0]
-
-//   const fecha = `${arrMesUnico[i]}/${arrAnio}`
-//   str += `
-
-//   <div class="row align-items-start my-2" >
-//       <div class="col w-25">
-//         Mes con Mayor Ganancia
-//       </div>
-//       <div class="col text-end">
-//         <span class="success">${fecha}</span>
-//       </div>
-//       <div class="col text-end">
-//         ${resultado.mayorGanancia}
-//       </div>
-//   </div>
-
-// `;
-// document.getElementById("mes-mayor-ganancia").innerHTML = str;
-
-// };
-
 //MES CON MAYOR GASTO
+let totalesPorMesesGasto = []
+
+const mesConMayorGasto = (arr) => {
+
+  const arrMesUnico = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[1])),
+  ].sort(); 
+  console.log(arrMesUnico);
+
+  const arrAnio = [
+    ...new Set(arr.map((operacion) => operacion.fecha.split("-")[0])),
+  ].sort();
+
+  for (let i = 0; i < arrMesUnico.length; i++) {
+    const operacionesMesUnico = arr.filter(
+      (operacion) => operacion.fecha.split("-")[1] === arrMesUnico[i]
+    ); 
+    console.log(operacionesMesUnico)
+
+    const porGasto = operacionesMesUnico
+    .filter((operacion) => operacion.tipo === "gasto")
+    .reduce((count, current) => count + Number(current.monto), 0); 
+  console.log(porGasto);
+
+  const nuevoObjeto = {
+    mes: arrMesUnico[i],
+    anio: arrAnio,
+    gasto: porGasto,
+  };
+  totalesPorMesesGasto.push(nuevoObjeto);
+
+  const resultadoMesMayorGasto = totalesPorMesesGasto.sort(
+    (a, b) => b.gasto - a.gasto
+  );
+
+ document.getElementById("mes-mayor-gasto").innerHTML = "";
+    let str = "";
+  
+
+      str += `
+      <div class="row align-items-start my-2" >
+      <div class="col w-25">
+        Mes con Mayor Gasto
+      </div>  
+      <div class="col">
+          ${resultadoMesMayorGasto[0].mes}/${resultadoMesMayorGasto[0].anio}
+          </div>
+          <div class="col text-end">
+            <span class="badge text-success">${resultadoMesMayorGasto[0].gasto}</span>
+          </div>
+      </div>
+  
+    `;
+    document.getElementById("mes-mayor-gasto").innerHTML = str;
+  
+  }
+};
+
+
 
 //REPORTE TOTAL POR CATEGORIA
 const totalPorCategoria = (operaciones, arrayCategorias) => {
