@@ -1,9 +1,11 @@
 # PROYECTO-FINAL-MODULO-3-4
+### > Alumnas _Angeles_ _Godoy_ y _Ruth_ _Ponteprino_ 
+
 
 ## ahorrADAs
 > Este es el tercer proyecto realizado con **HTML, CSS y JS** desde _cero_
 > Se trata de una aplicación que permite al usuario llevar un **registro** de los **gastos** realizados y de los **ingresos** obtenidos. 
-> Podrás ver mi proceso de aprendizaje en la carrera de Desarrollo Frontend de **ADA itw**
+> Podrás nuestro proceso de aprendizaje en la carrera de Desarrollo Frontend de **ADA itw**
 
 ### 👩‍💻 Pseudocódigo que representa el algoritmo para realizar una aplicación que permite al usuario llevar un **registro** de sus **gastos** e **ingresos**. 
 

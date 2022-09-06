@@ -876,6 +876,7 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
     const balance = porCategoriaGanancia - porCategoriaGasto;
     console.log(balance);
 
+    if(porCategoriaGanancia > 0 || porCategoriaGasto > 0) {
     str += `
       
       <div class="row align-items-start my-2" >
@@ -894,6 +895,7 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
       </div>
 
     `;
+  }
     document.getElementById("totales-por-categoria").innerHTML = str;
     ///////////////////////////////////////////////////////////////////////////////
   });
