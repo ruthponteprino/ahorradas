@@ -246,7 +246,13 @@
               <button type="button" class="btn btn-primary" id="agregar-btn">
                 Agregar
               </button>
-              <button type="submit" class="btn btn-light" id="btn-cancelar-cargar-operacion">Cancelar</button>
+              <button
+                type="submit"
+                class="btn btn-light"
+                id="btn-cancelar-cargar-operacion"
+              >
+                Cancelar
+              </button>
             </div>
           </form>
         </div>
@@ -400,7 +406,7 @@
           <h1>Editar Categoria</h1>
           <form>
             <label for="nombre" class="form-label">Nombre</label>
-            <div class=" justify-content-between w-100">
+            <div class="justify-content-between w-100">
               <div class="w-100">
                 <input
                   type="text"
@@ -411,8 +417,14 @@
                 />
               </div>
               <div class="mx-1 d-flex my-3 justify-content-md-end">
-                <button type="button" class="btn btn-light" id="cancelar">Cancelar</button>
-                <button type="button"class="btn btn-primary"id="btn-editar-categoria">
+                <button type="button" class="btn btn-light" id="cancelar">
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="btn-editar-categoria"
+                >
                   Editar
                 </button>
               </div>
@@ -424,11 +436,11 @@
 
     <!-- REPORTES -->
 
-    <div class="container my-5 oculto" id="seccion-reportes">
+    <div class="container my-5 col-md-8 w-80 oculto" id="seccion-reportes">
       <!--agrego class oculto-->
       <div class="row justify-content-center shadow p-3 mb-5 bg-body rounded">
-        <div class="col-md-8">
-          <h2>Reportes</h2>
+        <div class="col-md-12">
+          <h2 class="mb-3 fw-bold fs-1">Reportes</h2>
           <div class="figure d-flex flex-column align-items-center">
             <div id="operaciones-insuficientes" class="oculto">
               <img
@@ -441,8 +453,8 @@
               <p>Prueba agregando más operaciones</p>
               <!-- mostara reportes de operaciones-->
             </div>
-            <div id="contenedor-reportes" class="oculto">
-              <h3>Resumen</h3>
+            <div id="contenedor-reportes" class="oculto col-md-8 w-100">
+              <h3 class="mt-5 m-4">Resumen</h3>
               <div id="categoria-mayor-ganancia"></div>
               <!--TRAER NOMBRE DE CATEGORIA Y MONTO-->
 
@@ -451,40 +463,38 @@
               <div id="mes-mayor-ganancia"></div>
               <div id="mes-mayor-gasto"></div>
 
-              <h3>Totales por categorías</h3>
-              <div class="row align-items-start">
-              <div class="col">
-                <strong>Categoria</strong>
+              <h3 class="mt-5 m-4">Totales por categorías</h3>
+              <div class="row align-items-start m-4">
+                <div class="col text-start">
+                  <strong>Categoria</strong>
+                </div>
+                <div class="col text-end">
+                  <strong>Ganancias</strong>
+                </div>
+                <div class="col text-end">
+                  <strong>Gastos</strong>
+                </div>
+                <div class="col text-end">
+                  <strong>Balance</strong>
+                </div>
               </div>
-              <div class="col">
-                <strong>Ganancias</strong>
-              </div>
-              <div class="col">
-                <strong>Gastos</strong>
-              </div>
-              <div class="col">
-                <strong>Balance</strong>
-              </div>
-            </div>
               <div id="totales-por-categoria"></div>
-                   
-              <h3>Totales por mes</h3>
-              <div class="container text-center my-3">
-                <div class="row align-items-start">
+
+              <h3 class="mt-5 m-4">Totales por mes</h3>
+                <div class="row align-items-start m-4">
                   <div class="col">
                     <strong>Mes</strong>
                   </div>
-                  <div class="col">
+                  <div class="col text-end">
                     <strong>Ganancia</strong>
                   </div>
-                  <div class="col">
+                  <div class="col text-end">
                     <strong>Gasto</strong>
                   </div>
-                  <div class="col">
+                  <div class="col text-end">
                     <strong>Balance</strong>
                   </div>
                 </div>
-              </div>
               <div id="totales-por-mes"></div>
             </div>
           </div>

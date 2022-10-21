@@ -59,7 +59,6 @@ btnBalance.addEventListener("click", () => {
   editarCategoriaSeccion.classList.add("oculto");
   reportes.classList.add("oculto");
   seccionOperacion.classList.add("oculto");
-  //console.log(btnBalance);
 });
 
 btnAhorradas.addEventListener("click", () => {
@@ -71,7 +70,6 @@ btnAhorradas.addEventListener("click", () => {
   btnCategorias.classList.remove("active");
   editarCategoriaSeccion.classList.add("oculto");
   seccionOperacion.classList.add("oculto");
-  // console.log(btnBalance)
 });
 
 btnCategorias.addEventListener("click", () => {
@@ -81,7 +79,6 @@ btnCategorias.addEventListener("click", () => {
   btnReportes.classList.remove("active");
   categorias.classList.remove("oculto");
   reportes.classList.add("oculto");
-  //console.log(btnCategorias);
 });
 
 btnNuevaOperacion.addEventListener("click", () => {
@@ -89,9 +86,12 @@ btnNuevaOperacion.addEventListener("click", () => {
   balance.classList.add("oculto");
   categorias.classList.add("oculto");
   reportes.classList.add("oculto");
-}); //!!!!!!!!!!!!!FALTA CUANDO SE ELIMINAN TODAS LA OPERACIONES QUE MUESTRE LA IMAGEN
+}); 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 //FILTROS//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //OCULTAR Y MOSTRAR FILTROS
 
 btnOcultarFiltros.addEventListener("click", () => {
@@ -106,11 +106,10 @@ btnMostrarFiltros.addEventListener("click", () => {
   btnOcultarFiltros.classList.remove("oculto");
 });
 
-/////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // SECCION CATEGORIAS
-////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//totas la categorias y va metiendo acá las nuevas tb//guardar como operaciones en el local storage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let arrayCategorias = JSON.parse(localStorage.getItem("categorias")) || [
   {
     nombre: "Comida",
@@ -188,7 +187,10 @@ const pintarCategorias = (arr) => {
     });
   });
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
   //EDITAR CATEGORIA
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
   const btnsEditar = document.querySelectorAll(".editar");
   const btnCancelar = document.getElementById("cancelar");
 
@@ -225,13 +227,13 @@ const editarCategoria = (arr) => {
 
 pintarCategorias(arrayCategorias);
 
-//FUNCION QUE TOMA DEL INPUT LA NUEVA CATEGORIA INGRESADA POR EL USUARIO, LE PONE UN ID, Y LA TIENE QUE SUBIR AL ARREGLO DE CATEGORIAS, !!!!!!!!!!!!!!!VER SI ESTO EST'A FUNCIONANDO
-let inputCategoria = document.getElementById("nueva-categoria-input");
+//FUNCION QUE TOMA DEL INPUT LA NUEVA CATEGORIA INGRESADA POR EL USUARIO, LE PONE UN ID, Y LA TIENE QUE SUBIR AL ARREGLO DE CATEGORIAS, let inputCategoria = document.getElementById("nueva-categoria-input");
+
 const listaCategorias = document.getElementById("categorias");
 
-/////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ///FUNCION QUE PINTA LAS NUEVAS CATEGORIAS
-/////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 btnAgregarCategoria.addEventListener("click", () => {
   const nuevaCategoria = {
     nombre: inputCategoria.value,
@@ -375,7 +377,6 @@ const pintarOperaciones = (arr) => {
       );
       editarBtnOperacion(editar);
       btnEditarOperacion.addEventListener("click", () => {
-        // console.log('btn editar') // guardar cambios, y pintarlos en la operacion, actualizar nuevos objetos, como el eliminar que borra las operaciones
         const copiaEditar = { ...editar[0] };
         copiaEditar.descripcion = descripcionEditar.value;
         copiaEditar.monto = montoEditar.value;
@@ -411,32 +412,26 @@ const editarBtnOperacion = (arr) => {
   fechaEditar.value = fecha;
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////FILTROS///////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// FILTROS
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//TIPO, SELECT todos, gastos y ganacias
 
-const selectTipo = document.getElementById("tipo");
+const filtrosAcumulados = (e) => {
+  const porCategoria = filtroCate
+}
 
-selectTipo.addEventListener("change", (e) => {
-  console.log(e.target.value);
-  //selecciona todas => mostrar todas la operaciones en seccion operaciones
-  //selecciona gastos => mostrar gastos en seccion operaciones
-  //selecciona ganacias => mostrar ganancias en seccion operaciones
-  //averiguar como hacer para que me valla mostrando las operaciones que va poniendo el usuario
 
-  const tipoTodas = [...operaciones];
-  const tipoGastos = [];
-  const tipoGanacias = [];
-});
 
-//FILTRO por tipo
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//FILTRO por tipo todos, gastos y ganacias
 
 const selectTipoFiltros = document.getElementById("selectTipoFiltros");
 
 selectTipoFiltros.addEventListener("change", (e) => {
-  console.log(e.target.value);
   if (e.target.value !== "todos") {
     const porTipo = operaciones.filter(
       (operaciones) => operaciones.tipo === e.target.value
@@ -468,9 +463,7 @@ selectCategoriaFiltros.addEventListener("change", (e) => {
   //los values tiene que estar escritos igual
 });
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
 //FILTRO POR FECHA (DESDE TAL DIA EN ADELANTE)
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const ordenarPorFecha = document.getElementById("por-fecha");
 
@@ -546,16 +539,15 @@ ordenarPor.addEventListener("change", () => {
     });
   }
   pintarOperaciones(operaciones);
-
-  //////////////////////////////////////
 });
+
+
 
 ////////////////////////////////////////////////////////////
 ////////////SECCION BALANCE//////////
 ////////////////////////////////////////////////////////////
 
 ////////////FILTRAR TOTAL DE GANANCIAS//////////
-
 const totalGananciasBalance = (arr) => {
   let resultadoGanancias = arr
     .filter((operacion) => operacion.tipo === "ganancia")
@@ -599,10 +591,6 @@ const pintarEnBalance = (arr) => {
 //REPORTES
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//TOTALES POR MES, debe filtar por mes todas la ganacias - los gastos = balance, filter fecha mes a mes, filter gasto o ganacia . reduce para sacar el total del monto. filter a todas las operaciones, saque los meses, los guarde en un arr los mese que hay operaciones, y con este arr, for, por cada mes hacer un filter y un reduce
-
-//TOTALES POR CATEGORIA, filter a cada categoria, sumar todas las ganacias de cada categoria - gastos = balance. con if, si tiene operaciones, las junta y las suma, sino muestra 0
-
 //REPORTES
 btnReportes.addEventListener("click", () => {
   balance.classList.add("oculto");
@@ -632,18 +620,18 @@ btnReportes.addEventListener("click", () => {
 const categoriaConMayorGanacia = (operaciones) => {
   const mayorGanancia = operaciones
     .filter((operaciones) => operaciones.tipo === "ganancia")
-    .sort((a, b) => a.monto - b.monto);
+    .sort((a, b) => b.monto - a.monto);
   if (mayorGanancia.length > 0) {
     document.getElementById("categoria-mayor-ganancia").innerHTML = 
     `
-    <div class="row align-items-start my-2" >
+    <div class="row align-items-start m-4" >
       <div class="col w-25">
         Categoria con Mayor Ganancia
       </div>
       <div class="col text-end">
         <span class="badge text-bg-primary">${mayorGanancia[0].categorias}</span>
       </div>
-      <div class="col text-end">
+      <div class="col text-end text-success fw-bold">
         ${mayorGanancia[0].monto}
       </div>
     </div>
@@ -654,22 +642,22 @@ const categoriaConMayorGanacia = (operaciones) => {
 //CATEGORIA CON MAYOR GASTO
 const categoriaConMayorGasto = (operaciones) => {
   const mayorGasto = operaciones
-    .filter((operaciones) => operaciones.tipo === "ganancia")
+    .filter((operaciones) => operaciones.tipo === "gasto")
     .sort((a, b) => b.monto - a.monto);
   if (mayorGasto.length > 0) {
-    document.getElementById("categoria-mayor-gasto").innerHTML = `
-    
-    <div class="row align-items-start my-2" >
-    <div class="col w-25">
-      Categoria con Mayor Gasto
+    document.getElementById("categoria-mayor-gasto").innerHTML = 
+    `
+    <div class="row align-items-start m-4" >
+      <div class="col w-25">
+        Categoria con Mayor Gasto
+      </div>
+      <div class="col text-end">
+        <span class="badge text-bg-primary">${mayorGasto[0].categorias}</span>
+      </div>
+      <div class="col text-end text-danger fw-bold">
+        ${mayorGasto[0].monto}
+      </div>
     </div>
-    <div class="col text-end">
-      <span class="badge text-bg-primary">${mayorGasto[0].categorias}</span>
-    </div>
-    <div class="col text-end">
-    ${mayorGasto[0].monto}
-    </div>
-</div>
     `;
   }
 };
@@ -708,14 +696,14 @@ const categoriaConMayorBalance = (operaciones, arrayCategorias) => {
 
   str += `
       
-      <div class="row align-items-start my-2" >
+      <div class="row align-items-start m-4" >
           <div class="col w-25">
             Categoria con Mayor Balance
           </div>
           <div class="col text-end">
             <span class="badge text-bg-primary">${resultado.nombre}</span>
           </div>
-          <div class="col text-end">
+          <div class="col text-end fw-bold">
             ${resultado.balance}
           </div>
       </div>
@@ -763,22 +751,19 @@ const mesConMayorGanancia = (arr) => {
 
  document.getElementById("mes-mayor-ganancia").innerHTML = "";
     let str = "";
-  
-
-      str += `
-      <div class="row align-items-start my-2" >
-      <div class="col w-25">
-        Mes con Mayor Ganancia
-      </div>  
-      <div class="col">
+        str += `
+      <div class="row align-items-start m-4" >
+        <div class="col w-25">
+          Mes con Mayor Ganancia
+        </div>  
+        <div class="col text-end">
           ${resultadoMesMayorGanancia[0].mes}/${resultadoMesMayorGanancia[0].anio}
-          </div>
-          <div class="col text-end">
-            <span class="badge text-success">${resultadoMesMayorGanancia[0].ganancia}</span>
-          </div>
+        </div>
+        <div class="col text-end">
+          <span class="text-success fw-bold">${resultadoMesMayorGanancia[0].ganancia}</span>
+        </div>
       </div>
-  
-    `;
+      `;
     document.getElementById("mes-mayor-ganancia").innerHTML = str;
   
   }
@@ -825,15 +810,15 @@ const mesConMayorGasto = (arr) => {
   
 
       str += `
-      <div class="row align-items-start my-2" >
+      <div class="row align-items-start m-4" >
       <div class="col w-25">
         Mes con Mayor Gasto
       </div>  
-      <div class="col">
+      <div class="col text-end">
           ${resultadoMesMayorGasto[0].mes}/${resultadoMesMayorGasto[0].anio}
           </div>
           <div class="col text-end">
-            <span class="badge text-success">${resultadoMesMayorGasto[0].gasto}</span>
+            <span class="text-danger fw-bold">${resultadoMesMayorGasto[0].gasto}</span>
           </div>
       </div>
   
@@ -879,7 +864,7 @@ const totalPorCategoria = (operaciones, arrayCategorias) => {
     if(porCategoriaGanancia > 0 || porCategoriaGasto > 0) {
     str += `
       
-      <div class="row align-items-start my-2" >
+      <div class="row align-items-start m-4" >
           <div class="col w-25">
             ${categoria.nombre}
           </div>
@@ -933,18 +918,18 @@ const totalPorMes = (arr) => {
     const balance = porGanancia - porGasto;
 
     str += `
-      <div class="row align-items-start my-2" >
+      <div class="row align-items-start m-4" >
         <div class="col">
           ${arrMesUnico[i]}/${arrAnio}
           </div>
           <div class="col text-end">
-            <span class="badge text-success">+${porGanancia}</span>
+            <span class="text-success">+${porGanancia}</span>
           </div>
           <div class="col text-end">
-            <span class="badge text-danger">-${porGasto}</span>
+            <span class="text-danger">-${porGasto}</span>
           </div>
           <div class="col text-end">
-            <span class="badge text-black">${balance}</span>
+            ${balance}
           </div>
     </div>
  
@@ -964,9 +949,8 @@ const inicializar = () => {
   //AGREGAR LAS FUNCIONES QUE ESTAN SUELTAS PARA ACOMODAR EL CODIGO
   pintarOperaciones(operaciones);
   generarCategorias();
-  // mostrarOperaciones(operaciones);
+  mostrarOperaciones();
   // alterfy.success('Operacion Eliminada') //lanza un alerta que avise si estan ok las acciones que va realizando el usuario
 };
 
 window.onload = inicializar();
-const copiaOperaciones = [...operaciones]; //creo copia de operaciones para poder filtrar entre gasto y ganacia, y dps por categorias
